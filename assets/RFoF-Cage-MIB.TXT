@@ -1,0 +1,956 @@
+RFoF-Cage-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    MODULE-IDENTITY, OBJECT-TYPE, Integer32, enterprises,
+    NOTIFICATION-TYPE, IpAddress        FROM SNMPv2-SMI
+    OBJECT-GROUP, NOTIFICATION-GROUP,
+    MODULE-COMPLIANCE	    	FROM SNMPv2-CONF
+;   
+
+eRFoptic MODULE-IDENTITY
+    LAST-UPDATED "201712150000Z"
+    ORGANIZATION "www.RFoptic.com"
+    CONTACT-INFO    
+	 "postal: Kibbutz Einat, 
+		P.O.B 312, Israel 4880500
+
+          email:    support@RFoptic.com"
+    DESCRIPTION  "SNMP V2c Agent MIB for RFoptic RFoF cage"
+    REVISION     "201712150000Z"
+    DESCRIPTION  "Initial release"
+    ::= { enterprises 40570 }       
+    
+cRFoFcage	OBJECT IDENTIFIER ::= {eRFoptic 1}
+snmpObjectGroups	OBJECT IDENTIFIER ::= {eRFoptic 2}
+
+eRFopticObjectCompliance MODULE-COMPLIANCE
+    STATUS  current
+    DESCRIPTION
+           "The compliance statement for enRFoptic entities which
+           implement the RFoptic cRFoFcage MIB."
+      MODULE  -- compliance to the containing MIB module
+      MANDATORY-GROUPS { 
+	snmpProductGroup, 
+	snmpCageSettingsGroup, 
+	snmpCageGroup, 
+	snmpGroupObjects, 
+	snmpModuleObjects, 
+	snmpTrapReceiversGroup, 
+	snmpEventLogGroup, 
+	snmpNotificationsGroup 
+	}  
+::= { eRFoptic 3 }
+
+notifications         OBJECT IDENTIFIER ::= { cRFoFcage 0 }
+ 
+tRFoFcage NOTIFICATION-TYPE
+  OBJECTS { cEventDetail }
+  STATUS  current
+  DESCRIPTION
+	"A status change in the cage"
+  ::= { notifications 1 }
+
+product         OBJECT IDENTIFIER ::= {cRFoFcage 1}
+
+snmpProductGroup  OBJECT-GROUP
+    OBJECTS { 
+        pDescription,
+        pPartNumber,
+        pSerial,
+        pVersion,
+        pVerDate,
+        pPSCount,
+        pGrpCount,
+        pSlotsCount
+    }
+    STATUS  current
+    DESCRIPTION
+        "product identification objects"
+    ::= { snmpObjectGroups 1 }
+    
+pDescription    OBJECT-TYPE
+   SYNTAX OCTET STRING
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Product description"
+   ::= { product 1 }
+
+pPartNumber    OBJECT-TYPE
+   SYNTAX OCTET STRING
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Product part number"
+   ::= { product 2 }
+
+pSerial    OBJECT-TYPE
+   SYNTAX OCTET STRING
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Product serial number"
+   ::= { product 3 }
+  
+pVersion  OBJECT-TYPE
+   SYNTAX OCTET STRING
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Revision name"
+   ::= { product 4 }
+
+pVerDate    OBJECT-TYPE
+   SYNTAX OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS current
+   DESCRIPTION
+      "Revision Date"
+   ::= { product 5 }
+
+pPSCount OBJECT-TYPE
+  SYNTAX  Integer32(1..4)
+  MAX-ACCESS  read-only
+  STATUS  current
+  DESCRIPTION
+       "Number of power supplies in the cage. typically 1 or 2 power supplies are used."
+  ::= { product 6 }
+
+pGrpCount OBJECT-TYPE
+  SYNTAX  Integer32(1..16)
+  MAX-ACCESS  read-only
+  STATUS  current
+  DESCRIPTION
+		"The number of installed groups in the cage. Groups are functional
+		elements of a cage. Groups contain one or more RFoF modules.
+		Each group may be a single RFoF module or a set of modules that 
+		operate as a functional unit such as a redundant transmitter or receiver, 
+		a link with a transmitter and receiver (ODL), a bi-directional transceiver 
+		or a set of CWDM modules."
+  ::= { product 7 }
+
+pSlotsCount OBJECT-TYPE
+  SYNTAX  Integer32(1..32)
+  MAX-ACCESS  read-only
+  STATUS  current
+  DESCRIPTION
+	"The number of available slots in the cage. Slots are place holders for RFoF 
+          modules. A slot holds one single RFoF module a Transmitter or a Receiver"
+  ::= { product 8 }
+  
+snmpCageGroup  OBJECT-GROUP
+	OBJECTS 	{ 
+		cPSstatus
+		}             
+	STATUS  current
+	DESCRIPTION 
+		"cage objects"
+	::= { snmpObjectGroups 2 }
+
+cageSettings   OBJECT IDENTIFIER ::= {cRFoFcage 2}
+
+snmpCageSettingsGroup  OBJECT-GROUP
+    OBJECTS { 
+        cName,
+        cEventLogSize,
+        cClearEventLog,
+        cPollInterval,
+        cWakeToPoll,
+        cLogfile,
+        cLogDetail,
+        cUserCageConfig,
+        cCageManager,
+        cDelTrapReceiver,
+        cAdminPass,
+        cPSstatus 
+    }
+    STATUS  current
+    DESCRIPTION
+        "product identification objects"
+    ::= { snmpObjectGroups 3 }
+    
+cName OBJECT-TYPE
+  SYNTAX OCTET STRING  
+  MAX-ACCESS   read-write
+  STATUS  current
+  DESCRIPTION
+       "Optional User assigned cage name"
+    ::= { cageSettings 1 }
+
+cEventLogSize OBJECT-TYPE
+  SYNTAX  Integer32 (20..10000)
+  MAX-ACCESS   read-write
+  STATUS  current
+  DESCRIPTION
+       "maximum number of events saved in the event log. when this limit 
+       is exceeded the oldest events are deleted as new events are added."
+    ::= { cageSettings 2 }					
+			   
+cClearEventLog OBJECT-TYPE
+  SYNTAX  INTEGER {
+  	noAction(0), 
+  	clear(1)
+	} 				
+  MAX-ACCESS  read-write
+  STATUS  current
+  DESCRIPTION
+		"Send 1 to clears the event log"
+  ::= { cageSettings 3 }
+
+cPollInterval OBJECT-TYPE
+    SYNTAX     OCTET STRING (SIZE(8))
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Cage status is monitored every poll interval. Enter the desiered 
+       polling interval formatted as hh:mm:ss"
+    ::= {  cageSettings 4 }
+
+cWakeToPoll OBJECT-TYPE
+    SYNTAX     INTEGER {
+	no(0),
+	yes(1)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "When the poll interval is more than 60 seconds, this option, 
+        when activated, allows modules to enter sleep mode during 
+        the poll interval. A module must be configured to sleep mode 
+        to allow it to actually enter sleep mode. If the poll interval 
+        is shorter than 60 seconds this option has no effect."
+    ::= {  cageSettings 5 }
+
+cLogfile OBJECT-TYPE
+    SYNTAX     INTEGER {
+	suspendLog(0),
+	log(1)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Suspend or log data into the logfile"
+    ::= {  cageSettings 6 }
+
+cLogDetail OBJECT-TYPE
+  SYNTAX  INTEGER {
+    Critical(0), 
+    Warning(1), 
+    Change(2), 
+    Notify(3),
+    System(4)
+    }
+    MAX-ACCESS   read-write
+    STATUS  current
+    DESCRIPTION
+        "Logfile detail level (0 logs only critical and error conditions, 
+        higher values increase the level of detail at the expense of a
+        longer and bigger logfile."
+    ::= { cageSettings 7 }
+
+cUserCageConfig OBJECT-TYPE
+    SYNTAX     INTEGER {
+          delete(-1),
+	noAction(0),
+	save(1) 
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Save or delete the user cage and group level settings stored in the 
+        user preference file."
+    ::= {  cageSettings 8 }
+
+cCageManager OBJECT-TYPE
+    SYNTAX     INTEGER {
+	noAction(0),
+	refresh(1),
+        restart(2)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "refresh(1) the cage components - all events and cage settings are 
+        maintained or restart(2) the cage manager deamon - all unsaved 
+        settings and event log are discarded."
+    ::= {  cageSettings 9 }
+
+cDelTrapReceiver OBJECT-TYPE
+    SYNTAX     OCTET STRING 
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "deletes the Trap Receiver with the ip_address or index provided in the string."
+    ::= {  cageSettings 10 }
+
+cAdminPass OBJECT-TYPE
+  SYNTAX OCTET STRING  
+  MAX-ACCESS   read-write
+  STATUS  current
+  DESCRIPTION
+       "Administartor pass hash"
+    ::= { cageSettings 11 }
+
+cPSstatus OBJECT-TYPE
+  SYNTAX  OCTET STRING
+  MAX-ACCESS   read-only
+  STATUS  current
+  DESCRIPTION
+    "The status of the power supplies is reported as a two digit string. Each
+    digit indicating the status of the corresponding power supply. A value of 11
+    means both power supplies are operating, 0 at any position means that the 
+    corresponding power supply has failed, a value of x means that corresponding 
+    power supply is not installed or not reporting status."
+  ::= { cRFoFcage 3 }
+ 
+gTable OBJECT-TYPE
+  SYNTAX SEQUENCE OF GrpTableEntry
+  MAX-ACCESS not-accessible  
+  STATUS  current
+  DESCRIPTION
+		"A table of group entries, one row per group."
+  ::= { cRFoFcage 5 }
+
+gTableEntry OBJECT-TYPE
+	SYNTAX	GrpTableEntry
+	MAX-ACCESS	not-accessible
+	STATUS    	current
+	DESCRIPTION
+		"A group entry in the group table."
+	INDEX  { gIndex }
+	::= { gTable 1 }
+
+snmpGroupObjects  OBJECT-GROUP
+	OBJECTS { 
+            gName,
+            gType,
+            gMdlCount,
+            gRedundancySwitch,
+            gSetSwitchMode,
+            gStatus
+	}
+	STATUS  current
+	DESCRIPTION
+		"Group definition objects"
+	::= { snmpObjectGroups 4 }
+
+GrpTableEntry ::= SEQUENCE {
+	gIndex            Integer32,
+	gName             OCTET STRING,
+	gType             INTEGER,
+	gMdlCount      	  Integer32, 
+	gRedundancySwitch INTEGER, 
+	gSetSwitchMode    INTEGER, 
+	gStatus      INTEGER
+}    
+
+    gIndex OBJECT-TYPE
+    SYNTAX  Integer32 (1..16)
+    MAX-ACCESS   not-accessible
+    STATUS  current
+    DESCRIPTION
+		"Group index"
+    ::= { gTableEntry 1 }
+
+gName OBJECT-TYPE
+  SYNTAX OCTET STRING (SIZE(1..40))  
+  MAX-ACCESS   read-write
+  STATUS  current
+  DESCRIPTION
+       "Optional Optional user assigned group name."
+  ::= { gTableEntry 2 }
+  
+gType OBJECT-TYPE
+    SYNTAX  INTEGER {
+        unspecified(0),
+        simple(1),
+        bidir(2),
+        bidirRedundant(3),
+        cdwmGroup(4), 
+        rx(5),
+        tx(6),
+        rxRedundant(7),
+        txRedundant(8)          
+    }
+  MAX-ACCESS read-only
+  STATUS     current
+  DESCRIPTION
+       "Group function type."
+  ::= { gTableEntry 3 }
+
+gMdlCount OBJECT-TYPE
+  SYNTAX  Integer32 (1..16)
+  MAX-ACCESS   read-only
+  STATUS  current
+  DESCRIPTION
+       "Number of Modules in the group"
+  ::= { gTableEntry 4 }
+  					
+gRedundancySwitch OBJECT-TYPE
+  SYNTAX  INTEGER {
+  	none(0), 
+  	manualPrimary(1), 
+        manualBackup(2), 
+        auto(3)
+  	}
+  MAX-ACCESS   read-only
+  STATUS  current
+  DESCRIPTION
+       "Group maximum redundancy switch capability"
+  ::= { gTableEntry 5 }
+   
+gSetSwitchMode OBJECT-TYPE
+  SYNTAX  INTEGER {
+  	none(0), 
+  	manualPrimary(1), 
+        	manualBackup(2), 
+        auto(3)
+  	}
+  MAX-ACCESS   read-write
+  STATUS  current
+  DESCRIPTION
+       "Select group switch mode up to gRedundancySwitch mode 
+        0 - None, 1, manual-Primary, 2 - Manual-backup or 3 - Auto"
+  ::= { gTableEntry 6 }  
+
+gStatus OBJECT-TYPE
+	SYNTAX	INTEGER {
+		notInstalled(0),
+                	ok(1),
+		primaryFailed(2),
+		backupFaild(3),
+		primaryFailedBackupActive(4),
+		groupFailure(5)
+	}
+	MAX-ACCESS accessible-for-notify
+	STATUS     current
+	DESCRIPTION
+		"Group operational status reports the states of 
+		the primary and backup modules."
+	::= { gTableEntry 7 }
+  
+ mTable OBJECT-TYPE
+  SYNTAX  SEQUENCE OF MdlTableEntry
+  MAX-ACCESS not-accessible 
+  STATUS  current
+  DESCRIPTION
+       "A table of RFoF module entries, one per RFoF module in a group."
+  ::= { cRFoFcage 6 }
+
+ mTableEntry OBJECT-TYPE
+    SYNTAX  MdlTableEntry
+    MAX-ACCESS	not-accessible
+    STATUS    	current
+    DESCRIPTION
+       "A Module entry in the Modules table."
+    INDEX  { mGroup, mIndex }
+    ::= {  mTable 1 }
+
+snmpModuleObjects  OBJECT-GROUP
+	OBJECTS { 
+         mSlot,
+	 mType,
+	 mStatus,
+	 mStatusLED,
+	 mPartNumber,
+	 mSerial,
+	 mFWrev,
+	 mName,
+	 mAtten,
+	 mLNA,
+	 mBiasT,
+	 mLaser,
+	 mRFlinkTest,
+	 mMeasRFlevel, 
+	 mRFlinkTestTime,
+	 mDFBbias,
+	 mOptAlarmLevel,
+	 mMonPlan,
+	 mMonInterval, 
+	 mSetDefaults,
+	 mRestoreFactory,
+	 mRFlevel, 
+	 mTemp, 
+	 mOptPower,
+	 mMonTimer,
+	 mRFtestTimer
+	}
+  	STATUS  current
+	DESCRIPTION
+		"Group definition objects"
+	::= { snmpObjectGroups 5 }
+
+MdlTableEntry ::= SEQUENCE {
+	 mGroup 	Integer32,
+	 mIndex		Integer32,
+         mSlot         	INTEGER,
+	 mType		INTEGER,
+	 mStatus	INTEGER,
+	 mStatusLED	INTEGER, 
+--	 mFailure	INTEGER, 
+	 mPartNumber	OCTET STRING,
+	 mSerial	OCTET STRING,
+	 mFWrev		OCTET STRING, 
+	 mName		OCTET STRING,
+	 mAtten 	OCTET STRING,
+	 mLNA		INTEGER,
+	 mBiasT		INTEGER,
+	 mLaser		INTEGER,
+	 mRFlinkTest	INTEGER,
+	 mMeasRFlevel	INTEGER,
+	 mRFlinkTestTime OCTET STRING,
+	 mDFBbias	OCTET STRING,
+	 mOptAlarmLevel OCTET STRING,
+	 mMonPlan 	INTEGER,
+	 mMonInterval	OCTET STRING,
+	 mSetDefaults	INTEGER, 
+	 mRestoreFactory INTEGER,
+	 mRFlevel	OCTET STRING,
+	 mTemp		OCTET STRING,
+	 mOptPower	OCTET STRING,
+	 mMonTimer	OCTET STRING,
+	 mRFtestTimer	OCTET STRING	 
+}    
+
+ mGroup OBJECT-TYPE
+ 	SYNTAX  Integer32 (1..16)
+  	MAX-ACCESS   not-accessible
+	STATUS     current
+	DESCRIPTION
+		"The group index to which this module belongs"
+	::= {  mTableEntry 1 }
+
+ mIndex OBJECT-TYPE
+  SYNTAX  Integer32 (1..16)
+  MAX-ACCESS   not-accessible
+  STATUS  current
+  DESCRIPTION
+		"Module index in group"
+  ::= {  mTableEntry 2 }
+
+ mSlot OBJECT-TYPE
+	SYNTAX     Integer32(1..32)
+	MAX-ACCESS read-only
+	STATUS     current
+	DESCRIPTION
+		"The slot position of the module in the cage"
+	::= {  mTableEntry 3 }
+
+ mType OBJECT-TYPE
+	SYNTAX  INTEGER {
+            unspecified(0),
+            receiver(5),
+            transmitter(6)
+	}
+  MAX-ACCESS read-only
+  STATUS     current
+  DESCRIPTION
+  	"The type of the Module"
+  ::= {  mTableEntry 4 }
+ 
+ mStatus OBJECT-TYPE
+	SYNTAX     INTEGER {
+                none(0),
+		ok(1),
+		fault(5)
+	}
+	MAX-ACCESS read-only
+	STATUS     current
+	DESCRIPTION
+		"The status of the Module"
+	::= {  mTableEntry 5 }
+
+ mStatusLED OBJECT-TYPE
+	SYNTAX     INTEGER {
+		off(0),
+		green(1), 
+		red(2),
+                	cyan(3),
+		blue(4),
+		redBlink(10),
+		blueBlink(12)
+	} 
+	MAX-ACCESS read-only
+	STATUS     current
+	DESCRIPTION
+		"Read LED status of the module"
+  ::= {  mTableEntry 6 }
+        
+ mPartNumber OBJECT-TYPE
+	SYNTAX OCTET STRING
+  MAX-ACCESS   read-only
+  STATUS  current
+  DESCRIPTION
+       "Module serial number."
+  ::= {  mTableEntry 7 }
+  
+ mSerial OBJECT-TYPE
+  SYNTAX OCTET STRING
+  MAX-ACCESS   read-only
+  STATUS  current
+  DESCRIPTION
+       "Module serial number."
+  ::= {  mTableEntry 8 }
+
+ mFWrev OBJECT-TYPE
+	SYNTAX OCTET STRING
+  MAX-ACCESS   read-only
+  STATUS  current
+  DESCRIPTION
+       "Module firmware revision number."
+  ::= {  mTableEntry 9 }
+
+ mName OBJECT-TYPE
+  SYNTAX OCTET STRING
+  MAX-ACCESS   read-write
+  STATUS  current
+  DESCRIPTION
+       "Optional user assigned module name."
+  ::= {  mTableEntry 10 }
+        
+ mAtten  OBJECT-TYPE
+  SYNTAX OCTET STRING (SIZE(1..4))  
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "The attenuator state of the Module. Attenuation 
+       in dB is half the state value 0 to 31.5 at 
+       0.5dB steps)"
+    ::= {  mTableEntry 11 }
+
+ mLNA OBJECT-TYPE
+    SYNTAX     INTEGER {
+	off(0),
+	on(1),
+	none(4)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "LNA state of the Module (Tx modules only)"
+    ::= {  mTableEntry 12 }
+
+ mBiasT OBJECT-TYPE
+    SYNTAX     INTEGER {
+	off(0),
+	on(1),
+	alwaysOn(2),
+        autoOPLA(3),
+	none(4)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Bias-T state of the Module. Can be set only if controlled Bias-T function 
+        is installed. For this mode configuration would be on or off automatic turn 
+        on on OPticalLevelAlarm is also available to support redundant automatic 
+        switch to backup."
+    ::= {  mTableEntry 13 }
+    
+mLaser OBJECT-TYPE
+    SYNTAX     INTEGER {
+	off(0),
+	on(1),
+	none(4)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "LNA state of the Module (Tx modules only)"
+    ::= {  mTableEntry 14 }
+    
+ mRFlinkTest OBJECT-TYPE
+    SYNTAX     INTEGER {
+	off(0),
+	on(1)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Activate the RF injection and level measurement at the 
+       output of the Module"
+    ::= {  mTableEntry 15 }
+    
+ mMeasRFlevel OBJECT-TYPE
+    SYNTAX     INTEGER {
+	off(0),
+	on(1)
+	} 
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Activates the RF level measurement at the output of the Module"
+    ::= {  mTableEntry 16 }
+  
+ mRFlinkTestTime OBJECT-TYPE
+    SYNTAX     OCTET STRING (SIZE(8))
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "RF injection duration formatted as hh:mm:ss"
+    ::= {  mTableEntry 17 }
+ 
+  mDFBbias OBJECT-TYPE
+    SYNTAX     OCTET STRING (SIZE(4))
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Read or set the DFB bias current setpoint in mA"
+    ::= {  mTableEntry 18 }
+
+ mOptAlarmLevel OBJECT-TYPE
+    SYNTAX     OCTET STRING (SIZE(4))
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Read or set optical power alarm level of the module in mW. 
+       Note the actual set point value will be rounded to the nearest 
+       configuration value"
+    ::= {  mTableEntry 19 }
+    
+ mMonPlan OBJECT-TYPE
+    SYNTAX     INTEGER {
+	sleep(0),
+	active(1)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Module monitoring plan."
+    ::= {  mTableEntry 20 }
+
+ mMonInterval OBJECT-TYPE
+    SYNTAX     OCTET STRING (SIZE(8))
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Monitor Interval formatted as hh:mm:ss"
+    ::= {  mTableEntry 21 }
+      
+  mSetDefaults OBJECT-TYPE
+    SYNTAX     INTEGER {
+	unchanged(0),
+	setDefaults(1),
+        changed(2)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Indicates if module active settings were changed 'dirty' or if they are 'unchanged'. 
+        Set with non-zero value to define the current setup as the Default for Reset and 
+        power-up of the Module"
+    ::= {  mTableEntry 22 }
+
+  mRestoreFactory OBJECT-TYPE
+    SYNTAX     INTEGER {
+	noAction(0),
+	restoreFactory(1)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Restore the module to its factory settings. To make these the new default use mSetDefault."
+    ::= {  mTableEntry 23 }
+    
+ mRFlevel OBJECT-TYPE
+    SYNTAX     OCTET STRING 
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+       "Provide an approximate RF level measurement at the output of the Module in dBm"
+    ::= {  mTableEntry 24 }
+
+ mTemp OBJECT-TYPE
+    SYNTAX     OCTET STRING 
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+       "Read the temperature of the Module in Deg C"
+    ::= {  mTableEntry 25 }
+
+ mOptPower OBJECT-TYPE
+    SYNTAX     OCTET STRING 
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+       "Read the optical power measured by the module in mW"
+    ::= {  mTableEntry 26 }
+   
+mMonTimer OBJECT-TYPE
+    SYNTAX     OCTET STRING
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+       "Read the remaining monitor interval time (during active mode)"
+    ::= {  mTableEntry 27 }
+
+mRFtestTimer OBJECT-TYPE
+    SYNTAX     OCTET STRING
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+       "Read the remaining RF link test time when active"
+    ::= {  mTableEntry 28 }
+ 
+-- Trap Recivers is table of user configurable Trap receivers
+--    cTrapReceiverID is the index limited to 4 entries Trap broadcast IP targets.
+
+cTrapReceivers OBJECT-TYPE
+  SYNTAX  SEQUENCE OF CgTrapReceiversEntry
+  MAX-ACCESS not-accessible  
+  STATUS  current
+  DESCRIPTION
+       "A table of user defined trap receiver entries, one entry per receiver"
+    ::= {cRFoFcage 7 }
+ 
+cTrapReceiversEntry OBJECT-TYPE
+    SYNTAX  CgTrapReceiversEntry
+    MAX-ACCESS	not-accessible
+    STATUS    	current
+    DESCRIPTION
+       "A Trap receiver entry of user configurable trap receivers table."
+    INDEX  { cTrapReceiverIndex }
+    ::= { cTrapReceivers 1 }
+
+snmpTrapReceiversGroup  OBJECT-GROUP
+    OBJECTS { 
+	cTrapIPaddress,
+	cTrapLevelFilter,
+	cTrapCommunity
+	}
+    STATUS  current
+    DESCRIPTION
+            "product identification objects"
+    ::= { snmpObjectGroups 6 }
+
+CgTrapReceiversEntry ::= SEQUENCE {
+	cTrapReceiverIndex  Integer32,
+	cTrapIPaddress,     OCTET STRING,
+	cTrapLevelFilter    INTEGER,
+	cTrapCommunity      OCTET STRING
+}   
+
+cTrapReceiverIndex OBJECT-TYPE
+    SYNTAX  Integer32 (0..9)
+    MAX-ACCESS	not-accessible
+    STATUS    	current
+    DESCRIPTION
+       "A trap receiver index into the user configurable trap receivers table."
+    ::= { cTrapReceiversEntry 1 }
+
+cTrapIPaddress OBJECT-TYPE
+    SYNTAX     OCTET STRING
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Trap Receiver IP address formatted as xxx.xxx.xxx.xxx[:port], where port defaults to 162 if not supplied"
+    ::= { cTrapReceiversEntry 2 }
+
+cTrapLevelFilter OBJECT-TYPE
+    SYNTAX     INTEGER {
+	critical(0),
+	warning(1), 
+	change(2), 
+	notify(3),
+	system(4)
+	}
+  MAX-ACCESS   read-write
+  STATUS  current
+  DESCRIPTION
+       "Trap Level Filter configures the level of trap notifications for the 
+        configured trap receiver IP address. At 0 only critical and error conditions
+        are sent, higher values up to 4 cause reporting of events with lesser  
+        importance and will produce more trap notification traffic."
+   ::= { cTrapReceiversEntry 3 }
+
+cTrapCommunity OBJECT-TYPE
+    SYNTAX     OCTET STRING 
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Trap community"
+    ::= { cTrapReceiversEntry 4 }
+ 
+cEventLogTable OBJECT-TYPE
+  SYNTAX  SEQUENCE OF CgEventLogEntry
+  MAX-ACCESS not-accessible  
+  STATUS  current
+  DESCRIPTION
+       "A table of user defined trap receiver entries, one entry per receiver"
+    ::= {cRFoFcage 8 }
+ 
+cEventLogEntry OBJECT-TYPE
+    SYNTAX  CgEventLogEntry
+    MAX-ACCESS	not-accessible
+    STATUS    	current
+    DESCRIPTION
+       "Event log implemented as a table."
+    INDEX  { cEventLogIndex }
+    ::= { cEventLogTable 1}
+
+snmpEventLogGroup  OBJECT-GROUP
+    OBJECTS { 
+        cEventTimeStamp,
+        cEventLevel,
+        cEventDetail
+	}
+    STATUS  current
+    DESCRIPTION
+            "product identification objects"
+    ::= { snmpObjectGroups 7 }
+
+CgEventLogEntry ::= SEQUENCE {
+	cEventLogIndex	Integer32,
+        cEventTimeStamp OCTET STRING,
+        cEventLevel     INTEGER,
+	cEventDetail    OCTET STRING
+	}
+
+cEventLogIndex OBJECT-TYPE
+    SYNTAX  Integer32 (0..128)
+    MAX-ACCESS	not-accessible
+    STATUS    	current
+    DESCRIPTION
+       "A trap receiver index into the user configurable trap receivers table."
+    ::= { cEventLogEntry 1 }
+
+cEventTimeStamp OBJECT-TYPE
+  SYNTAX        OCTET STRING 
+  MAX-ACCESS    read-only
+  STATUS        current
+  DESCRIPTION
+       "Event Date and Time"
+  ::= { cEventLogEntry 2  }
+
+cEventLevel OBJECT-TYPE
+    SYNTAX     INTEGER {
+        critical(0),
+        warning(1), 
+        change(2), 
+        notify(3),
+        system(4)
+	}
+    MAX-ACCESS read-write
+    STATUS     current
+    DESCRIPTION
+       "Event level"
+    ::= { cEventLogEntry 3 }
+
+cEventDetail OBJECT-TYPE
+  SYNTAX        OCTET STRING 
+  MAX-ACCESS    read-only
+  STATUS        current
+  DESCRIPTION
+       "Event details including: Source (Cage, group or slot) and description"
+  ::= { cEventLogEntry 4  }
+
+snmpNotificationsGroup  NOTIFICATION-GROUP
+    NOTIFICATIONS {
+        tRFoFcage
+	}
+    STATUS  current
+    DESCRIPTION
+            "snmp trap object"
+    ::= { snmpObjectGroups 8 }
+ 
+END

@@ -1,0 +1,13 @@
+<mat-accordion class="headers-align">
+	<mat-expansion-panel *ngFor="let group of groups">
+	    <mat-expansion-panel-header>
+	      <mat-panel-title>
+	        {{group.name}}
+	      </mat-panel-title>
+	      <mat-panel-description>
+	      	{{group.type}}
+	      </mat-panel-description>
+	    </mat-expansion-panel-header>
+	    <rfof-cage-group [group]="group"></rfof-cage-group>	
+	</mat-expansion-panel>
+</mat-accordion>
