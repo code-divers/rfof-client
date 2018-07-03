@@ -1,9 +1,21 @@
-.headers-align .mat-expansion-panel-header-title, 
-.headers-align .mat-expansion-panel-header-description {
-  flex-basis: 0;
+mat-expansion-panel {
+	width: 300px;
 }
 
-.headers-align .mat-expansion-panel-header-description {
-  justify-content: space-between;
-  align-items: center;
+mat-panel-title, mat-panel-description {
+	font-size: 18px;
+	color: #084d88;
 }
+
+.mat-expansion-panel.mat-expanded .mat-expansion-panel-header {
+	&:not([aria-disabled='true']) {
+    		background: #08253d;
+    		color: #ffffff;
+	}
+}
+
+.mat-expansion-panel.mat-expanded mat-panel-title, .mat-expansion-panel.mat-expanded mat-panel-description {
+	font-size: 18px;
+	color: #ffffff;
+}
+

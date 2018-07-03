@@ -8,13 +8,26 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import { AppComponent } from './app.component';
 import { CageInfoComponent } from './cage-info/cage-info.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CageGroupsComponent } from './cage-groups/cage-groups.component';
 import { CageGroupComponent } from './cage-group/cage-group.component';
-import { CageModuleLineComponent } from './cage-module-line/cage-module-line.component';
+import { CageToolbarComponent } from './cage-toolbar/cage-toolbar.component';
+import { CageEventlogComponent } from './cage-eventlog/cage-eventlog.component';
+import { EventLevelComponent } from './event-level/event-level.component';
+import { GroupSwitchComponent } from './group-switch/group-switch.component';
+import { ModuleVisualComponent } from './module-visual/module-visual.component';
+import { CageVisualComponent } from './cage-visual/cage-visual.component';
+import { ModulePopupComponent } from './module-popup/module-popup.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +36,13 @@ import { CageModuleLineComponent } from './cage-module-line/cage-module-line.com
     NavbarComponent,
     CageGroupsComponent,
     CageGroupComponent,
-    CageModuleLineComponent
+    CageToolbarComponent,
+    CageEventlogComponent,
+    EventLevelComponent,
+    GroupSwitchComponent,
+    ModuleVisualComponent,
+    CageVisualComponent,
+    ModulePopupComponent
   ],
   imports: [
     BrowserModule,
@@ -33,8 +52,16 @@ import { CageModuleLineComponent } from './cage-module-line/cage-module-line.com
     MatButtonModule,
     MatSidenavModule,
     MatExpansionModule,
-    FormsModule
+    MatRadioModule,
+    MatToolbarModule,
+    MatTabsModule,
+    MatTableModule,
+    MatDividerModule,
+    MatCardModule,
+    FormsModule,
+    OverlayModule
   ],
+  entryComponents: [ModulePopupComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

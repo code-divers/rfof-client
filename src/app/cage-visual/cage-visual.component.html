@@ -1,0 +1,5 @@
+<mat-grid-list cols="4" rowHeight="2:1">
+	<mat-grid-tile *ngFor="let slot of slots">
+		<rfof-module-visual *ngIf="slot.module" [module]="slot.module"></rfof-module-visual>
+	</mat-grid-tile>
+</mat-grid-list>

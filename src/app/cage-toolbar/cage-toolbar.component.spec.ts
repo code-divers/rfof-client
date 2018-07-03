@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CageModuleLineComponent } from './cage-module-line.component';
+import { CageToolbarComponent } from './cage-toolbar.component';
 
-describe('CageModuleLineComponent', () => {
-  let component: CageModuleLineComponent;
-  let fixture: ComponentFixture<CageModuleLineComponent>;
+describe('CageToolbarComponent', () => {
+  let component: CageToolbarComponent;
+  let fixture: ComponentFixture<CageToolbarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CageModuleLineComponent ]
+      declarations: [ CageToolbarComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CageModuleLineComponent);
+    fixture = TestBed.createComponent(CageToolbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

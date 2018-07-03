@@ -1,5 +1,6 @@
 <mat-list role="list">
-  <mat-list-item role="listitem" *ngFor="let module of modules">
-  	<rfof-cage-module-line [module]="module"></rfof-cage-module-line>
+  <mat-list-item class="module-line border-bottom" role="listitem" *ngFor="let module of modules">
+  	<span matListIcon [class]="'module-line-led-' + module.statusLED"></span>
+    <span matLine class="module-name">{{module.name}}</span>
   </mat-list-item>
 </mat-list>

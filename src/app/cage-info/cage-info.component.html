@@ -1,8 +1,7 @@
-<p>
-  cage-info works!
-  <label>{{cage.OID}}</label>
-  <label>{{cage.description}}</label>
-  <label>Description:
-  	<input [(ngModel)]="cage.description" placeholder="description">
-  </label>
-</p>
+<div class="info-container">
+	<div class="info-title">{{cage.description}}</div>
+	<div class="info-body">
+		<p>{{cage.psCount}} power supplies, {{cage.grCount}} groups, {{cage.slotsCount}} slots</p>
+		<p>OID: {{cage.OID}}, serial: {{cage.serial}}, version: {{cage.version}}({{cage.versionDate}})</p>
+	</div>
+</div>

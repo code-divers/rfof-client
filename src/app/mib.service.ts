@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Cage, CageGroup } from './cage';
+import { Cage, CageGroup, CageModule, EventLogItem } from './cage';
 
 //Mock data
-import { CAGE_GROUPS, CAGE_MODULES } from './mock'; 
+import { CAGE, CAGE_GROUPS, CAGE_MODULES, CAGE_EVENTS } from './mock'; 
 
 @Injectable({
   providedIn: 'root'
@@ -14,25 +14,24 @@ export class MIBService {
   constructor() {
   }
 
-  getCageInfo(OID): Observable<Cage> {
-  	var cage: Cage = {
-  		OID: OID,
-  		description: 'A virtual cage',
-      serial: '01-02-03-04',
-      version: '1.1a',
-      versionDate: '20180101',
-      psCount: 1,
-      slotsCount: 3
-  	}
-  	return of(cage);
+  getCageInfo(OID: string): Observable<Cage> {
+  	return of(CAGE);
   }
 
-  getCageGroups(OID): Observable<CageGroup[]> {
+  getCageGroups(OID: string): Observable<CageGroup[]> {
     return of(CAGE_GROUPS);
   }
 
-  getCageGroupModule(group: CageGroup) {
+  getCageModules(OID: string): Observable<CageModule[]> {
+    return of(CAGE_MODULES);
+  }
+
+  getCageGroupModule(group: CageGroup): Observable<CageModule[]> {
     return of(CAGE_MODULES).pipe(
       filter((module, idx)=>{ return module[idx].group.name == group.name }))
+  }
+
+  getCageEventLog(OID: string): Observable<EventLogItem[]> {
+    return of(CAGE_EVENTS);
   }
 }

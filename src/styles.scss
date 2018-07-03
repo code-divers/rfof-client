@@ -2,3 +2,26 @@
 
 @import '~bootstrap/scss/bootstrap-reboot';
 @import '~bootstrap/scss/bootstrap-grid';
+
+@import '~@angular/material/theming';
+@include mat-core();
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+$custom-typography: mat-typography-config(
+    $font-family: 'Roboto'
+);
+
+@include mat-core($custom-typography);
+
+$rfof-primary: mat-palette($mat-indigo);
+$rfof-accent:  mat-palette($mat-pink, A200, A100, A400);
+$rfof-warn:    mat-palette($mat-red);
+
+$rfof-theme: mat-light-theme($rfof-primary, $rfof-accent, $rfof-warn);
+
+@include angular-material-theme($rfof-theme);
+
+body {
+	font-family: 'Roboto';
+}
+

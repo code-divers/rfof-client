@@ -1,4 +1,4 @@
-<mat-accordion class="headers-align">
+<mat-accordion>
 	<mat-expansion-panel *ngFor="let group of groups">
 	    <mat-expansion-panel-header>
 	      <mat-panel-title>
@@ -8,6 +8,9 @@
 	      	{{group.type}}
 	      </mat-panel-description>
 	    </mat-expansion-panel-header>
-	    <rfof-cage-group [group]="group"></rfof-cage-group>	
+	    <rfof-cage-group [group]="group"></rfof-cage-group>
+		<mat-action-row>
+			<rfof-group-switch [group]="group"></rfof-group-switch>
+	  	</mat-action-row>
 	</mat-expansion-panel>
 </mat-accordion>

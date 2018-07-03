@@ -10,16 +10,14 @@ export class Cage {
 }
 
 export class CageGroup {
-	OID: string;
 	name: string;
-	type: string;
+	type: GroupType;
 	mdCount: number;
 	redundencySwitch: GroupRedundency;
 	status: GroupStatus;
 }
 
 export class CageModule {
-	OID: string;
 	name: string;
 	group: CageGroup;
 	slot: number;
@@ -43,6 +41,24 @@ export class CageModule {
 	optAlarmLevel: string;
 	monPlan: MonPlan;
 	monInterval: string;
+}
+
+export class EventLogItem {
+	time: Date;
+	level: EventLevel;
+	detail: string;
+}
+
+export enum GroupType {
+	unspecified = 0,
+	simple = 1,
+	bidir = 2,
+	bidirRedundant = 3,
+	cdwmGroup = 4,
+	rx = 5,
+	tx = 6,
+	rxRedundant = 7,
+	txRedundant = 8
 }
 
 export enum GroupRedundency {
@@ -99,6 +115,14 @@ export enum BiasTState {
 export enum MonPlan {
 	sleep=0,
 	active=1
+}
+
+export enum EventLevel {
+	critical=0,
+	warning=1,
+	change=2,
+	notify=3,
+	system=4
 }
 
 

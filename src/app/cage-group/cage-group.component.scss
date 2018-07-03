@@ -1,0 +1,51 @@
+%module-line-led {
+	width: 22px;
+	height: 22px;
+	padding: 10px
+}
+
+.module-line-led-0 {
+	@extend %module-line-led;
+	background-image: url('/assets/led/led-0.png');
+}
+
+.module-line-led-1 {
+	@extend %module-line-led;
+	background-image: url('/assets/led/led-1.png');
+}
+
+.module-line-led-2 {
+	@extend %module-line-led;
+	background-image: url('/assets/led/led-2.png');
+}
+
+/deep/ .mat-list .mat-list-item .mat-list-text {
+	font-size: 14px;
+	color: #084d88;
+}
+
+mat-list {
+	padding-top: 0px;
+}
+
+ .mat-list .mat-list-item, .mat-list .mat-list-option, .mat-nav-list .mat-list-item, .mat-nav-list .mat-list-option, .mat-selection-list .mat-list-item, .mat-selection-list .mat-list-option {
+	height: 40px;
+	border-bottom: 1px solid #efeeee;
+	border-top: 1px solid #efeeee;
+}
+
+mat-list-item:hover, mat-list-item.item-selected { 
+	background: #fa7a25;
+}
+
+mat-list-item:hover .mat-line{
+	color: #ffffff;
+}
+
+/deep/ .mat-expansion-panel-body {
+	padding: 0px;
+}
+
+/deep/ .mat-list-item-content {
+	padding: 0px;
+}
