@@ -66,7 +66,10 @@ $md-rfof-accent: (
 
 // Background palette for light themes.
 $rfof-light-theme-background: (
+  sidenav: #e4e3e3,
+  body: #ffffff,
   border: #efeeee,
+  tab: #60717f,
   level-critical: #ff0000,
   level-warning: #ebb31d,
   level-change: #58b1f5,

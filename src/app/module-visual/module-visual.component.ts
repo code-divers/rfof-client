@@ -9,7 +9,7 @@ import {
 	ViewEncapsulation, 
 	Injector, 
 	ElementRef } from '@angular/core';
-import {Overlay, CdkOverlayOrigin, OverlayConfig, OverlayRef} from '@angular/cdk/overlay';
+import {Overlay, CdkOverlayOrigin, OverlayConfig, OverlayRef, ConnectedPosition, VerticalConnectionPos, HorizontalConnectionPos} from '@angular/cdk/overlay';
 import {
   ComponentPortal,
   // tslint:disable-next-line:no-unused-variable
@@ -37,13 +37,11 @@ export class ModuleVisualComponent implements OnInit {
 	constructor(private _eref: ElementRef, public overlay: Overlay, public viewContainerRef: ViewContainerRef, private moduleManagerService: ModuleManagerService) { }
 
 	ngOnInit() {
-		this.moduleManagerService.moduleSelected$.subscribe(module=>{
-			if(module.name == this.module.name){
+		this.moduleManagerService.moduleSelected$.subscribe(modules=>{
+			var idx = modules.indexOf(this.module);
+			if(idx > -1){
 				this.openPanel(false);
-			}
-		});
-		this.moduleManagerService.moduleDeselected$.subscribe(module=>{
-			if(module.name == this.module.name){
+			}else{
 				this.closePanel();
 			}
 		});
@@ -55,17 +53,26 @@ export class ModuleVisualComponent implements OnInit {
 
 	openPanel(backdrop: boolean = false){
 		if(!this.overlayRef){
-			let strategy = this.overlay.position()
-			.flexibleConnectedTo(this._overlayOrigin.elementRef)
-			.withPositions([{
+			let position: ConnectedPosition = this.module.slot < 4 ? {
+				offsetX: -15,
+				offsetY: 15,
+				originX: "center",
+				originY: "center",
+				overlayX: "start",
+				overlayY: "bottom",
+				weight: 1
+			} : {
 				offsetX: -15,
 				offsetY: -15,
-				originX: 'center',
-				originY: 'center',
-				overlayX: 'start',
-				overlayY: 'top',
+				originX: "center",
+				originY: "center",
+				overlayX: "start",
+				overlayY: "top",
 				weight: 1
-			}]);
+			};
+			let strategy = this.overlay.position()
+			.flexibleConnectedTo(this._overlayOrigin.elementRef)
+			.withPositions([position]);
 
 			let config = new OverlayConfig({
 				hasBackdrop: backdrop,

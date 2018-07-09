@@ -1,7 +1,9 @@
-<mat-radio-group>
-	<mat-radio-button [checked]="group.redundencySwitch == 0" value="0">None</mat-radio-button>
-	<mat-radio-button [checked]="group.redundencySwitch == 1" value="1">Primary</mat-radio-button>
-	<mat-radio-button [checked]="group.redundencySwitch == 2" value="2">Backup</mat-radio-button>
-	<mat-radio-button [checked]="group.redundencySwitch == 3" value="3">Auto</mat-radio-button>
-</mat-radio-group>
+<mat-form-field>
+	<mat-select [(value)]="selectedValue">
+		<mat-option value="none">None</mat-option>
+		<mat-option value="manualprimary">Primary</mat-option>
+		<mat-option value="manualbackup">Backup</mat-option>
+		<mat-option value="auto">Auto</mat-option>
+	</mat-select>
+</mat-form-field>
 <button mat-flat-button color="primary">Switch</button>

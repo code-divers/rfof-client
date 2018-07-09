@@ -1,16 +1,25 @@
 @import '~@angular/material/theming';
 @import "~src/assets/theme/rfof-light-pallete.scss";
 @mixin rfof-module-popup-ml() {
-	$background: mat-color($rfof-accent, 500);
+	$background: mat-color($rfof-primary, 500);
 	$background-opacity: map-get($rfof-light-theme-background, popup-opacity);
-	$header-background: mat-color($rfof-accent, 500);
+	$header-background: mat-color($rfof-primary, 500);
 	$foreground: map-get($rfof-light-theme-foreground-invert, text);
 	$handle-size: 28px;
 
-	.popup-handle{
+	.popup-handle-top{
 		border: 1px solid $background;
 		border-top-left-radius: $handle-size * 2;
   		border-top-right-radius: $handle-size * 2;
+  		opacity: $background-opacity;
+		background: $background;
+		width: $handle-size;
+		height: $handle-size
+	}
+	.popup-handle-bottom{
+		border: 1px solid $background;
+		border-bottom-left-radius: $handle-size * 2;
+  		border-bottom-right-radius: $handle-size * 2;
   		opacity: $background-opacity;
 		background: $background;
 		width: $handle-size;

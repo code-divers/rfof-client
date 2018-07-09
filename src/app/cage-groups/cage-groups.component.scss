@@ -7,6 +7,7 @@
 
 	mat-expansion-panel {
 		width: 300px;
+		box-shadow: none !important;
 	}
 
 	/deep/ mat-expansion-panel .mat-expansion-panel-body {
@@ -44,6 +45,12 @@
 	/deep/ .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover mat-panel-description,
 	/deep/ .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover .mat-expansion-indicator:after {
 		color: $hover-foreground;
+	}
+
+	rfof-group-switch{
+	    display: block;
+	    margin-left: auto;
+	    margin-right: auto;
 	}
 }
 

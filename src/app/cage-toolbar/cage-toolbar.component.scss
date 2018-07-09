@@ -1,6 +1,7 @@
 @import '~@angular/material/theming';
 @import "~src/assets/theme/rfof-light-pallete.scss";
 @mixin rfof-cage-toolbar-ml() {
+	$tab-background: map-get($rfof-light-theme-background, tab);
 	$active-background: mat-color($rfof-accent);
 	$active-foreground: map-get($rfof-light-theme-foreground-invert, text);
 	$foreground: map-get($rfof-light-theme-foreground, text);
@@ -8,6 +9,8 @@
 	/deep/ .mat-tab-label {
 		height: 32px !important;
 		font-size: 18px;
+		background: $tab-background;
+		color: $active-foreground;
 	}
 
 	/deep/ .mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus {

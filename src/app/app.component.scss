@@ -1,23 +1,47 @@
-.app-container {
-	height: 100vh;
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+@mixin rfof-app-ml() {
+	$sidenav-background: map-get($rfof-light-theme-background, sidenav);
+	$cage-visual-background: map-get($rfof-light-theme-background, body);
+
+	.body-pane{
+		display: block;
+	}
+
+	.app-container {
+		height: 100vh;
+	}
+
+	mat-sidenav {
+		width: 50px;
+		background: $sidenav-background;
+	}
+
+	.left-pane {
+		display: block;
+		width: 300px;
+		float: left;
+	}
+
+	.right-pane {
+		width: 680px;
+		margin-left: 4px;
+		display: block;
+		float: left;
+		background: $cage-visual-background;
+	}
+
+	rfof-cage-visual {
+		width: 546px;
+		margin-top: 90px;
+		margin-bottom: 20px;
+	    margin-left: auto;
+	    margin-right: auto;
+	    display: block;
+	}
+
 }
 
-mat-sidenav {
-	width: 50px;
-	background: #e4e3e3;
-}
-
-.left-pane {
-	display: block;
-	width: 300px;
-	float: left;
-}
-
-.right-pane {
-	margin-left: 4px;
-	display: block;
-	float: left;
-}
-
+@include rfof-app-ml();
 
 

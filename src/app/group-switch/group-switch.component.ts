@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CageGroup } from '../cage';
+import { CageGroup, GroupRedundency } from '../cage';
 
 @Component({
   selector: 'rfof-group-switch',
@@ -8,10 +8,15 @@ import { CageGroup } from '../cage';
 })
 export class GroupSwitchComponent implements OnInit {
 	@Input() group: CageGroup;
+	selectedValue: string;
 	
 	constructor() { }
 
 	ngOnInit() {
+		this.selectedValue = this.toRedundancyName(this.group.redundencySwitch);
 	}
 
+	toRedundancyName(value){
+		return GroupRedundency[value];
+	}
 }

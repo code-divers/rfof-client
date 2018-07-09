@@ -8,13 +8,22 @@
 }
 
 .cage-slots {
+	width: 546px;
+	height: 199px;
 	padding-top: 30px;
+	padding-left: 22px;
 	display: block;
+
 }
 
 .cage-slot {
-	width: 128px;
+	width: 121px;
 	height: 50px;
 	display: block;
 	float: left;
+}
+
+rfof-module-visual{
+	left: 20px;
+    position: relative;
 }

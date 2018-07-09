@@ -21,14 +21,6 @@ export class CageGroupComponent implements OnInit {
 	ngOnInit() {
 		this.mibService.getCageGroupModule(this.group)
 			.subscribe(modules => this.modules = modules);
-		this.moduleManagerService.moduleSelected$.subscribe(module=>{
-			var index = this.lastSelectedOptions.indexOf(module);
-			if(index > -1){
-				this.selectedOptions.slice(index, 1);
-			}else{
-				this.selectedOptions.push(module);
-			}
-		});
 	}
 
 	toModuleTypeName(type: ModuleType){

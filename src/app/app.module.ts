@@ -17,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
 import { OverlayModule } from '@angular/cdk/overlay';
 
 import { AppComponent } from './app.component';
@@ -34,6 +35,7 @@ import { ModulePopupComponent } from './module-popup/module-popup.component';
 import { ClickOutsideDirective } from './click-outside.directive';
 import { CagePowerComponent } from './cage-power/cage-power.component';
 import { CageStatusComponent } from './cage-status/cage-status.component';
+import { CagePwrComComponent } from './cage-pwr-com/cage-pwr-com.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { CageStatusComponent } from './cage-status/cage-status.component';
     ModulePopupComponent,
     ClickOutsideDirective,
     CagePowerComponent,
-    CageStatusComponent
+    CageStatusComponent,
+    CagePwrComComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +73,7 @@ import { CageStatusComponent } from './cage-status/cage-status.component';
     MatTooltipModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
     FormsModule,
     OverlayModule
   ],

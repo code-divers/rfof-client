@@ -28,7 +28,6 @@ export class ModulePopupComponent implements OnInit {
 	}
 
 	onClose(){
-		console.log('outside');
 		this.moduleManagerService.deselectModule(this.module);
 	}
 

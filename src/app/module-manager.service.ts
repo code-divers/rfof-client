@@ -6,18 +6,22 @@ import { CageModule } from './cage';
   providedIn: 'root'
 })
 export class ModuleManagerService {
-	private modulesSelectedSource = new Subject<CageModule>();
-	private modulesDeselectedSource = new Subject<CageModule>();
+	private selectedModules: CageModule[] = [];
+	private modulesSelectedSource = new Subject<CageModule[]>();
 
 	moduleSelected$ = this.modulesSelectedSource.asObservable();
-	moduleDeselected$ = this.modulesDeselectedSource.asObservable();
 
 	selectModule(module: CageModule){
-		this.modulesSelectedSource.next(module);
+		this.selectedModules.push(module);
+		this.modulesSelectedSource.next(this.selectedModules);
 	}
 
 	deselectModule(module :CageModule){
-		this.modulesDeselectedSource.next(module);
+		var idx = this.selectedModules.indexOf(module);
+		if(idx > -1){
+			this.selectedModules.splice(idx,1);
+		}
+		this.modulesSelectedSource.next(this.selectedModules);
 	}
 
 

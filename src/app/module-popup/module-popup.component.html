@@ -1,4 +1,4 @@
-<div class="popup-handle" (click)="onClose()">
+<div *ngIf="module.slot > 3" class="popup-handle-top" (click)="onClose()">
 </div>
 <div class="popup-container" (click)="onClose()">
 	<div class="popup-header">
@@ -12,4 +12,6 @@
 		<br>
 		Slot {{module.slot}}
 	</div>
+</div>
+<div *ngIf="module.slot < 4" class="popup-handle-bottom" (click)="onClose()">
 </div>
