@@ -2,6 +2,10 @@ import {
 	Cage, 
 	CageGroup, 
 	CageModule,
+	PowerSupply,
+	PowerStatus,
+	TrapReciver,
+	TrapLevelFilter,
 	EventLogItem,
 	GroupType,
 	GroupRedundency, 
@@ -30,17 +34,17 @@ export const CAGE: Cage =
 
 export const CAGE_GROUPS: CageGroup[] = [
 	{
-		name: 'test group 1',
+		name: 'Luzhniki Stadium',
 		type: GroupType.simple,
 		mdCount: 2,
-		redundencySwitch: GroupRedundency.none,
+		redundencySwitch: GroupRedundency.auto,
 		status: GroupStatus.ok
 	},
 	{
-		name: 'Link 2',
-		type: GroupType.simple,
+		name: 'Saint Petersburg Stadium',
+		type: GroupType.bidir,
 		mdCount: 2,
-		redundencySwitch: GroupRedundency.none,
+		redundencySwitch: GroupRedundency.manualprimary,
 		status: GroupStatus.ok
 	}
 ];
@@ -126,8 +130,8 @@ export const CAGE_MODULES: CageModule[] = [
 		group: CAGE_GROUPS[1],
 		slot: 6,
 		type: ModuleType.transmitter,
-		status: ModuleStatus.ok,
-		statusLED: ModuleStatusLED.green,
+		status: ModuleStatus.fault,
+		statusLED: ModuleStatusLED.red,
 		partNumber: 'RFoF3T5FR-PA-11',
 		serial: '70322405',
 		fwVer: '1.017',
@@ -145,6 +149,23 @@ export const CAGE_MODULES: CageModule[] = [
 		optAlarmLevel: '0.03',
 		monPlan: MonPlan.sleep,
 		monInterval: '00:00:05'
+	}
+]
+
+export const CAGE_POWERSUPPLY: PowerSupply[] = [
+	{
+		status: PowerStatus.ok
+	},
+	{
+		status: PowerStatus.ok
+	}
+]
+
+export const CAGE_TRAPRECIVERS: TrapReciver[] = [
+	{
+		ipAddress: '127.0.0.1',
+		levelFilter: TrapLevelFilter.notify,
+		community: '* * * * * * *'
 	}
 ]
 
@@ -168,5 +189,20 @@ export const CAGE_EVENTS: EventLogItem[] = [
 		time: new Date('2018-06-28 15:22:11'),
 		level: EventLevel.warning,
 		detail: 'CageManager deamon started'
+	},
+	{
+		time: new Date('2018-06-28 15:21:11'),
+		level: EventLevel.change,
+		detail: 'A change event'
+	},
+	{
+		time: new Date('2018-06-28 15:20:11'),
+		level: EventLevel.system,
+		detail: 'A system event'
+	},
+	{
+		time: new Date('2018-06-28 15:19:11'),
+		level: EventLevel.critical,
+		detail: 'Recovery: Group 1, Slot 4, Optical signal restored'
 	}
 ]

@@ -49,6 +49,29 @@ export class EventLogItem {
 	detail: string;
 }
 
+export class PowerSupply {
+	status: PowerStatus
+}
+
+export class TrapReciver {
+	ipAddress: string;
+	levelFilter: TrapLevelFilter;
+	community: string;
+}
+
+export enum PowerStatus {
+	ok = 0,
+	failure=1
+}
+
+export enum TrapLevelFilter {
+	critical=0,
+	warning=1, 
+	change=2,
+	notify=3,
+	system=4
+}
+
 export enum GroupType {
 	unspecified = 0,
 	simple = 1,

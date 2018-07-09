@@ -1,19 +1,16 @@
 <mat-sidenav-container class="app-container">
   <mat-sidenav mode="side" opened>
-  	<rfof-navbar></rfof-navbar></mat-sidenav>
+  	<rfof-navbar></rfof-navbar>
+  </mat-sidenav>
   <mat-sidenav-content>
-  	<div class="container-fluid">
-  		<div class="row">
-  			<div class="col-3">
-  				<rfof-cage-info OID=".1.3.6.1.4.1.40570.1"></rfof-cage-info>
-          <rfof-cage-groups class="pt-1" OID=".1.3.6.1.4.1.40570.1"></rfof-cage-groups>
-  			</div>
-  			<div class="col">
-          <rfof-cage-visual OID=".1.3.6.1.4.1.40570.1"></rfof-cage-visual>
-  				<rfof-cage-toolbar OID=".1.3.6.1.4.1.40570.1"></rfof-cage-toolbar>
-  			</div>
-  		</div>
-  	</div>
+  	<div class="left-pane">
+          <rfof-cage-info OID=".1.3.6.1.4.1.40570.1"></rfof-cage-info>
+          <rfof-cage-groups OID=".1.3.6.1.4.1.40570.1"></rfof-cage-groups>
+    </div>
+    <div class="right-pane">
+        <rfof-cage-visual OID=".1.3.6.1.4.1.40570.1"></rfof-cage-visual>
+        <rfof-cage-toolbar OID=".1.3.6.1.4.1.40570.1"></rfof-cage-toolbar>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

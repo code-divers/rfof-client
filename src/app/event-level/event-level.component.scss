@@ -1,0 +1,45 @@
+ @import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+
+@mixin rfof-event-level-ml() {
+	$level-critical: map-get($rfof-light-theme-background, level-critical);
+	$level-warning: map-get($rfof-light-theme-background, level-warning);
+	$level-change: map-get($rfof-light-theme-background, level-change);
+	$level-notify: map-get($rfof-light-theme-background, level-notify);
+	$level-system: map-get($rfof-light-theme-background, level-system);
+
+	%event-level-strip {
+		width: 70px;
+		height: 12px;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.event-level-strip-0 {
+		@extend %event-level-strip;
+		background: $level-critical;
+	}
+
+	.event-level-strip-1 {
+		@extend %event-level-strip;
+		background: $level-warning;
+	}
+
+	.event-level-strip-2 {
+		@extend %event-level-strip;
+		background: $level-change;
+	}
+
+	.event-level-strip-4 {
+		@extend %event-level-strip;
+		background: $level-notify;
+	}
+
+	.event-level-strip-5 {
+		@extend %event-level-strip;
+		background: $level-system;
+	}
+}
+
+@include rfof-event-level-ml();

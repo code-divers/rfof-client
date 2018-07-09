@@ -13,7 +13,6 @@ export class EventLevelComponent implements OnInit {
 
 	ngOnInit() {
 		this.levelName = EventLevel[this.level];
-		console.log(this.levelName);
 	}
 
 }

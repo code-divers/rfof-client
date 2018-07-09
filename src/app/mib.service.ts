@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { Cage, CageGroup, CageModule, EventLogItem } from './cage';
+import { Observable, of, from } from 'rxjs';
+import { filter, toArray } from 'rxjs/operators';
+import { Cage, CageGroup, CageModule, PowerSupply, TrapReciver, EventLogItem } from './cage';
 
 //Mock data
-import { CAGE, CAGE_GROUPS, CAGE_MODULES, CAGE_EVENTS } from './mock'; 
+import { CAGE, CAGE_GROUPS, CAGE_MODULES, CAGE_EVENTS, CAGE_POWERSUPPLY, CAGE_TRAPRECIVERS } from './mock'; 
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +27,19 @@ export class MIBService {
   }
 
   getCageGroupModule(group: CageGroup): Observable<CageModule[]> {
-    return of(CAGE_MODULES).pipe(
-      filter((module, idx)=>{ return module[idx].group.name == group.name }))
+    return from(CAGE_MODULES).pipe(
+      filter(module => module.group.name == group.name)).pipe(toArray());
   }
 
   getCageEventLog(OID: string): Observable<EventLogItem[]> {
     return of(CAGE_EVENTS);
+  }
+
+  getCagePowerSupply(OID: string): Observable<PowerSupply[]>{
+    return of(CAGE_POWERSUPPLY);
+  }
+
+  getCageTrapReciver(OID: string): Observable<TrapReciver[]>{
+    return of(CAGE_TRAPRECIVERS);
   }
 }

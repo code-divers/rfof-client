@@ -1,11 +1,11 @@
 <mat-accordion>
 	<mat-expansion-panel *ngFor="let group of groups">
-	    <mat-expansion-panel-header>
-	      <mat-panel-title>
+	    <mat-expansion-panel-header collapsedHeight="40px" expandedHeight="40px">
+	      <mat-panel-title matTooltip="{{group.name}}" matTooltipPosition="above">
 	        {{group.name}}
 	      </mat-panel-title>
 	      <mat-panel-description>
-	      	{{group.type}}
+	      	{{toGroupTypeName(group.type)}}
 	      </mat-panel-description>
 	    </mat-expansion-panel-header>
 	    <rfof-cage-group [group]="group"></rfof-cage-group>

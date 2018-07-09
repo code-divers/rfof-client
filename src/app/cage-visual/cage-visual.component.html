@@ -1,5 +1,28 @@
-<mat-grid-list cols="4" rowHeight="2:1">
-	<mat-grid-tile *ngFor="let slot of slots">
-		<rfof-module-visual *ngIf="slot.module" [module]="slot.module"></rfof-module-visual>
-	</mat-grid-tile>
-</mat-grid-list>
+<div class="cage-container">
+	<div class="cage-slots">
+		<div class="cage-slot slot-1">
+			<rfof-module-visual *ngIf="slots[0].module" [module]="slots[0].module"></rfof-module-visual>
+		</div>
+		<div class="cage-slot slot-2">
+			<rfof-module-visual *ngIf="slots[1].module" [module]="slots[1].module"></rfof-module-visual>
+		</div>
+		<div class="cage-slot slot-3">
+			<rfof-module-visual *ngIf="slots[2].module" [module]="slots[2].module"></rfof-module-visual>
+		</div>
+		<div class="cage-slot slot-4">
+			<rfof-module-visual *ngIf="slots[3].module" [module]="slots[3].module"></rfof-module-visual>
+		</div>
+		<div class="cage-slot slot-5">
+			<rfof-module-visual *ngIf="slots[4].module" [module]="slots[4].module"></rfof-module-visual>
+		</div>
+		<div class="cage-slot slot-6">
+			<rfof-module-visual *ngIf="slots[5].module" [module]="slots[5].module"></rfof-module-visual>
+		</div>
+		<div class="cage-slot slot-7">
+			<rfof-module-visual *ngIf="slots[6].module" [module]="slots[6].module"></rfof-module-visual>
+		</div>
+		<div class="cage-slot slot-8">
+			<rfof-module-visual *ngIf="slots[7].module" [module]="slots[7].module"></rfof-module-visual>
+		</div>
+	</div>
+</div>

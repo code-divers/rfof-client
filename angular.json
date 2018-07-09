@@ -28,6 +28,8 @@
             ],
             "styles": [
               "src/styles.scss",
+              "src/assets/theme/rfof-light-pallete.scss",
+              "src/assets/led/led-style.scss",
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css"
             ],
             "scripts": []

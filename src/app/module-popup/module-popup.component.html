@@ -1,3 +1,15 @@
-<p>
-  {{module.slot}}
-</p>
+<div class="popup-handle" (click)="onClose()">
+</div>
+<div class="popup-container" (click)="onClose()">
+	<div class="popup-header">
+		<div class="popup-header-title">{{module.name}}</div>
+		<div class="popup-header-subtitle">{{module.group.name}}</div>
+	</div>
+	<div class="popup-body">
+		{{toTypeName(module.type)}}
+		<br>
+		BiasT {{toBiasTName(module.biasT)}}
+		<br>
+		Slot {{module.slot}}
+	</div>
+</div>

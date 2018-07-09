@@ -1,0 +1,45 @@
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+
+@mixin rfof-eventlog-ml() {
+	$tr-alternate-color: map-get($rfof-light-theme-background, tr-alternate);
+	$td-foreground: map-get($rfof-light-theme-foreground, td-text);
+	$th-backgroud: map-get($rfof-light-theme-background, th);
+	$th-foreground: map-get($rfof-light-theme-foreground-invert, text);
+	$table-border: map-get($rfof-light-theme-background, border);
+
+	table{
+		width: 100%;
+	}
+
+	tr.mat-row,
+	tr.mat-header-row {
+	 	height: 32px;
+	}
+
+	tr:nth-child(even) {
+		background: $tr-alternate-color
+	}
+
+	td {
+	 	color: $td-foreground;
+	 	font-size: 14px;
+	 	border: 1px solid $table-border;
+	 	text-align: center;
+	}
+
+	.mat-header-cell {
+		font-size: 14px;
+		background: $th-backgroud;
+		color: $th-foreground;
+		border: 1px solid $table-border;
+	}
+
+	/deep/ .mat-sort-header-button{
+		padding-left: 5px !important;
+	}
+
+	
+}
+
+@include rfof-eventlog-ml();

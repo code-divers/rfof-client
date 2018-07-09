@@ -1,21 +1,51 @@
-mat-expansion-panel {
-	width: 300px;
-}
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+@mixin rfof-cage-groups-ml() {
+	$hover-background: mat-color($rfof-primary);
+	$hover-foreground: map-get($rfof-light-theme-foreground-invert, text);
+	$foreground: map-get($rfof-light-theme-foreground, text);
 
-mat-panel-title, mat-panel-description {
-	font-size: 18px;
-	color: #084d88;
-}
+	mat-expansion-panel {
+		width: 300px;
+	}
 
-.mat-expansion-panel.mat-expanded .mat-expansion-panel-header {
-	&:not([aria-disabled='true']) {
-    		background: #08253d;
-    		color: #ffffff;
+	/deep/ mat-expansion-panel .mat-expansion-panel-body {
+		padding: 0px;
+	}
+
+	mat-panel-title, mat-panel-description {
+		font-size: 18px;
+		color: $foreground;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	.mat-expansion-panel.mat-expanded .mat-expansion-panel-header {
+		&:not([aria-disabled='true']) {
+	    		background: $hover-background;
+	    		color: $hover-foreground;
+		}
+	}
+
+	/deep/ .mat-expansion-panel.mat-expanded .mat-expansion-indicator:after  {
+		color: $hover-foreground;
+	}
+
+	.mat-expansion-panel.mat-expanded mat-panel-title, .mat-expansion-panel.mat-expanded mat-panel-description {
+		color: $hover-foreground;
+	}
+
+	.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover{
+		background: $hover-background;
+	}
+
+	/deep/ .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover mat-panel-title,
+	/deep/ .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover mat-panel-description,
+	/deep/ .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover .mat-expansion-indicator:after {
+		color: $hover-foreground;
 	}
 }
 
-.mat-expansion-panel.mat-expanded mat-panel-title, .mat-expansion-panel.mat-expanded mat-panel-description {
-	font-size: 18px;
-	color: #ffffff;
-}
+@include rfof-cage-groups-ml();
 

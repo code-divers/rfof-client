@@ -14,6 +14,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { OverlayModule } from '@angular/cdk/overlay';
 
 import { AppComponent } from './app.component';
@@ -28,6 +31,9 @@ import { GroupSwitchComponent } from './group-switch/group-switch.component';
 import { ModuleVisualComponent } from './module-visual/module-visual.component';
 import { CageVisualComponent } from './cage-visual/cage-visual.component';
 import { ModulePopupComponent } from './module-popup/module-popup.component';
+import { ClickOutsideDirective } from './click-outside.directive';
+import { CagePowerComponent } from './cage-power/cage-power.component';
+import { CageStatusComponent } from './cage-status/cage-status.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +48,10 @@ import { ModulePopupComponent } from './module-popup/module-popup.component';
     GroupSwitchComponent,
     ModuleVisualComponent,
     CageVisualComponent,
-    ModulePopupComponent
+    ModulePopupComponent,
+    ClickOutsideDirective,
+    CagePowerComponent,
+    CageStatusComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +67,9 @@ import { ModulePopupComponent } from './module-popup/module-popup.component';
     MatTableModule,
     MatDividerModule,
     MatCardModule,
+    MatTooltipModule,
+    MatPaginatorModule,
+    MatSortModule,
     FormsModule,
     OverlayModule
   ],

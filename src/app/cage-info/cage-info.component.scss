@@ -1,16 +1,28 @@
-.info-container {
-	display: block;
-	width: 300px;
-	min-height: 100px;
-	background: #08253d;
-	color: #ffffff;
-	padding: 20px;
-	margin-bottom: 4px;
-}
-.info-title {
-	font-size: 36px;
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+@mixin rfof-cage-info-ml() {
+	$background: mat-color($rfof-primary);
+	$foreground: map-get($rfof-light-theme-foreground-invert, text);
+	.info-container {
+		display: block;
+		width: 260px;
+		min-height: 100px;
+		background: $background;
+		color: $foreground;
+		padding: 20px;
+		margin-bottom: 4px;
+	}
+
+	.info-title {
+		font-size: 36px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	.info-body p {
+		font-size: 14px;
+	}
 }
 
-.info-body p {
-	font-size: 14px;
-}
+@include rfof-cage-info-ml();

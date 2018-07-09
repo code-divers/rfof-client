@@ -1,6 +1,5 @@
-<mat-list role="list">
-  <mat-list-item class="module-line border-bottom" role="listitem" *ngFor="let module of modules">
-  	<span matListIcon [class]="'module-line-led-' + module.statusLED"></span>
-    <span matLine class="module-name">{{module.name}}</span>
-  </mat-list-item>
-</mat-list>
+<mat-selection-list role="list" [(ngModel)]="selectedOptions" (ngModelChange)="onNgModelChange($event)">
+  <mat-list-option class="module-line" [value]="module" *ngFor="let module of modules" >
+  	<div class="module-name"><span [class]="'module-led module-line-led-' + module.statusLED"></span>{{module.name}} - {{toModuleTypeName(module.type)}}</div>
+  </mat-list-option>
+</mat-selection-list>

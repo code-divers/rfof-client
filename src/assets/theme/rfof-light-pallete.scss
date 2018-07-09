@@ -1,0 +1,95 @@
+$md-rfof-primary: (
+    50 : #e1e5e8,
+    100 : #b5bec5,
+    200 : #84929e,
+    300 : #526677,
+    400 : #2d465a,
+    500 : #08253d,
+    600 : #072137,
+    700 : #061b2f,
+    800 : #041627,
+    900 : #020d1a,
+    A100 : #5894ff,
+    A200 : #2573ff,
+    A400 : #0056f1,
+    A700 : #004dd8,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$md-rfof-accent: (
+    50 : #feefe5,
+    100 : #fed7be,
+    200 : #fdbd92,
+    300 : #fca266,
+    400 : #fb8e46,
+    500 : #fa7a25,
+    600 : #f97221,
+    700 : #f9671b,
+    800 : #f85d16,
+    900 : #f64a0d,
+    A100 : #ffffff,
+    A200 : #fff2ee,
+    A400 : #ffcabb,
+    A700 : #ffb6a1,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+// Background palette for light themes.
+$rfof-light-theme-background: (
+  border: #efeeee,
+  level-critical: #ff0000,
+  level-warning: #ebb31d,
+  level-change: #58b1f5,
+  level-notify: #f1f001,
+  level-system: #f1f001,
+  tr-alternate: #efeeee,
+  th: #545657,
+  popup-opacity: 0.6,
+);
+
+$rfof-light-theme-foreground: (
+  base:              #084d88,
+  text:              rgba(#084d88, 0.87),
+  td-text:           #32383d,
+);
+
+$rfof-light-theme-foreground-invert: (
+  base:              white,
+  text:              white,
+);
+
+$rfof-primary: mat-palette($md-rfof-primary);
+$rfof-accent:  mat-palette($md-rfof-accent);
+
+
+

@@ -1,51 +1,49 @@
-%module-line-led {
-	width: 22px;
-	height: 22px;
-	padding: 10px
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+@import "~src/assets/led/led-style.scss";
+
+@mixin rfof-cage-group-ml() {
+	$border-color: map-get($rfof-light-theme-background, border);
+	$hover-background: mat-color($rfof-accent);
+	$hover-foreground: map-get($rfof-light-theme-foreground-invert, text);
+	$foreground: map-get($rfof-light-theme-foreground, text);
+
+	
+	.module-name {
+		font-size: 14px;
+		color: $foreground
+	}
+
+	.module-led{
+		display: block;
+		float: left;
+		margin-right: 5px;
+	}
+
+	 .mat-selection-list .mat-list-item {
+		height: 40px;
+		border-bottom: 1px solid $border-color;
+		border-top: 1px solid $border-color;
+	}
+
+	.mat-selection-list .mat-list-item:hover{
+		background: $hover-background;
+  		cursor: pointer;
+	}
+
+	.mat-selection-list .mat-list-item:hover .module-name{
+		color: $hover-foreground;
+	}
+
+	mat-list-option[aria-selected="true"]{
+		background: $hover-background;
+	}
+
+	mat-list-option[aria-selected="true"] .module-name{
+		color: $hover-foreground;
+	}
+
 }
 
-.module-line-led-0 {
-	@extend %module-line-led;
-	background-image: url('/assets/led/led-0.png');
-}
+@include rfof-cage-group-ml();
 
-.module-line-led-1 {
-	@extend %module-line-led;
-	background-image: url('/assets/led/led-1.png');
-}
-
-.module-line-led-2 {
-	@extend %module-line-led;
-	background-image: url('/assets/led/led-2.png');
-}
-
-/deep/ .mat-list .mat-list-item .mat-list-text {
-	font-size: 14px;
-	color: #084d88;
-}
-
-mat-list {
-	padding-top: 0px;
-}
-
- .mat-list .mat-list-item, .mat-list .mat-list-option, .mat-nav-list .mat-list-item, .mat-nav-list .mat-list-option, .mat-selection-list .mat-list-item, .mat-selection-list .mat-list-option {
-	height: 40px;
-	border-bottom: 1px solid #efeeee;
-	border-top: 1px solid #efeeee;
-}
-
-mat-list-item:hover, mat-list-item.item-selected { 
-	background: #fa7a25;
-}
-
-mat-list-item:hover .mat-line{
-	color: #ffffff;
-}
-
-/deep/ .mat-expansion-panel-body {
-	padding: 0px;
-}
-
-/deep/ .mat-list-item-content {
-	padding: 0px;
-}

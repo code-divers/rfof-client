@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MIBService } from '../mib.service';
-import { CageGroup } from '../cage';
+import { CageGroup, GroupType } from '../cage';
  
 @Component({
   selector: 'rfof-cage-groups',
@@ -18,6 +18,10 @@ export class CageGroupsComponent implements OnInit {
 	ngOnInit() {
 		this.mibService.getCageGroups(this.OID)
   			.subscribe(groups=> this.groups = groups);
+	}
+
+	toGroupTypeName(type: GroupType){
+		return GroupType[type];
 	}
 
 }
