@@ -1,0 +1,36 @@
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+@import "~src/assets/led/pwr-status-style.scss";
+
+@mixin rfof-pwr-com-ml() {
+	$box-background: mat-color($rfof-primary);
+	$box-background-hover: mat-color($rfof-accent);
+	$foreground: map-get($rfof-light-theme-foreground-invert, text);
+
+	.box{
+		width: 120px;
+		height: 23px;
+		margin: 20px;
+		padding: 5px;
+		display: block;
+	}
+
+	.status-led{
+		display: block;
+		float: right;
+	}
+
+	.com-box,
+	.pwr-box{
+		background: $box-background;
+		color: $foreground;
+	}
+
+	.com-box:hover,
+	.pwr-box:hover{
+		background: $box-background-hover;
+		color: $foreground;
+	}
+}
+
+@include rfof-pwr-com-ml();

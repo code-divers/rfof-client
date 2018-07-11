@@ -1,4 +1,5 @@
 <div class="pwr-com-container">
-	<div class="pwr-box"></div>
-	<div class="com-box"></div>
+	<div *ngFor="let power of powers; let i = index" class="box pwr-box">
+		<span [class]="'status-led status-led-' + power.status"></span>{{toSlotName(i)}}</div>
+	<div *ngFor="let trap of traps" class="box com-box">{{trap.ipAddress}}<span class="status-led status-led-0"></span></div>
 </div>

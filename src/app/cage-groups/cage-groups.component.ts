@@ -10,6 +10,8 @@ import { CageGroup, GroupType } from '../cage';
 export class CageGroupsComponent implements OnInit {
 	@Input() OID: string;
 	groups: CageGroup[];
+	expandedGroup: CageGroup = null;
+	selectedOption: CageGroup;
 	
 	constructor(private mibService: MIBService) {
 		
@@ -22,6 +24,14 @@ export class CageGroupsComponent implements OnInit {
 
 	toGroupTypeName(type: GroupType){
 		return GroupType[type];
+	}
+
+	onSelect(selectedGroup: CageGroup){
+		this.selectedOption = selectedGroup;
+	}
+
+	isSelected(group: CageGroup){
+		return this.selectedOption == group;
 	}
 
 }

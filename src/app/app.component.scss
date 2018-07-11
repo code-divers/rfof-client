@@ -4,10 +4,6 @@
 	$sidenav-background: map-get($rfof-light-theme-background, sidenav);
 	$cage-visual-background: map-get($rfof-light-theme-background, body);
 
-	.body-pane{
-		display: block;
-	}
-
 	.app-container {
 		height: 100vh;
 	}
@@ -24,10 +20,22 @@
 	}
 
 	.right-pane {
-		width: 680px;
+		width: 800px;
 		margin-left: 4px;
+		display: flex;
+		flex-wrap: wrap;
+		background: $cage-visual-background;
+	}
+
+	.body-pane{
 		display: block;
-		float: left;
+	}
+
+	.power-pane {
+		margin-top: 70px;
+		margin-left: 4px;
+		margin-right: 30px;
+		display: block;
 		background: $cage-visual-background;
 	}
 
@@ -35,9 +43,11 @@
 		width: 546px;
 		margin-top: 90px;
 		margin-bottom: 20px;
-	    margin-left: auto;
-	    margin-right: auto;
 	    display: block;
+	}
+
+	rfof-cage-toolbar{
+		width:800px;
 	}
 
 }

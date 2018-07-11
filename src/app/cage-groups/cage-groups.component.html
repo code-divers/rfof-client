@@ -1,5 +1,5 @@
-<mat-accordion>
-	<mat-expansion-panel *ngFor="let group of groups">
+<mat-accordion multi="true">
+	<mat-expansion-panel [expanded]="isSelected(group)" *ngFor="let group of groups">
 	    <mat-expansion-panel-header collapsedHeight="40px" expandedHeight="40px">
 	      <mat-panel-title matTooltip="{{group.name}}" matTooltipPosition="above">
 	        {{group.name}}
@@ -8,7 +8,7 @@
 	      	{{toGroupTypeName(group.type)}}
 	      </mat-panel-description>
 	    </mat-expansion-panel-header>
-	    <rfof-cage-group [group]="group"></rfof-cage-group>
+	    <rfof-cage-group [selectAll]="selectedOption" [group]="group" (selected)="onSelect($event)"></rfof-cage-group>
 		<mat-action-row>
 			<rfof-group-switch [group]="group"></rfof-group-switch>
 	  	</mat-action-row>
