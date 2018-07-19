@@ -6,18 +6,25 @@ import { CageModule } from './cage';
   providedIn: 'root'
 })
 export class ModuleManagerService {
-	private selectedModules: CageModule[] = [];
-	private modulesSelectedSource = new Subject<CageModule[]>();
+	private selectedModules: SelectedModule[] = [];
+	private modulesSelectedSource = new Subject<SelectedModule[]>();
 
 	moduleSelected$ = this.modulesSelectedSource.asObservable();
 
-	selectModule(module: CageModule){
-		this.selectedModules.push(module);
-		this.modulesSelectedSource.next(this.selectedModules);
+	selectModule(option: SelectedModule){
+		var idx = this.selectedModules.findIndex((selected)=>{
+			return selected.module.name == option.module.name;
+		});
+		if(idx == -1){
+			this.selectedModules.push(option);
+			this.modulesSelectedSource.next(this.selectedModules);
+		}
 	}
 
-	deselectModule(module :CageModule){
-		var idx = this.selectedModules.indexOf(module);
+	deselectModule(option: SelectedModule){
+		var idx = this.selectedModules.findIndex((selected)=>{
+			return selected.module.name == option.module.name;
+		});
 		if(idx > -1){
 			this.selectedModules.splice(idx,1);
 		}
@@ -26,4 +33,9 @@ export class ModuleManagerService {
 
 
   	constructor() { }
+}
+
+export interface SelectedModule{
+	module: CageModule;
+	isOpen: boolean;
 }

@@ -1,17 +1,17 @@
 <div *ngIf="module.slot > 3" class="popup-handle-top" (click)="onClose()">
+	<div [class]="'module-led-top module-line-led-' + module.statusLED"></div>
 </div>
-<div class="popup-container" (click)="onClose()">
+<div class="popup-container" (click)="onConfigure()">
 	<div class="popup-header">
 		<div class="popup-header-title">{{module.name}}</div>
 		<div class="popup-header-subtitle">{{module.group.name}}</div>
 	</div>
 	<div class="popup-body">
-		{{toTypeName(module.type)}}
-		<br>
-		BiasT {{toBiasTName(module.biasT)}}
-		<br>
-		Slot {{module.slot}}
+		<span class="popup-body-line">{{toTypeName(module.type)}}</span>
+		<span class="popup-body-line">BiasT {{toBiasTName(module.biasT)}}</span>
+		<span class="popup-body-line popup-body-line-last">Slot {{module.slot}}</span>
 	</div>
 </div>
 <div *ngIf="module.slot < 4" class="popup-handle-bottom" (click)="onClose()">
+	<div [class]="'module-led-bottom module-line-led-' + module.statusLED"></div>
 </div>

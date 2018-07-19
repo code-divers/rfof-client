@@ -27,6 +27,10 @@
 		background: $active-background;
 		color: $active-foreground;
 	}
+
+	/deep/ mat-ink-bar {
+		visibility: hidden !important;
+	}
 }
 
 @include rfof-cage-toolbar-ml();

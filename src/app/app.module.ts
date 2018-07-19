@@ -18,6 +18,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
 
 import { AppComponent } from './app.component';
@@ -36,6 +37,7 @@ import { ClickOutsideDirective } from './click-outside.directive';
 import { CagePowerComponent } from './cage-power/cage-power.component';
 import { CageStatusComponent } from './cage-status/cage-status.component';
 import { CagePwrComComponent } from './cage-pwr-com/cage-pwr-com.component';
+import { ModuleConfigDialogComponent } from './module-config-dialog/module-config-dialog.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import { CagePwrComComponent } from './cage-pwr-com/cage-pwr-com.component';
     ClickOutsideDirective,
     CagePowerComponent,
     CageStatusComponent,
-    CagePwrComComponent
+    CagePwrComComponent,
+    ModuleConfigDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -74,10 +77,11 @@ import { CagePwrComComponent } from './cage-pwr-com/cage-pwr-com.component';
     MatPaginatorModule,
     MatSortModule,
     MatSelectModule,
+    MatDialogModule,
     FormsModule,
     OverlayModule
   ],
-  entryComponents: [ModulePopupComponent],
+  entryComponents: [ModulePopupComponent,ModuleConfigDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

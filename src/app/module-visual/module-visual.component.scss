@@ -1,20 +1,5 @@
-%module-line-led {
-	width: 22px;
-	height: 22px;
+@import "~src/assets/led/led-style.scss";
+
+module-led-button {
 	cursor: pointer;
-}
-
-.module-line-led-0 {
-	@extend %module-line-led;
-	background-image: url('/assets/led/led-0.png');
-}
-
-.module-line-led-1 {
-	@extend %module-line-led;
-	background-image: url('/assets/led/led-1.png');
-}
-
-.module-line-led-2 {
-	@extend %module-line-led;
-	background-image: url('/assets/led/led-2.png');
 }

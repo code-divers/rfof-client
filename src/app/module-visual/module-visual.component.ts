@@ -9,7 +9,7 @@ import {
 	ViewEncapsulation, 
 	Injector, 
 	ElementRef } from '@angular/core';
-import {Overlay, CdkOverlayOrigin, OverlayConfig, OverlayRef, ConnectedPosition, VerticalConnectionPos, HorizontalConnectionPos} from '@angular/cdk/overlay';
+import {Overlay, CdkOverlayOrigin, OverlayConfig, OverlayRef, ConnectedPosition} from '@angular/cdk/overlay';
 import {
   ComponentPortal,
   // tslint:disable-next-line:no-unused-variable
@@ -21,6 +21,8 @@ import { CageModule } from '../cage';
 import { POPUP_DATA, MODULE_MANAGER_SERVICE, ModulePopupComponent } from '../module-popup/module-popup.component';
 import { ClickOutsideDirective } from '../click-outside.directive';
 import { ModuleManagerService } from '../module-manager.service';
+import { MatDialog } from '@angular/material';
+import { ModuleConfigDialogComponent } from '../module-config-dialog/module-config-dialog.component';
 
 @Component({
   selector: 'rfof-module-visual',
@@ -34,11 +36,12 @@ export class ModuleVisualComponent implements OnInit {
 	private overlayRef: any;
 	private componentPortl: ComponentPortal<ModulePopupComponent>;
 
-	constructor(private _eref: ElementRef, public overlay: Overlay, public viewContainerRef: ViewContainerRef, private moduleManagerService: ModuleManagerService) { }
+	constructor(private _eref: ElementRef, public overlay: Overlay, public viewContainerRef: ViewContainerRef, private moduleManagerService: ModuleManagerService,
+		public dialog: MatDialog) { }
 
 	ngOnInit() {
-		this.moduleManagerService.moduleSelected$.subscribe(modules=>{
-			var idx = modules.indexOf(this.module);
+		this.moduleManagerService.moduleSelected$.subscribe(selectedModules=>{
+			var idx = selectedModules.findIndex((selected)=>{ return selected.module == this.module});
 			if(idx > -1){
 				this.openPanel(false);
 			}else{
@@ -48,7 +51,11 @@ export class ModuleVisualComponent implements OnInit {
 	}
 
 	onClick(){
-		this.moduleManagerService.selectModule(this.module);
+		var option = {
+			module: this.module,
+			isOpen: false
+		}
+		this.moduleManagerService.selectModule(option);
 	}
 
 	openPanel(backdrop: boolean = false){
@@ -74,9 +81,11 @@ export class ModuleVisualComponent implements OnInit {
 			.flexibleConnectedTo(this._overlayOrigin.elementRef)
 			.withPositions([position]);
 
+
 			let config = new OverlayConfig({
 				hasBackdrop: backdrop,
-				positionStrategy: strategy
+				positionStrategy: strategy,
+				scrollStrategy: this.overlay.scrollStrategies.block()
 			});
 			const popupConfig = { ...{ module: this.module }, ...config };
 			let overlayRef = this.overlay.create(popupConfig);
@@ -103,6 +112,17 @@ export class ModuleVisualComponent implements OnInit {
 			this.overlayRef.dispose();
 			this.overlayRef = null;
 		}
+	}
+
+	openConfigurator(){
+		const dialogRef = this.dialog.open(ModuleConfigDialogComponent, {
+	      width: '250px',
+	      data: this.module
+	    });
+
+	    dialogRef.afterClosed().subscribe(result => {
+	      console.log('The dialog was closed', result);
+	    });
 	}
 }
 

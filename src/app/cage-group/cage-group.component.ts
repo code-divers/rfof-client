@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CageGroup, CageModule, ModuleType } from '../cage';
 import { MIBService } from '../mib.service';
-import { ModuleManagerService } from '../module-manager.service';
+import { ModuleManagerService, SelectedModule } from '../module-manager.service';
 
 @Component({
   selector: 'rfof-cage-group',
@@ -12,20 +12,7 @@ export class CageGroupComponent implements OnInit {
 	@Input() group: CageGroup;
 	@Output() selected = new EventEmitter<CageGroup>();
 	modules: CageModule[];
-	selectedOptions: CageModule[] = [];
-	private lastSelectedOptions: CageModule[] = [];
-	private _selectAll: CageGroup;
-	@Input()
-	set selectAll(selected: CageGroup) {
-		this._selectAll = selected;
-		if(this.group == selected){
-			this.selectedOptions = this.modules;
-		}else{
-			this.selectedOptions = [];
-		}
-		this.onNgModelChange(this.selectedOptions);
-	}
-	get selectAll(): CageGroup { return this._selectAll; }
+	selectedOptions: SelectedModule[] = [];
 	
 	constructor(private mibService: MIBService, private moduleManagerService: ModuleManagerService) {
 
@@ -35,11 +22,10 @@ export class CageGroupComponent implements OnInit {
 		this.mibService.getCageGroupModule(this.group)
 			.subscribe(modules => this.modules = modules);
 
-		this.moduleManagerService.moduleSelected$.subscribe(modules=>{
-			this.selectedOptions = modules.filter((item)=>this.modules.indexOf(item) > -1);
-			/*if(this.selectedOptions.length > 0){
-				this.selected.emit(this.group);
-			}*/
+		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
+			this.selectedOptions = selected.filter((item)=>{
+				return this.modules.indexOf(item.module) > -1
+			});
 		});
 	}
 
@@ -47,22 +33,29 @@ export class CageGroupComponent implements OnInit {
 		return ModuleType[type];
 	}
 
-	onNgModelChange(options){
-		console.log('module change')
-		var selected = options.filter(item=>this.lastSelectedOptions.indexOf(item) < 0);
-		var module: any;
-		for(module of selected){
-			this.moduleManagerService.selectModule(module);
+	toggleModule(module:CageModule){
+		var idx = this.selectedOptions.findIndex((option)=>{return option.module.name==module.name});
+		if(idx == -1){
+			var option = {
+				module: module,
+				isOpen: false
+			};
+			this.moduleManagerService.selectModule(option);
+		}else{
+			this.moduleManagerService.deselectModule(this.selectedOptions[idx]);
 		}
-		var deselected = this.lastSelectedOptions.filter(item=>options.indexOf(item) < 0);
-		for(module of deselected){
-			this.moduleManagerService.deselectModule(module);
-		}
-		/*if(this.selectedOptions.length > 0){
-			this.selected.emit(this.group);
-		}*/
-		this.lastSelectedOptions = options;
 	}
 
-
+	toStateClass(module: CageModule){
+		var selectedOption = this.selectedOptions.find((option)=>{return option.module==module});
+		if(selectedOption){
+			return selectedOption.isOpen ? "opened-module" : "selected-module";
+		}
+		return null;
+	}
 }
+
+
+
+
+

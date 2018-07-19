@@ -3,6 +3,7 @@
 @import "~src/assets/led/led-style.scss";
 
 @mixin rfof-cage-group-ml() {
+	$selected-background: mat-color($rfof-primary);
 	$border-color: map-get($rfof-light-theme-background, border);
 	$hover-background: mat-color($rfof-accent);
 	$hover-foreground: map-get($rfof-light-theme-foreground-invert, text);
@@ -20,18 +21,30 @@
 		margin-right: 5px;
 	}
 
-	 .mat-selection-list .mat-list-item {
+	 .mat-list .mat-list-item {
 		height: 40px;
 		border-bottom: 1px solid $border-color;
 		border-top: 1px solid $border-color;
 	}
 
-	.mat-selection-list .mat-list-item:hover{
+	.mat-list .mat-list-item:hover{
 		background: $hover-background;
   		cursor: pointer;
 	}
 
-	.mat-selection-list .mat-list-item:hover .module-name{
+	.opened-module {
+		background: $hover-background;
+	}
+
+	.selected-module {
+		/*background: $selected-background;*/
+	}
+
+	.selected-module .module-name{
+		/*color: $hover-foreground;*/
+	}
+
+	.mat-list .mat-list-item:hover .module-name{
 		color: $hover-foreground;
 	}
 

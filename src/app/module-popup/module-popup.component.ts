@@ -12,7 +12,9 @@ export const MODULE_MANAGER_SERVICE = new InjectionToken<ModuleManagerService>('
 })
 export class ModulePopupComponent implements OnInit {
 	
-	constructor(@Inject(POPUP_DATA) public module: CageModule, @Inject(MODULE_MANAGER_SERVICE) public moduleManagerService: ModuleManagerService) { 
+	constructor(
+		@Inject(POPUP_DATA) public module: CageModule,
+		@Inject(MODULE_MANAGER_SERVICE) public moduleManagerService: ModuleManagerService) { 
 
 	}
 
@@ -28,7 +30,14 @@ export class ModulePopupComponent implements OnInit {
 	}
 
 	onClose(){
-		this.moduleManagerService.deselectModule(this.module);
+		this.moduleManagerService.deselectModule({
+			module: this.module,
+			isOpen: false
+		});
+	}
+
+	onConfigure(){
+		
 	}
 
 }

@@ -1,5 +1,6 @@
 @import '~@angular/material/theming';
 @import "~src/assets/theme/rfof-light-pallete.scss";
+@import "~src/assets/led/led-style.scss";
 @mixin rfof-module-popup-ml() {
 	$background: mat-color($rfof-primary, 500);
 	$background-opacity: map-get($rfof-light-theme-background, popup-opacity);
@@ -42,6 +43,7 @@
 	}
 
 	.popup-header-subtitle{
+		padding-top: 4px;
 		padding-left: 5px;
 		padding-right: 5px;
 		overflow: hidden;
@@ -56,6 +58,29 @@
 		color: $foreground;
 		padding-left: 5px;
 		padding-right: 5px;
+	}
+
+	.module-led-top {
+		position: relative;
+		left: 2px;
+		top: 3px;
+	}
+
+	.module-led-bottom {
+		position: relative;
+		left: 2px;
+		top: 2px;
+	}
+
+	.popup-body-line{
+		display: block;
+		margin-bottom: 12px;
+	}
+
+	.popup-body-line-last{
+		display: block;
+		padding-bottom: 4px;
+		margin-bottom: 0px;
 	}
 }
 

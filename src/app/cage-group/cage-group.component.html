@@ -1,5 +1,5 @@
-<mat-selection-list role="list" [(ngModel)]="selectedOptions" (ngModelChange)="onNgModelChange($event)">
-  <mat-list-option class="module-line" [value]="module" *ngFor="let module of modules" >
+<mat-list role="list">
+  <mat-list-item [ngClass]="toStateClass(module)" class="module-line" *ngFor="let module of modules" (click)="toggleModule(module)" [ngClass]="toStateClass(module)">
   	<div class="module-name"><span [class]="'module-led module-line-led-' + module.statusLED"></span>{{module.name}} - {{toModuleTypeName(module.type)}}</div>
-  </mat-list-option>
-</mat-selection-list>
+  </mat-list-item>
+</mat-list>
