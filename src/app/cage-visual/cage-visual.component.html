@@ -1,4 +1,4 @@
-<div class="cage-container">
+<div class="cage-container" *ngIf="modules">
 	<div class="cage-slots">
 		<div class="cage-slot slot-1">
 			<rfof-module-visual *ngIf="slots[0].module" [module]="slots[0].module"></rfof-module-visual>

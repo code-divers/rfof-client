@@ -1,4 +1,4 @@
-<div class="info-container">
+<div *ngIf="cage" class="info-container">
 	<div class="info-title" matTooltip="{{cage.description}}" matTooltipPosition="right">{{cage.description}}</div>
 	<div class="info-body">
 		<p>{{cage.psCount}} power supplies, {{cage.grCount}} groups, {{cage.slotsCount}} active slots, serial: {{cage.serial}}, version: {{cage.version}}({{cage.versionDate}})</p>

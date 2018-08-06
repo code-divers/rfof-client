@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+@mixin rfof-module-configurator-ml() {
+	$background: map-get($rfof-light-theme-background, body);
+	$header-background: mat-color($rfof-primary, 500);
+	$foreground: map-get($rfof-light-theme-foreground-invert, text);
+
+	.overlay-container{
+		display: block;
+		width: 600px;
+		height: 400px;
+		background: $background;
+	}
+}
+
+@include rfof-module-configurator-ml();

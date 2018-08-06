@@ -1,5 +1,5 @@
 <mat-list role="list">
-  <mat-list-item [ngClass]="toStateClass(module)" class="module-line" *ngFor="let module of modules" (click)="toggleModule(module)" [ngClass]="toStateClass(module)">
+  <mat-list-item cdk-overlay-origin [ngClass]="toStateClass(module)" class="module-line" *ngFor="let module of modules" (click)="toggleModule(module)" [ngClass]="toStateClass(module)">
   	<div class="module-name"><span [class]="'module-led module-line-led-' + module.statusLED"></span>{{module.name}} - {{toModuleTypeName(module.type)}}</div>
   </mat-list-item>
 </mat-list>

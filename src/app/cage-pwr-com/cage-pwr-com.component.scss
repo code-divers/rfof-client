@@ -31,6 +31,14 @@
 		background: $box-background-hover;
 		color: $foreground;
 	}
+
+	.com-box-label{
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
+	    width: 98px;
+	    float: left
+	}
 }
 
 @include rfof-pwr-com-ml();

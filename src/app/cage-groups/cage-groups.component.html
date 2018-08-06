@@ -8,7 +8,7 @@
 	      	{{toGroupTypeName(group.type)}}
 	      </mat-panel-description>
 	    </mat-expansion-panel-header>
-	    <rfof-cage-group [group]="group"></rfof-cage-group>
+	    <rfof-cage-group [group]="group" [modules]="getGroupModules(group)"></rfof-cage-group>
 		<mat-action-row>
 			<rfof-group-switch [group]="group"></rfof-group-switch>
 	  	</mat-action-row>

@@ -22,7 +22,6 @@ import { POPUP_DATA, MODULE_MANAGER_SERVICE, ModulePopupComponent } from '../mod
 import { ClickOutsideDirective } from '../click-outside.directive';
 import { ModuleManagerService } from '../module-manager.service';
 import { MatDialog } from '@angular/material';
-import { ModuleConfigDialogComponent } from '../module-config-dialog/module-config-dialog.component';
 
 @Component({
   selector: 'rfof-module-visual',
@@ -115,14 +114,7 @@ export class ModuleVisualComponent implements OnInit {
 	}
 
 	openConfigurator(){
-		const dialogRef = this.dialog.open(ModuleConfigDialogComponent, {
-	      width: '250px',
-	      data: this.module
-	    });
-
-	    dialogRef.afterClosed().subscribe(result => {
-	      console.log('The dialog was closed', result);
-	    });
+		
 	}
 }
 

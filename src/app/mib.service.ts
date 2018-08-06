@@ -1,45 +1,146 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, from } from 'rxjs';
-import { filter, toArray } from 'rxjs/operators';
+import { Observable, of, from, forkJoin, Subject } from 'rxjs';
+import { filter, toArray, catchError, map, tap} from 'rxjs/operators';
 import { Cage, CageGroup, CageModule, PowerSupply, TrapReciver, EventLogItem } from './cage';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MessageService } from './message.service';
 
-//Mock data
-import { CAGE, CAGE_GROUPS, CAGE_MODULES, CAGE_EVENTS, CAGE_POWERSUPPLY, CAGE_TRAPRECIVERS } from './mock'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MIBService {
+  timer;
+  apiUrl = 'http://31.168.173.124:20080/api';
+  cage: Cage;
+  power: PowerSupply[];
+  network: TrapReciver[];
+  groups: CageGroup[];
+  modules: CageModule[];
+  events: EventLogItem[];
 
-  constructor() {
+  private dataChangedSource = new Subject<MIBService>();
+  private dataLoadingSource = new Subject<boolean>();
+
+  dataChanged$ = this.dataChangedSource.asObservable();
+  dataLoading$ = this.dataLoadingSource.asObservable();
+
+  constructor(private http: HttpClient, private messageService: MessageService) {
+    
   }
 
-  getCageInfo(OID: string): Observable<Cage> {
-  	return of(CAGE);
+  initiateTimer() {
+      if (this.timer) {
+          clearTimeout(this.timer);
+      }
+
+      this.timer = setTimeout(this.collectData.bind(this), 30000);
   }
 
-  getCageGroups(OID: string): Observable<CageGroup[]> {
-    return of(CAGE_GROUPS);
+  collectData(){
+    this.dataLoadingSource.next(true);
+    //this.messageService.add('Fetching cage data...');
+    forkJoin(
+      this.requestCageInfo(), 
+      this.requestCageGroups(), 
+      this.requestCageModules(),
+      this.requestCageEventLog(),
+      this.requestCagePowerSupply(),
+      this.requestCageTrapReciver()).subscribe((results)=>{
+      this.cage = results[0];
+      this.groups = results[1];
+      this.modules = results[2];
+      this.events = results[3];
+      this.power = results[4];
+      this.network = results[5];
+      this.dataChangedSource.next(this);
+      //this.messageService.add('Done fetching data.');
+      this.initiateTimer();
+      this.dataLoadingSource.next(false);
+    })
   }
 
-  getCageModules(OID: string): Observable<CageModule[]> {
-    return of(CAGE_MODULES);
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      this.messageService.add(`${operation} failed: ${error.message}`);
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 
-  getCageGroupModule(group: CageGroup): Observable<CageModule[]> {
-    return from(CAGE_MODULES).pipe(
-      filter(module => module.group.name == group.name)).pipe(toArray());
+  getCageInfo(): Observable<Cage> {
+    return of(this.cage);
   }
 
-  getCageEventLog(OID: string): Observable<EventLogItem[]> {
-    return of(CAGE_EVENTS);
+  requestCageInfo(): Observable<Cage> {
+  	return this.http.get<Cage>(this.apiUrl + '/cage')
+    .pipe(map((response:any)=>{
+      return response.data;
+    }))
+    .pipe(catchError(this.handleError('getCageInfo', null)))
   }
 
-  getCagePowerSupply(OID: string): Observable<PowerSupply[]>{
-    return of(CAGE_POWERSUPPLY);
+   getCageGroups(): Observable<CageGroup[]> {
+      return of(this.groups);
+    }
+
+  requestCageGroups(): Observable<CageGroup[]> {
+    return this.http.get<CageGroup[]>(this.apiUrl + '/cage/groups')
+      .pipe(map((response:any)=>{
+        return response.data;
+      }))
+      .pipe(catchError(this.handleError('getCageGroups', [])))
   }
 
-  getCageTrapReciver(OID: string): Observable<TrapReciver[]>{
-    return of(CAGE_TRAPRECIVERS);
+  getCageModules(): Observable<CageModule[]> {
+    return of(this.modules);
+  }
+
+  requestCageModules(): Observable<CageModule[]> {
+    return this.http.get<CageModule[]>(this.apiUrl + '/cage/modules')
+      .pipe(map((response:any)=>{
+        return response.data
+      }))
+      .pipe(catchError(this.handleError('getCageGroups', [])))
+  }
+
+  getCageGroupModules(group: CageGroup): CageModule[] {
+      return this.modules.filter((module)=>{return module.group.name == group.name});
+  }
+
+  getCageEventLog(): Observable<EventLogItem[]> {
+    return of(this.events);
+  }
+
+  requestCageEventLog(): Observable<EventLogItem[]> {
+    return this.http.get<EventLogItem[]>(this.apiUrl + '/cage/events')
+      .pipe(map((response:any)=>{
+        return response.data
+      }))
+      .pipe(catchError(this.handleError('getEvents', [])))
+  }
+
+  getCagePowerSupply(): Observable<PowerSupply[]>{
+    return of(this.power);
+  }
+
+  requestCagePowerSupply(): Observable<PowerSupply[]> {
+    return this.http.get<PowerSupply[]>(this.apiUrl + '/cage/power')
+      .pipe(map((response:any)=>{
+        return response.data
+      }))
+      .pipe(catchError(this.handleError('getCagePowerSupply', [])))
+  }
+
+  getCageTrapReciver(): Observable<TrapReciver[]>{
+    return of(this.network);
+  }
+
+  requestCageTrapReciver(): Observable<TrapReciver[]> {
+    return this.http.get<TrapReciver[]>(this.apiUrl + '/cage/network')
+      .pipe(map((response:any)=>{
+        return response.data
+      }))
+      .pipe(catchError(this.handleError('getCageTrapReciver', [])))
   }
 }

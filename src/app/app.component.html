@@ -4,17 +4,20 @@
   </mat-sidenav>
   <mat-sidenav-content>
   	<div class="left-pane">
-          <rfof-cage-info OID=".1.3.6.1.4.1.40570.1"></rfof-cage-info>
-          <rfof-cage-groups OID=".1.3.6.1.4.1.40570.1"></rfof-cage-groups>
+          <rfof-cage-info *ngIf="cage" [cage]="cage"></rfof-cage-info>
+          <rfof-cage-groups *ngIf="groups" [groups]="groups"></rfof-cage-groups>
     </div>
-    <div class="right-pane">
+    <div class="right-pane" *ngIf="network && power">
       <div class="power-pane">
-        <rfof-cage-pwr-com OID=".1.3.6.1.4.1.40570.1"></rfof-cage-pwr-com>
+        <rfof-cage-pwr-com *ngIf="network && power" [network]="network" [power]="power"></rfof-cage-pwr-com>
       </div>
-      <div class="body-pane">
-        <rfof-cage-visual OID=".1.3.6.1.4.1.40570.1"></rfof-cage-visual>
+      <div class="body-pane" *ngIf="modules && events">
+        <rfof-cage-visual *ngIf="modules" [modules]="modules"></rfof-cage-visual>
       </div>
-      <rfof-cage-toolbar OID=".1.3.6.1.4.1.40570.1"></rfof-cage-toolbar>
+      <rfof-cage-toolbar *ngIf="events" [events]="events"></rfof-cage-toolbar>
+    </div>
+    <div class="spinner-container" *ngIf="!cage">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

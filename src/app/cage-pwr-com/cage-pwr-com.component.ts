@@ -8,17 +8,17 @@ import { MIBService } from '../mib.service';
   styleUrls: ['./cage-pwr-com.component.scss']
 })
 export class CagePwrComComponent implements OnInit {
-	@Input() OID: string;
-	powers: PowerSupply[];
-	traps: TrapReciver[];
+	@Input() power: PowerSupply[];
+	@Input() network: TrapReciver[];
 
   constructor(private mibService: MIBService) { }
 
   ngOnInit() {
-  	this.mibService.getCagePowerSupply(this.OID)
-  		.subscribe(powers => this.powers = powers);
-  	this.mibService.getCageTrapReciver(this.OID)
-  		.subscribe(traps => this.traps = traps);
+  	/*this.mibService.dataChanged$
+  		.subscribe(() => {
+        this.powers = this.mibService.power;
+        this.traps = this.mibService.network;
+      });*/
   }
 
   toPowerStatusName(status: PowerStatus){

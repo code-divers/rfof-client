@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-
+import { EventLogItem } from '../cage';
 
 @Component({
   selector: 'rfof-cage-toolbar',
@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./cage-toolbar.component.scss']
 })
 export class CageToolbarComponent implements OnInit {
-	@Input() OID: string;
+	@Input() events: EventLogItem[];
 	constructor() { }
 
 	ngOnInit() {

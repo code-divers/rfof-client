@@ -20,6 +20,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { CageInfoComponent } from './cage-info/cage-info.component';
@@ -37,7 +41,7 @@ import { ClickOutsideDirective } from './click-outside.directive';
 import { CagePowerComponent } from './cage-power/cage-power.component';
 import { CageStatusComponent } from './cage-status/cage-status.component';
 import { CagePwrComComponent } from './cage-pwr-com/cage-pwr-com.component';
-import { ModuleConfigDialogComponent } from './module-config-dialog/module-config-dialog.component';
+import { ModuleConfiguratorComponent } from './module-configurator/module-configurator.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +61,7 @@ import { ModuleConfigDialogComponent } from './module-config-dialog/module-confi
     CagePowerComponent,
     CageStatusComponent,
     CagePwrComComponent,
-    ModuleConfigDialogComponent
+    ModuleConfiguratorComponent
   ],
   imports: [
     BrowserModule,
@@ -79,10 +83,15 @@ import { ModuleConfigDialogComponent } from './module-config-dialog/module-confi
     MatSelectModule,
     MatDialogModule,
     FormsModule,
-    OverlayModule
+    OverlayModule,
+    MatSnackBarModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    HttpClientModule
   ],
-  entryComponents: [ModulePopupComponent,ModuleConfigDialogComponent],
+  entryComponents: [ModulePopupComponent, ModuleConfiguratorComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
+//enableProdMode();
 export class AppModule { }

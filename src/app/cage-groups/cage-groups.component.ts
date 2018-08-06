@@ -9,19 +9,22 @@ import { ModuleManagerService, SelectedModule } from '../module-manager.service'
   styleUrls: ['./cage-groups.component.scss']
 })
 export class CageGroupsComponent implements OnInit {
-	@Input() OID: string;
-	groups: CageGroup[];
+	@Input() groups: CageGroup[];
 	selectedModules: SelectedModule[] = [];
 	
 	constructor(private mibService: MIBService, private moduleManagerService: ModuleManagerService) {
 	}
 
 	ngOnInit() {
-		this.mibService.getCageGroups(this.OID)
-  			.subscribe(groups=> this.groups = groups);
+		/*this.mibService.dataChanged$
+  			.subscribe(()=> this.groups = this.mibService.groups);*/
   		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
 			this.selectedModules = selected; //.filter((option)=>{return option.source!='image'});
 		});
+	}
+
+	getGroupModules(group: CageGroup){
+		return this.mibService.getCageGroupModules(group);
 	}
 
 	toGroupTypeName(type: GroupType){
@@ -30,31 +33,29 @@ export class CageGroupsComponent implements OnInit {
 
 	selectAll(group: CageGroup){
 		if(this.selectedModules.length == 0){
-			this.mibService.getCageGroupModule(group).subscribe((modules)=>{
-				for(var module of modules){
-					this.moduleManagerService.selectModule({
-						module: module,
-						isOpen: false
-					});
-				}
-			})
-		}
-	}
-
-	closeAll(group: CageGroup){
-		this.mibService.getCageGroupModule(group).subscribe((modules)=>{
+			let modules = this.mibService.getCageGroupModules(group);
 			for(var module of modules){
-				this.moduleManagerService.deselectModule({
+				this.moduleManagerService.selectModule({
 					module: module,
 					isOpen: false
 				});
 			}
-		})
+		}
+	}
+
+	closeAll(group: CageGroup){
+		let modules = this.mibService.getCageGroupModules(group);
+		for(var module of modules){
+			this.moduleManagerService.deselectModule({
+				module: module,
+				isOpen: false
+			});
+		}
 	}
 
 	isSelected(group: CageGroup){
 		return this.selectedModules.find((option)=>{
-			return option.module.group == group;
+			return option.module.group.name == group.name;
 		}) != null;
 	}
 
