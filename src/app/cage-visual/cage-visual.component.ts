@@ -2,7 +2,7 @@ import {
 	Component, 
 	OnInit, 
 	Input } from '@angular/core';
-import { Cage, CageModule } from '../cage';
+import { Cage, CageModule } from 'rfof-common';
 import { MIBService } from '../mib.service';
 
 @Component({
@@ -18,9 +18,11 @@ export class CageVisualComponent implements OnInit {
 	ngOnInit() {
 		for(var module of this.modules){
 			var slot = this.slots.find(slot=>{
-				return slot.num == module.slot;
+				return slot.num == Number(module.slot);
 			});
-			slot.module = module;
+			if(slot){
+				slot.module = module;
+			}
 		}
 	}
 }

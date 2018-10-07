@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject }    from 'rxjs';
-import { CageModule } from './cage';
+import { CageModule } from 'rfof-common';
 
 @Injectable({
   providedIn: 'root'

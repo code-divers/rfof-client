@@ -3,12 +3,12 @@
 	height: 22px;
 }
 
-.status-led-0 {
+.status-led-1 {
 	@extend %status-led;
 	background-image: url('/assets/led/led-1.png');
 }
 
-.status-led-1 {
+.status-led-0 {
 	@extend %status-led;
 	background-image: url('/assets/led/led-2.png');
 }

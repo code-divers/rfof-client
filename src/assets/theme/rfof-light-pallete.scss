@@ -66,6 +66,7 @@ $md-rfof-accent: (
 
 // Background palette for light themes.
 $rfof-light-theme-background: (
+  header: #000000,
   sidenav: #e4e3e3,
   body: #e4e3e3,
   panel: #ffffff,
@@ -79,12 +80,18 @@ $rfof-light-theme-background: (
   tr-alternate: #efeeee,
   th: #545657,
   popup-opacity: 0.6,
+  status-none: #f1f001,
+  status-ok: #08FF00,
+  status-fault: red,
+  status-led-border: #000000,
+  configurator-aside: #F5F8FB,
 );
 
 $rfof-light-theme-foreground: (
   base:              #084d88,
   text:              rgba(#084d88, 0.87),
   td-text:           #32383d,
+  header:            #FEFEFE,
 );
 
 $rfof-light-theme-foreground-invert: (

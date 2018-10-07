@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PowerSupply, TrapReciver, PowerStatus } from '../cage';
+import { PowerSupply, TrapReciver, PowerStatus } from 'rfof-common';
 import { MIBService } from '../mib.service';
 
 @Component({

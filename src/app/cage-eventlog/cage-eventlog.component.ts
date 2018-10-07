@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-import { EventLogItem } from '../cage';
+import { EventLogItem } from 'rfof-common';
 
 @Component({
   selector: 'rfof-cage-eventlog',

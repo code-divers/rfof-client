@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Cage } from '../cage';
+import { Cage } from 'rfof-common';
 import { MIBService } from '../mib.service';
 
 @Component({
@@ -8,10 +8,10 @@ import { MIBService } from '../mib.service';
   styleUrls: ['./cage-info.component.scss']
 })
 export class CageInfoComponent implements OnInit {
-	  @Input() cage: Cage;
+	@Input() cage: Cage;
   	constructor(private mibService: MIBService) { 
   		//Get cage information using the MIBService
-
+  		
   	}
 
   	ngOnInit() {

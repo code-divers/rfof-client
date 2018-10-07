@@ -17,7 +17,7 @@ import {
 	BiasTState,
 	MonPlan,
 	EventLevel
-} from './cage';
+} from 'rfof-common';
 
 export const CAGE: Cage = 
 	{

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MIBService } from '../mib.service';
-import { CageGroup, GroupType } from '../cage';
+import { CageGroup, GroupType } from 'rfof-common';
 import { ModuleManagerService, SelectedModule } from '../module-manager.service';
  
 @Component({

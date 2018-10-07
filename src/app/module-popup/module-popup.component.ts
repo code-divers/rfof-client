@@ -1,5 +1,5 @@
 import { Component, OnInit, Input,Output, Inject, InjectionToken, EventEmitter} from '@angular/core';
-import { CageModule, ModuleType, BiasTState } from '../cage';
+import { CageModule, ModuleType, BiasTState } from 'rfof-common';
 import { ModuleManagerService } from '../module-manager.service'
 
 export const POPUP_DATA = new InjectionToken<CageModule>('POPUP_DATA');

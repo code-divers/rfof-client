@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EventLogItem } from '../cage';
+import { EventLogItem } from 'rfof-common';
 
 @Component({
   selector: 'rfof-cage-toolbar',

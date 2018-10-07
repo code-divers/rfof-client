@@ -17,7 +17,7 @@ import {
   TemplatePortalDirective,
   PortalInjector
 } from '@angular/cdk/portal';
-import { CageModule } from '../cage';
+import { CageModule } from 'rfof-common';
 import { POPUP_DATA, MODULE_MANAGER_SERVICE, ModulePopupComponent } from '../module-popup/module-popup.component';
 import { ClickOutsideDirective } from '../click-outside.directive';
 import { ModuleManagerService } from '../module-manager.service';

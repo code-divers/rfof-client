@@ -23,6 +23,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -86,6 +87,7 @@ import { ModuleConfiguratorComponent } from './module-configurator/module-config
     OverlayModule,
     MatSnackBarModule,
     MatMenuModule,
+    MatCheckboxModule,
     MatProgressSpinnerModule,
     HttpClientModule
   ],

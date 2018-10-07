@@ -1,3 +1,123 @@
 <div class="overlay-container">
-	
+	<div class="header">
+		<div class="header-logo"><img src="assets/small_logo.png"></div>
+		<div class="header-title">RF Optic - Configuration tool</div>
+	</div>
+	<div class="main">
+		<div class="status">
+			<div [class]="'status-led led-'+module.status"></div>
+			<div class="status-body">
+				<div class="status-body-title">S\N:{{module.serial}}</div>
+				<div class="status-body-text">P/N:{{module.partNumber}}, Rev:{{module.fwVer}}</div>
+			</div>
+		</div>
+		<div class="info">
+			<div class="info-form">
+				<div class="label-head">Transmiter module Setting</div>
+				<div class="info-form-section">
+					<mat-checkbox (change)="toggleLna($event)" [disabled]="module.lnaDisabled" [(ngModel)]="module.lnaOn" class="label-field">LNA ON (Max RF input + 15dBm)</mat-checkbox>
+				</div>
+				<mat-divider></mat-divider>
+				<div class="info-form-section">
+					<div class="info-form-section-cell">
+						<div class="label-field">Attrnuation [dB] <br> (2dB recommended)</div>
+						<input matInput (change)="setAtten($event)" class="info-form-input" type="number" [(ngModel)]="module.attenValue" step="0.5" max="31.5">
+					</div>
+					<div class="info-form-section-cell">
+						<div class="label-field">Optical power <br> [mW]</div>
+						<input disabled="true" class="info-form-input" matInput type="number" [(ngModel)]="module.optPower" step="0.1" [(value)]="module.optPower">
+					</div>
+					<div placeholder="select type" class="info-form-section-cell">
+						<div class="label-field">BiasT</div>
+						<mat-select (selectionChange)="setBiasT()" [(ngModel)]="module.biasTValue" [disabled]="module.biasTDisabled">
+							<mat-option value="off">Off</mat-option>
+							<mat-option value="on">On</mat-option>
+							<mat-option value="alwayson">Allways on</mat-option>
+							<mat-option value="autoplay">Autoplay</mat-option>
+						</mat-select>
+					</div>
+				</div>
+				<mat-divider></mat-divider>
+				<div class="info-form-section">
+					<div class="info-form-section-cell">
+						<mat-checkbox (change)="toggleLaser($event)" class="label-field" [disabled]="module.laserDisabled" [(ngModel)]="module.laserOn" ng-model="module.laserOn" [checked]="module.laserOn">Laser on</mat-checkbox>
+					</div>
+					<div class="info-form-section-cell">
+						<mat-checkbox class="label-field">Show RF level</mat-checkbox>
+					</div>
+					<div class="info-form-section-cell">
+						<input class="info-form-input" matInput type="number" [(ngModel)]="module.rfLevelValue" step="0.1" (change)="setRfLevel($event)">
+					</div>
+				</div>
+				<div class="info-form-section">
+					<div class="info-form-section-cell">
+						<mat-checkbox class="label-field" [(ngModel)]="module.rfLinkTestOn" (change)="toggleRflinkTest($event)">RF Link Test (Inject pilot signal)</mat-checkbox>
+					</div>
+				</div>
+				<div *ngIf="module.rfLinkTestOn" class="shadow-box">
+				</div>
+				<div *ngIf="module.rfLinkTestOn" class="hidden-box">
+					<div class="info-form-hidden-section">
+						<div class="info-form-section-widecell">
+							<div class="label-field">RF injection automatic shutdown in <br> [hh:mm:ss]</div>
+						</div>
+						<div class="info-form-section-widecell ">
+							<input class="info-form-time-input" matInput type="time" placeholder="[hh:mm:ss]" [(ngModel)]="module.rfLinkTestTime" step="2">
+						</div>
+					</div>
+				</div>
+				<mat-divider></mat-divider>
+				<div class="info-form-expansion-section">
+					<mat-expansion-panel class="expansion-panel">
+					  <mat-expansion-panel-header collapsedHeight="40px" expandedHeight="40px">
+					    <mat-panel-title>
+					      Advanced setting
+					    </mat-panel-title>
+					  </mat-expansion-panel-header>
+						  <div class="shadow-box"></div>
+						  <div class="panel-body hidden-box">
+						  	<div class="panel-head">Module controller mode</div>
+							<div class="panel-radio-container">
+								<mat-radio-group [(ngModel)]="module.monPlanValue" (change)="setMonPlan($event)">
+							  		<mat-radio-button class="label-field space-between-radio" value="sleep">Quiet (On USB disconnect)</mat-radio-button>
+							  		<mat-radio-button class="label-field" value="active">Automatic Control</mat-radio-button>
+							  	</mat-radio-group>
+							</div>
+							<div class="panel-row">
+								<div class="info-form-section-widecell">
+									<div class="label-field label-padding">Monitor Interval</div>
+									<input matInput class="info-form-time-input" type="time" placeholder="[hh:mm:ss]" step="2" [(ngModel)]="module.monInterval" (change)="setMonInterval($event)">
+								</div>
+								<div class="info-form-section-widecell">
+									<div class="label-field label-field-narrow">Optical Alarm Level [mW]</div>
+									<input class="info-form-input" matInput type="number" [(ngModel)]="module.optAlarmLevel" step="0.1" (change)="setOptAlarmLevel($event)">
+								</div>
+							</div>
+							<div class="panel-row">
+								<div class="info-form-section-widecell">
+									<div class="label-field label-padding">Temprature Deg C</div>
+									<input disabled="true" matInput class="info-form-input" type="number" [(ngModel)]="module.temp" step="0.1">
+								</div>
+							</div>
+						</div>
+					</mat-expansion-panel>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="aside">
+		<button class="aside-button" mat-flat-button color="primary" (click)="setDefaults($event)">Set as Default</button>
+		<button class="aside-button" mat-flat-button color="primary" (click)="restoreFactory($event)">Restore Factory setup</button>
+	</div>
+	<div class="bottom">
+		<div class="bottom-messages">
+			<div id="messages">{{message}}</div>
+		</div>
+		<div class="bottom-buttons">
+			<button mat-flat-button class="bottom-button" [mat-dialog-close]="true">Quit</button>
+		</div>
+	</div>
+	<div class="spinner-container" *ngIf="module.updating" name="spinnerContainer" #spinnerContainer>
+		<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+	</div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EventLevel } from '../cage';
+import { EventLevel } from 'rfof-common';
 
 @Component({
   selector: 'rfof-event-level',

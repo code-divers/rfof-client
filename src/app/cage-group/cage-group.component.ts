@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter, InjectionToken, Injector, ViewChild, ViewContainerRef } from '@angular/core';
-import { CageGroup, CageModule, ModuleType } from '../cage';
+import { CageGroup, CageModule, ModuleType } from 'rfof-common';
 import { MIBService } from '../mib.service';
-import { ModuleConfiguratorComponent, MODULE_DATA, MODULE_MANAGER_SERVICE } from '../module-configurator/module-configurator.component';
+import { ModuleConfiguratorComponent} from '../module-configurator/module-configurator.component';
 import { ModuleManagerService, SelectedModule } from '../module-manager.service';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { Overlay, CdkOverlayOrigin, OverlayConfig, OverlayRef, ConnectedPosition } from '@angular/cdk/overlay';
 
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'rfof-cage-group',
@@ -19,10 +20,17 @@ export class CageGroupComponent implements OnInit {
 	selectedOptions: SelectedModule[] = [];
 
 	@ViewChild(CdkOverlayOrigin) _overlayOrigin: CdkOverlayOrigin;
-	private injector: Injector;
-	private componentPortl: ComponentPortal<ModuleConfiguratorComponent>;
+	injector: Injector;
+	componentPortl: ComponentPortal<ModuleConfiguratorComponent>;
+
+	configuratorTool: MatDialogRef<ModuleConfiguratorComponent>;
 	
-	constructor(public overlay: Overlay, private mibService: MIBService, private moduleManagerService: ModuleManagerService, public viewContainerRef: ViewContainerRef) {}
+	constructor(
+		private dialog: MatDialog,
+		private overlay: Overlay,
+		private mibService: MIBService, 
+		private moduleManagerService: ModuleManagerService, 
+		private viewContainerRef: ViewContainerRef) {}
 
 	ngOnInit() {
 		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
@@ -41,16 +49,27 @@ export class CageGroupComponent implements OnInit {
 		if(idx == -1){
 			var option = {
 				module: module,
-				isOpen: true
+				isOpen: false
 			};
 			this.moduleManagerService.selectModule(option);
 			
 		}
 		//this.openConfigurator(module);
+		this.openConfiguratorTool(module);
 		/*else{
 			this.moduleManagerService.deselectModule(this.selectedOptions[idx]);
 		}*/
 	}
+
+	openConfiguratorTool(module) {
+	    this.configuratorTool = this.dialog.open(ModuleConfiguratorComponent, {
+	    	data: {
+	    		module: module,
+	    		mibService: this.mibService
+	    	},
+	    	panelClass: 'container-panel'
+	    });
+	  }
 
 	toStateClass(module: CageModule){
 		var selectedOption = this.selectedOptions.find((option)=>{return option.module==module});
@@ -78,8 +97,8 @@ export class CageGroupComponent implements OnInit {
 	    });
 		
 		const injectionTokens = new WeakMap();
-    	injectionTokens.set(MODULE_DATA, popupConfig.module);
-    	injectionTokens.set(MODULE_MANAGER_SERVICE, this.moduleManagerService);
+    	//injectionTokens.set(MODULE_DATA, popupConfig.module);
+    	//injectionTokens.set(MODULE_MANAGER_SERVICE, this.moduleManagerService);
 
 		const injector = new PortalInjector(this.injector, injectionTokens);
 

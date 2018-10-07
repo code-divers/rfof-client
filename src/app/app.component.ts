@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
 		this.messageService.observableLog$.pipe(delay(500)).subscribe((messages)=>{
 			var message = messages[messages.length-1];
 			this.snackBar.open(message, 'Close',{
-				duration: 5000
+				duration: 10000
 			})
 		})
 		this.mibService.dataLoading$.pipe(delay(500)).subscribe((isLoading)=>{
