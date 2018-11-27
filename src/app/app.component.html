@@ -8,13 +8,17 @@
           <rfof-cage-groups *ngIf="groups" [groups]="groups"></rfof-cage-groups>
     </div>
     <div class="right-pane" *ngIf="network && power">
-      <div class="power-pane">
-        <rfof-cage-pwr-com *ngIf="network && power" [network]="network" [power]="power"></rfof-cage-pwr-com>
+      <div class="right-pane-up">
+        <div class="power-pane">
+          <rfof-cage-pwr-com *ngIf="network && power" [network]="network" [power]="power"></rfof-cage-pwr-com>
+        </div>
+        <div class="body-pane" *ngIf="modules && events">
+          <rfof-cage-visual *ngIf="modules" [modules]="modules" [cage]="cage"></rfof-cage-visual>
+        </div>
       </div>
-      <div class="body-pane" *ngIf="modules && events">
-        <rfof-cage-visual *ngIf="modules" [modules]="modules"></rfof-cage-visual>
+      <div class="right-pane-down">
+        <rfof-cage-toolbar *ngIf="events" [events]="events"></rfof-cage-toolbar>
       </div>
-      <rfof-cage-toolbar *ngIf="events" [events]="events"></rfof-cage-toolbar>
     </div>
     <div class="spinner-container" *ngIf="!cage">
       <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>

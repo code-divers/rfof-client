@@ -4,6 +4,7 @@ import {
 	Input } from '@angular/core';
 import { Cage, CageModule } from 'rfof-common';
 import { MIBService } from '../mib.service';
+import { ModuleManagerService, SelectedModule } from '../module-manager.service';
 
 @Component({
   selector: 'rfof-cage-visual',
@@ -12,17 +13,45 @@ import { MIBService } from '../mib.service';
 })
 export class CageVisualComponent implements OnInit {
 	@Input() modules: CageModule[];
-	slots: Slot[] = [{num: 0},{num: 1},{num: 2},{num: 3},{num: 4},{num: 5},{num: 6},{num: 7}];
-	constructor(private mibService: MIBService) { }
+	@Input() cage: Cage;
+	cageVisual: string;
+	selectedModules: SelectedModule[] = [];
+	slots = [1,2,3,4,5,6,7,8];
+	constructor(private mibService: MIBService, private moduleManagerService: ModuleManagerService) { 
+		
+	}
 
 	ngOnInit() {
-		for(var module of this.modules){
-			var slot = this.slots.find(slot=>{
-				return slot.num == Number(module.slot);
-			});
-			if(slot){
-				slot.module = module;
+		let cageImage = `cage_${this.interpretCageVisual()}.png`
+		this.cageVisual = `/assets/cage/${cageImage}`;
+
+		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
+			this.selectedModules = selected;
+		});
+	}
+
+	getSlotModule(slot){
+		return this.modules.find(module=>{
+			return module.slot == slot-1;
+		})
+	}
+
+	isSelected(slot){
+		for(let item of this.selectedModules){
+			if(item.module.slot == slot-1){
+				return true;
 			}
+		}
+		return false;
+	}
+
+	interpretCageVisual() {
+		let regEx = /^(.{4})(\d).+$/
+		let result = this.cage.description.match(regEx);
+		if(result){
+			return result[2];
+		}else{
+			return 1;
 		}
 	}
 }

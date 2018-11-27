@@ -16,27 +16,27 @@
 		margin-right: auto;
 	}
 
-	.event-level-strip-0 {
+	.event-level-strip-critical {
 		@extend %event-level-strip;
 		background: $level-critical;
 	}
 
-	.event-level-strip-1 {
+	.event-level-strip-warning {
 		@extend %event-level-strip;
 		background: $level-warning;
 	}
 
-	.event-level-strip-2 {
+	.event-level-strip-change {
 		@extend %event-level-strip;
 		background: $level-change;
 	}
 
-	.event-level-strip-4 {
+	.event-level-strip-notify {
 		@extend %event-level-strip;
 		background: $level-notify;
 	}
 
-	.event-level-strip-5 {
+	.event-level-strip-system {
 		@extend %event-level-strip;
 		background: $level-system;
 	}

@@ -1,1 +1,1 @@
-<span [class]="'event-level-strip-'+level" matTooltip="{{levelName}}" matTooltipPosition="right"></span>
+<span [class]="'event-level-strip-'+toEventLevelName(level)" matTooltip="{{toEventLevelName(level) | titlecase}}" matTooltipPosition="right"></span>

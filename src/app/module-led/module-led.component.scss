@@ -1,0 +1,35 @@
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+@mixin rfof-module-led-ml() {
+	$status-fault: map-get($rfof-light-theme-background, status-fault);
+	$status-ok: map-get($rfof-light-theme-background, status-ok);
+	$status-none: map-get($rfof-light-theme-background, status-none);
+	$status-led-border: map-get($rfof-light-theme-background, status-led-border);
+
+	.status-led {
+		width: 4px;
+		height: 30px;
+    	border-style: solid;
+    	border-width: 1px;
+    	border-color: $status-led-border;
+	}
+
+	.status-led-wide {
+		height: 46px;
+		width: 7px;
+	}
+
+	.led-none {
+		background: $status-none;
+	}
+
+	.led-ok {
+		background: $status-ok;
+	}
+
+	.led-fault {
+		background: $status-fault;
+	}
+}
+
+@include rfof-module-led-ml();

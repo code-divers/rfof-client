@@ -1,1 +1,17 @@
-<div [class]="'module-led-button module-line-led-' + module.statusLED" cdk-overlay-origin (click)="onClick()"></div>
+<div class="module-container">
+	<div class="module-header" (click)="onConfigure(module)">
+		<div class="status-led-container">
+			<rfof-module-led [module]="module"></rfof-module-led>
+		</div>
+		<div class="status-body">
+			<div class="module-header-title">{{module.name | titlecase}}</div>
+			<div class="module-header-subtitle">{{module.group.name | titlecase}}</div>
+		</div>
+	</div>
+	<div class="module-body">
+		<span class="module-body-line">{{toTypeName(module.type) | titlecase}}</span>
+		<span class="module-body-line">BiasT {{toBiasTName(module.biasT) | titlecase}}</span>
+		<span class="module-body-line">Slot {{+module.slot + 1}}</span>
+	</div>
+</div>
+<!--div [class]="'module-led-button module-line-led-' + module.statusLED" cdk-overlay-origin (click)="onClick()"></div-->

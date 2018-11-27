@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CageGroup, GroupRedundency } from 'rfof-common';
+import { CageGroup, GroupRedundancy } from 'rfof-common';
+import { MIBService } from '../mib.service';
 
 @Component({
   selector: 'rfof-group-switch',
@@ -10,34 +11,42 @@ export class GroupSwitchComponent implements OnInit {
 	@Input() group: CageGroup;
 	selectedValue: string;
 	
-	constructor() { }
+	constructor(private mib: MIBService) { }
 
 	ngOnInit() {
-		this.selectedValue = this.toRedundancyName(this.group.redundencySwitch);
+		this.selectedValue = this.group.redundancySwitch.toString();
 	}
 
 	toRedundancyName(value){
-		return GroupRedundency[value];
+		return GroupRedundancy[value];
 	}
 
-	displayOption(value){
-		var redundancySwitch = this.group.redundencySwitch;
-		if(redundancySwitch == GroupRedundency.none){
+	displayOptionDisabled(value){
+		var redundancySwitch = GroupRedundancy[this.group.redundancySwitch];
+		if(redundancySwitch == 'none'){
 			if(value=='none'){
-				return true;
+				return false;
 			}
 		}
-		if(redundancySwitch == GroupRedundency.auto){
+		if(redundancySwitch == 'auto'){
 			if(value=='auto' || value=='manualprimary' || value=='manualbackup'){
-				return true;
+				return false;
 			}
-			return false;
+			return true;
 		}
-		if(redundancySwitch == GroupRedundency.manualprimary || redundancySwitch == GroupRedundency.manualbackup ){
+		if(redundancySwitch == 'manualprimary' || redundancySwitch == 'manualbackup' ){
 			if(value=='manualprimary' || value=='manualbackup'){
-				return true;
+				return false;
 			}
-			return false;
+			return true;
 		}
+		return true;
+	}
+
+	switchRedundency(){
+		this.group.redundancySwitch = this.selectedValue;
+		this.mib.updateCageGroup(this.group).subscribe((result)=>{
+			console.log(result);
+		});
 	}
 }

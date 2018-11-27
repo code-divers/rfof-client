@@ -1,5 +1,70 @@
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
 @import "~src/assets/led/led-style.scss";
 
-module-led-button {
-	cursor: pointer;
+@mixin rfof-module-visual-ml() {
+	$background: mat-color($rfof-primary, 500);
+	$background-opacity: map-get($rfof-light-theme-background, popup-opacity);
+	$header-background: map-get($rfof-light-theme-background, module-header);
+	$foreground: map-get($rfof-light-theme-foreground-invert, text);
+
+	module-led-button {
+		cursor: pointer;
+	}
+
+	.module-container{
+		width: 102px;
+	}
+
+	.module-header{
+		cursor: pointer;
+		background: $header-background;
+		font-size: 14px;
+		color: $foreground;
+		display: flex;
+		align-items: center;
+	}  
+
+	.module-header-title{
+		font-weight: bold;
+	}
+
+	.module-header-subtitle{
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.status-body {
+		padding: 4px;
+	}
+
+	.module-body {
+		opacity: $background-opacity;
+		background: $background;
+		font-size: 14px;
+		color: $foreground;
+		padding-top: 10px;
+		padding-bottom: 8px;
+		padding-left: 6px;
+	}
+
+	.module-body-line{
+		display: block;
+		margin-bottom: 12px;
+	}
+
+	.module-body-line-last{
+		display: block;
+		padding-bottom: 4px;
+		margin-bottom: 0px;
+	}
+
+	.status-led-container {
+		width: 10px;
+		flex-basis: 10px;
+		padding-left: 4px;
+	}
 }
+
+@include rfof-module-visual-ml();

@@ -12,7 +12,11 @@ export class EventLevelComponent implements OnInit {
 	constructor() { }
 
 	ngOnInit() {
-		this.levelName = EventLevel[this.level];
+		this.levelName = this.level;
+	}
+
+	toEventLevelName(value){
+		return EventLevel[value];
 	}
 
 }

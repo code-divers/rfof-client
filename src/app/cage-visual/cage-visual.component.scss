@@ -1,29 +1,48 @@
-.cage-container {
-	width: 546px;
-	height: 199px;
-	background-image: url('/assets/cage/2u.png');
-	background-repeat: no-repeat;
-	padding-left: 10px;
-	padding-right: 10px;
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+@mixin rfof-cage-visual-ml() {
+	.cage-container {
+		position: relative;
+		width: 546px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.cage-slots {
+		position: absolute;
+		width: 546px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		left: 0;
+		top: 0;
+		z-index: 111;
+	}
+
+	.cage-slot {
+		flex-basis: 121px;
+		height: 200px;
+		opacity: 0.6;
+	}
+
+	.cage-visual {
+		position: absolute;
+		width: 512px;
+		height: 128px;
+		margin-left: 0;
+		margin-right: 0;
+		margin-top: 125px;
+		z-index: 110;
+	}
+
+	.selected-slot {
+		opacity: 1;
+	}
+
+	rfof-module-visual{
+		width: 121px;
+		height: 50px;
+	}
 }
 
-.cage-slots {
-	width: 546px;
-	height: 199px;
-	padding-top: 30px;
-	padding-left: 22px;
-	display: block;
-
-}
-
-.cage-slot {
-	width: 121px;
-	height: 50px;
-	display: block;
-	float: left;
-}
-
-rfof-module-visual{
-	left: 20px;
-    position: relative;
-}
+@include rfof-cage-visual-ml();

@@ -40,8 +40,8 @@ export class CageGroupComponent implements OnInit {
 		});
 	}
 
-	toModuleTypeName(type: ModuleType){
-		return ModuleType[type];
+	toModuleTypeName(value){
+		return ModuleType[value];
 	}
 
 	toggleModule(module:CageModule){

@@ -16,10 +16,8 @@ export class CageGroupsComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		/*this.mibService.dataChanged$
-  			.subscribe(()=> this.groups = this.mibService.groups);*/
   		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
-			this.selectedModules = selected; //.filter((option)=>{return option.source!='image'});
+			this.selectedModules = selected;
 		});
 	}
 
@@ -32,14 +30,12 @@ export class CageGroupsComponent implements OnInit {
 	}
 
 	selectAll(group: CageGroup){
-		if(this.selectedModules.length == 0){
-			let modules = this.mibService.getCageGroupModules(group);
-			for(var module of modules){
-				this.moduleManagerService.selectModule({
-					module: module,
-					isOpen: false
-				});
-			}
+		let modules = this.mibService.getCageGroupModules(group);
+		for(var module of modules){
+			this.moduleManagerService.selectModule({
+				module: module,
+				isOpen: false
+			});
 		}
 	}
 

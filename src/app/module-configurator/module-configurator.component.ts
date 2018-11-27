@@ -1,7 +1,8 @@
 import { Component, OnInit, InjectionToken, Inject} from '@angular/core';
-import { CageModule, LNAStatus, BiasTState, RfLinkTest, MonPlan, SetDefaults, RestoreFactory } from 'rfof-common';
+import { CageModule, LNAStatus, LaserStatus, BiasTState, RfLinkTest, MonPlan, SetDefaults, RestoreFactory, ModuleType, MeasRfLevel } from 'rfof-common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MIBService } from '../mib.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'rfof-module-configurator',
@@ -9,29 +10,47 @@ import { MIBService } from '../mib.service';
   styleUrls: ['./module-configurator.component.scss']
 })
 export class ModuleConfiguratorComponent implements OnInit {
+	sampler;
 	module: CageModule;
-	mibService: MIBService;
+	originalModule: CageModule;
 	message: string;
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: any,
+		private mibService: MIBService,
 		public dialogRef: MatDialogRef<ModuleConfiguratorComponent>){
 	}
 	ngOnInit() {
 		this.message = null;
 		this.module = this.data.module;
+		this.initiateModuleData(this.module);
+		this.mibService.sensorsLoaded$.subscribe((updatedModule: CageModule)=>{
+			if(updatedModule.slot == this.module.slot){
+				this.module = updatedModule;
+				this.initiateModuleData(this.module);
+			}
+		})
+	}
+
+	initiateModuleData(module){
+		this.originalModule = {... module};
 		this.module.updating = false;
-		this.mibService = this.data.mibService;
-		this.module.lnaOn = this.module.lna == LNAStatus.on;
-		this.module.lnaDisabled = this.module.lna == LNAStatus.none;
-		this.module.attenValue = this.module.atten == '-----' ? null : this.module.atten;
-		this.module.biasTDisabled = this.module.biasT == BiasTState.none;
-		this.module.biasTValue = this.toBiasTName(this.module.biasT);
-		this.module.laserOn = this.module.laser == LNAStatus.on;
-		this.module.laserDisabled = this.module.laser == LNAStatus.none;
-		this.module.monPlanValue = this.toMonPlanName(this.module.monPlan);
-		this.module.rfLevelValue = this.module.rfLevel == '-----' ? null : this.module.rfLevel;
-		this.module.rfLinkTestOn = this.module.rfLinkTest == RfLinkTest.on;
-		
+		this.module.lnaOn = module.lna == LNAStatus.on;
+		this.module.lnaDisabled = module.lna == LNAStatus.none;
+		this.module.attenValue = module.atten == '-----' ? null : module.atten;
+		this.module.biasTDisabled = module.biasT == BiasTState.none;
+		this.module.biasTValue = BiasTState[module.biasT];
+		this.module.laserOn = module.laser == LaserStatus.on;
+		this.module.laserDisabled = module.laser == LNAStatus.none;
+		this.module.measRfLevelOn = module.measRfLevel == MeasRfLevel.on;
+		this.module.monPlanValue = module.monPlan;
+		this.module.rfLevelValue = module.rfLevel == '-----' ? null : module.rfLevel;
+		this.module.rfLinkTestOn = module.rfLinkTest == RfLinkTest.on;
+		this.module.rfLinkTestTime = module.rfLinkTestTime;
+	}
+
+	revertToOriginalModuleState(){
+		this.module = {... this.originalModule};
+		this.initiateModuleData(this.module);
 	}
 
 	toBiasTName(value){
@@ -42,8 +61,14 @@ export class ModuleConfiguratorComponent implements OnInit {
 		return MonPlan[value];
 	}
 
+	toModuleTypeName(value){
+		return ModuleType[value];
+	}
+
 	toggleRflinkTest(event){
-		//this.module.rfLinkTestOn = event.checked;
+		this.updateModule().then(result=>{
+
+		})
 	}
 
 	toggleLaser(event){
@@ -53,13 +78,18 @@ export class ModuleConfiguratorComponent implements OnInit {
 	}
 
 	toggleLna(event){
-		this.module.lnaOn = event.checked;
 		this.updateModule().then(result=>{
 			console.log(result);
 		})
 	}
 
-	setAtten($event){
+	toggleMeasRFLevel(event){
+		this.updateModule().then(result=>{
+			console.log(result);
+		})
+	}
+
+	setAtten(){
 		this.updateModule().then(result=>{
 			console.log(result);
 		})
@@ -77,13 +107,19 @@ export class ModuleConfiguratorComponent implements OnInit {
 		})
 	}
 
+	setRfLinkTestTime(){
+		this.updateModule().then(result=>{
+			console.log(result);
+		})
+	}
+
 	setMonPlan($event){
 		this.updateModule().then(result=>{
 			console.log(result);
 		})
 	}
 
-	setMonInterval($event){
+	setMonInterval(value){
 		this.updateModule().then(result=>{
 			console.log(result);
 		})
@@ -115,21 +151,38 @@ export class ModuleConfiguratorComponent implements OnInit {
 	async updateModule(){
 		this.module.updating = true;
 		try{
-			this.module.lna = this.module.lnaDisabled ? LNAStatus.none : this.module.lnaOn ? LNAStatus.on : LNAStatus.off;
-			this.module.atten =this.module.attenValue;
-			this.module.biasT = this.module.biasTDisabled ? BiasTState.none : BiasTState[this.module.biasTValue];
-			this.module.laser = this.module.aserDisable ? LNAStatus.none : this.module.laserOn ? LNAStatus.on : LNAStatus.off;
+			let updatedModule = {... this.module};
+			updatedModule.lna = updatedModule.lnaDisabled ? LNAStatus.none : updatedModule.lnaOn ? LNAStatus.on : LNAStatus.off;
+			updatedModule.atten = updatedModule.attenValue;
+			updatedModule.laser = updatedModule.laserDisabled ? LaserStatus.none : updatedModule.laserOn ? LaserStatus.on : LaserStatus.off;
+			updatedModule.measRfLevel = updatedModule.measRfLevelOn ? MeasRfLevel.on : MeasRfLevel.off;
+			updatedModule.rfLinkTest = updatedModule.rfLinkTestOn ? RfLinkTest.on : RfLinkTest.off;
+			let rfLinkTestTime = updatedModule.rfLinkTestTime;
+			let matches = updatedModule.rfLinkTestTime.match(/([\d]{2})/g);
+			if(matches.length < 3){
+				rfLinkTestTime += ':00';
+			}
+			updatedModule.rfLinkTestTime = rfLinkTestTime;
+			/*
+			//this.module.biasT = this.module.biasTDisabled ? BiasTState.none : BiasTState[this.module.biasTValue];
+			
 			this.module.rfLevel = this.module.rfLevelValue;
 			this.module.rfLinkTest = this.module.rfLinkTestOn ? RfLinkTest.on : RfLinkTest.off;
+
 			this.module.monPlan = MonPlan[this.module.monPlanValue];
-			let result = await this.mibService.updateCageModule(this.module).toPromise();
+			*/
+			let result = await this.mibService.updateCageModule(updatedModule).toPromise();
 			if(result.length == 0){
+				this.revertToOriginalModuleState();
 				this.showMessage(`Failed to update module.`)
 			}else{
-				this.showMessage(result);
+				result.map(item=>{
+					this.showMessage(`Successfully set ${item.name} to ${item.value}`);
+				})
 			}
 			return result;
 		}catch(err){
+			this.revertToOriginalModuleState();
 			this.showMessage(`Error: ${err.message}`);
 		}finally{
 			this.module.updating = false;

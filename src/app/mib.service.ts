@@ -5,14 +5,17 @@ import { Cage, CageGroup, CageModule, PowerSupply, TrapReciver, EventLogItem } f
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from './message.service';
 import { environment } from '../environments/environment';
+import * as io from 'socket.io-client';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MIBService {
-  timer;
-  apiUrl = environment.apiUrl;
+  restTimer;
+  restApi = environment.restApi;
+  socketApi = environment.socketApi;
+  private socket;
   cage: Cage;
   power: PowerSupply[];
   network: TrapReciver[];
@@ -22,20 +25,26 @@ export class MIBService {
 
   private dataChangedSource = new Subject<MIBService>();
   private dataLoadingSource = new Subject<boolean>();
+  private sensorsLoadedSource = new Subject<any>()
 
   dataChanged$ = this.dataChangedSource.asObservable();
   dataLoading$ = this.dataLoadingSource.asObservable();
+  sensorsLoaded$ = this.sensorsLoadedSource.asObservable();
 
   constructor(private http: HttpClient, private messageService: MessageService) {
-    
+    this.socket = io(this.socketApi);
+    this.socket.on('sensors', (sensors) => {
+      console.log(sensors);
+      this.sensorsLoadedSource.next(sensors);
+    });
   }
 
   initiateTimer() {
-      if (this.timer) {
-          clearTimeout(this.timer);
+      if (this.restTimer) {
+          clearTimeout(this.restTimer);
       }
 
-      this.timer = setTimeout(this.collectData.bind(this), 30000);
+      this.restTimer = setTimeout(this.collectData.bind(this), 30000);
   }
 
   collectData(){
@@ -78,7 +87,7 @@ export class MIBService {
   }
 
   requestCageInfo(): Observable<Cage> {
-  	return this.http.get<Cage>(this.apiUrl + '/cage')
+  	return this.http.get<Cage>(this.restApi + '/cage')
     .pipe(map((response:any)=>{
       return response.data;
     }))
@@ -90,7 +99,7 @@ export class MIBService {
   }
 
   requestCageGroups(): Observable<CageGroup[]> {
-    return this.http.get<CageGroup[]>(this.apiUrl + '/cage/groups')
+    return this.http.get<CageGroup[]>(this.restApi + '/cage/groups')
       .pipe(map((response:any)=>{
         return response.data;
       }))
@@ -102,7 +111,7 @@ export class MIBService {
   }
 
   requestCageModules(): Observable<CageModule[]> {
-    return this.http.get<CageModule[]>(this.apiUrl + '/cage/modules')
+    return this.http.get<CageModule[]>(this.restApi + '/cage/modules')
       .pipe(map((response:any)=>{
         return response.data
       }))
@@ -118,7 +127,7 @@ export class MIBService {
   }
 
   requestCageEventLog(): Observable<EventLogItem[]> {
-    return this.http.get<EventLogItem[]>(this.apiUrl + '/cage/events')
+    return this.http.get<EventLogItem[]>(this.restApi + '/cage/events')
       .pipe(map((response:any)=>{
         return response.data
       }))
@@ -130,7 +139,7 @@ export class MIBService {
   }
 
   requestCagePowerSupply(): Observable<PowerSupply[]> {
-    return this.http.get<PowerSupply[]>(this.apiUrl + '/cage/power')
+    return this.http.get<PowerSupply[]>(this.restApi + '/cage/power')
       .pipe(map((response:any)=>{
         return response.data
       }))
@@ -142,7 +151,7 @@ export class MIBService {
   }
 
   requestCageTrapReciver(): Observable<TrapReciver[]> {
-    return this.http.get<TrapReciver[]>(this.apiUrl + '/cage/network')
+    return this.http.get<TrapReciver[]>(this.restApi + '/cage/network')
       .pipe(map((response:any)=>{
         return response.data
       }))
@@ -150,12 +159,27 @@ export class MIBService {
   }
 
   updateCageModule(module){
-    return this.http.post(this.apiUrl + '/cage/module', {
+    return this.http.post(this.restApi + '/cage/module', {
       module: module
+    })
+    .pipe(map((response:any)=>{
+      let index = this.modules.findIndex(item=>{
+        return item.name == module.name && item.slot == module.slot
+      });
+      this.modules[index] = module;
+      this.dataChangedSource.next(this);
+      return response.data
+    }))
+    .pipe(catchError(this.handleError('updateCageModule', [])));
+  }
+
+  updateCageGroup(group){
+    return this.http.post(this.restApi + '/cage/group', {
+      group: group
     })
     .pipe(map((response:any)=>{  
       return response.data
     }))
-    .pipe(catchError(this.handleError('updateCageModule', [])));
+    .pipe(catchError(this.handleError('updateCageGroup', [])));
   }
 }

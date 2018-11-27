@@ -2,10 +2,10 @@
 	<mat-expansion-panel #panel (closed)="closeAll(group, panel)" (opened)="selectAll(group)" [expanded]="isSelected(group)" *ngFor="let group of groups">
 	    <mat-expansion-panel-header collapsedHeight="40px" expandedHeight="40px">
 	      <mat-panel-title matTooltip="{{group.name}}" matTooltipPosition="above">
-	        {{group.name}}
+	        {{group.name | titlecase}}
 	      </mat-panel-title>
 	      <mat-panel-description>
-	      	{{toGroupTypeName(group.type)}}
+	      	{{toGroupTypeName(group.type) | titlecase}}
 	      </mat-panel-description>
 	    </mat-expansion-panel-header>
 	    <rfof-cage-group [group]="group" [modules]="getGroupModules(group)"></rfof-cage-group>

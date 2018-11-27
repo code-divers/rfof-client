@@ -1,9 +1,9 @@
 <mat-form-field>
 	<mat-select [(value)]="selectedValue">
-		<mat-option *ngIf="displayOption('none')" value="none">None</mat-option>
-		<mat-option *ngIf="displayOption('manualprimary')" value="manualprimary">Primary</mat-option>
-		<mat-option *ngIf="displayOption('manualbackup')" value="manualbackup">Backup</mat-option>
-		<mat-option *ngIf="displayOption('auto')" value="auto">Auto</mat-option>
+		<mat-option [disabled]="displayOptionDisabled('none')" value="0">None</mat-option>
+		<mat-option [disabled]="displayOptionDisabled('manualprimary')" value="1">Primary</mat-option>
+		<mat-option [disabled]="displayOptionDisabled('manualbackup')" value="2">Backup</mat-option>
+		<mat-option [disabled]="displayOptionDisabled('auto')" value="3">Auto</mat-option>
 	</mat-select>
 </mat-form-field>
-<button mat-flat-button color="primary">Switch</button>
+<button mat-flat-button color="primary" (click)="switchRedundency()">Switch</button>

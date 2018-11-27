@@ -15,40 +15,52 @@
 		background: $sidenav-background;
 	}
 
+	mat-sidenav-content {
+		display: flex;
+	}
+
 	.left-pane {
-		display: block;
-		width: 300px;
-		float: left;
+		flex-basis: 300px;
 	}
 
 	.right-pane {
-		width: 800px;
-		padding-left: 4px;
+		flex-basis: 800px;
 		display: flex;
 		flex-wrap: wrap;
+		margin-left: 4px;
+	}
+
+	.right-pane-up {
+		padding-top: 50px;
+		flex-basis: 800px;
+		display: flex;
+		background: $pane-background;
+	}
+
+	.right-pane-down {
+		flex-basis: 800px;
 	}
 
 	.body-pane{
-		display: block;
 		background: $pane-background;
-		margin-bottom: 4px;
-		padding-right: 50px;
+		flex-basis: 600px;
+		width: 600px;
+		height: 400px;
+		display: block;
 	}
 
 	.power-pane {
-		padding-top: 110px;
-		padding-left: 4px;
-		padding-right: 30px;
-		margin-bottom: 4px;
-		display: block;
 		background: $pane-background;
+		flex-basis: 200px;
+		width: 200px;
+		height: 400px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	}
 
 	rfof-cage-visual {
-		width: 546px;
-		margin-top: 130px;
-		margin-bottom: 50px;
-	    display: block;
+		flex-basis: 546px;
 	}
 
 	rfof-cage-toolbar{

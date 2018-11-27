@@ -13,7 +13,7 @@ export class ModuleManagerService {
 
 	selectModule(option: SelectedModule){
 		var idx = this.selectedModules.findIndex((selected)=>{
-			return selected.module.name == option.module.name;
+			return selected.module.name == option.module.name && selected.module.slot == option.module.slot;
 		});
 		if(idx == -1){
 			this.selectedModules.push(option);
@@ -23,7 +23,7 @@ export class ModuleManagerService {
 
 	deselectModule(option: SelectedModule){
 		var idx = this.selectedModules.findIndex((selected)=>{
-			return selected.module.name == option.module.name;
+			return selected.module.name == option.module.name && selected.module.slot == option.module.slot;
 		});
 		if(idx > -1){
 			this.selectedModules.splice(idx,1);

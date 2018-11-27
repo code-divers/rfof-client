@@ -60,6 +60,10 @@
     	background: $status-background;
 	}
 
+	.status-led {
+		margin-left: 20px;
+	}
+
 	.main {
 		min-height: 494px;
 		width: 454px;
@@ -69,8 +73,9 @@
 	.aside {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-around;
-		min-height: 494px;
+		align-items: flex-start;
+		padding-top: 40px;
+		min-height: 454px;
 		width: 191px;
 		flex: 1 0;
 		align-items: center;
@@ -105,9 +110,6 @@
 		padding-top: 10px;
 	}
 
-	.mat-divider {
-
-	}
 
 	.info-form-section {
 		display: flex;
@@ -136,6 +138,11 @@
 	.info-form-section-cell {
 		align-items: flex-start;
 		flex-basis: 110px;
+	}
+
+	.info-form-section-doublecell {
+		align-items: flex-start;
+		flex-basis: 260px;
 	}
 
 	.info-form-section-widecell {
@@ -193,7 +200,9 @@
 	}
 
 	.aside-button {
-		min-width: 160px;
+		margin-top: 30px;
+		margin-bottom: 30px;
+		min-width: 180px;
 	}
 
 	.bottom-button {
@@ -257,6 +266,7 @@
 
 	.hidden-box {
 		background: #DCDADA;
+		padding-left: 24px;
 	}
 
 	.expansion-panel {
