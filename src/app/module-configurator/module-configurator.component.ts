@@ -3,6 +3,7 @@ import { CageModule, LNAStatus, LaserStatus, BiasTState, RfLinkTest, MonPlan, Se
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MIBService } from '../mib.service';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'rfof-module-configurator',
@@ -22,11 +23,21 @@ export class ModuleConfiguratorComponent implements OnInit {
 	ngOnInit() {
 		this.message = null;
 		this.module = this.data.module;
+		console.log(this.module);
 		this.initiateModuleData(this.module);
 		this.mibService.sensorsLoaded$.subscribe((updatedModule: CageModule)=>{
 			if(updatedModule.slot == this.module.slot){
 				this.module = updatedModule;
 				this.initiateModuleData(this.module);
+			}
+		})
+		this.mibService.dataChanged$.subscribe(()=>{
+			let module = this.mibService.modules.find((module)=>{
+				return module.slot == this.module.slot;
+			})
+			if(module){
+				this.module = module;
+				this.initiateModuleData(module);
 			}
 		})
 	}
@@ -42,10 +53,27 @@ export class ModuleConfiguratorComponent implements OnInit {
 		this.module.laserOn = module.laser == LaserStatus.on;
 		this.module.laserDisabled = module.laser == LNAStatus.none;
 		this.module.measRfLevelOn = module.measRfLevel == MeasRfLevel.on;
-		this.module.monPlanValue = module.monPlan;
+		this.module.monPlanValue = MonPlan[module.monPlan];
 		this.module.rfLevelValue = module.rfLevel == '-----' ? null : module.rfLevel;
 		this.module.rfLinkTestOn = module.rfLinkTest == RfLinkTest.on;
 		this.module.rfLinkTestTime = module.rfLinkTestTime;
+		this.module.monInterval = module.monInterval;
+
+		let rfLinkTestTimeDuration = moment.duration(module.rfLinkTestTime).asSeconds();
+		let rfTestTimerDuration = moment.duration(module.rfTestTimer).asSeconds();
+		if(rfTestTimerDuration > 0){
+			this.module.rfTestTimerLeft  = (rfTestTimerDuration / rfLinkTestTimeDuration)*100;
+		}else{
+			this.module.rfTestTimerLeft = 0;
+		}
+
+		let monIntervalDuration = moment.duration(module.monInterval).asSeconds();
+		let monTimerDuration = moment.duration(module.monTimer).asSeconds();
+		if(monTimerDuration > 0){
+			this.module.monTimerLeft  = (monTimerDuration / monIntervalDuration)*100;
+		}else{
+			this.module.monTimerLeft = 0;
+		}
 	}
 
 	revertToOriginalModuleState(){
@@ -163,6 +191,13 @@ export class ModuleConfiguratorComponent implements OnInit {
 				rfLinkTestTime += ':00';
 			}
 			updatedModule.rfLinkTestTime = rfLinkTestTime;
+			updatedModule.monPlan = MonPlan[updatedModule.monPlanValue];
+			let monInterval = updatedModule.monInterval;
+			matches = updatedModule.monInterval.match(/([\d]{2})/g);
+			if(matches.length < 3){
+				monInterval += ':00';
+			}
+			updatedModule.monInterval = monInterval;
 			/*
 			//this.module.biasT = this.module.biasTDisabled ? BiasTState.none : BiasTState[this.module.biasTValue];
 			

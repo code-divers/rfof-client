@@ -316,7 +316,9 @@
 		font-size: 12px;
 	}
 
-
+	.rflinktest-progress-bar{
+		width: 95px;
+	}
 }
 
 @include rfof-module-configurator-ml();
