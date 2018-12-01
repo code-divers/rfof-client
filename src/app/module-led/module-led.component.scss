@@ -1,9 +1,16 @@
 @import '~@angular/material/theming';
 @import "~src/assets/theme/rfof-light-pallete.scss";
 @mixin rfof-module-led-ml() {
-	$status-fault: map-get($rfof-light-theme-background, status-fault);
 	$status-ok: map-get($rfof-light-theme-background, status-ok);
 	$status-none: map-get($rfof-light-theme-background, status-none);
+	$status-off: map-get($rfof-light-theme-background, status-off);
+	$status-fault: map-get($rfof-light-theme-background, status-fault);
+	$status-green: map-get($rfof-light-theme-background, status-green);
+	$status-red: map-get($rfof-light-theme-background, status-red);
+	$status-cyan: map-get($rfof-light-theme-background, status-cyan);
+	$status-blue: map-get($rfof-light-theme-background, status-blue);
+	$status-redblink: map-get($rfof-light-theme-background, status-redblink);
+	$status-blueblink: map-get($rfof-light-theme-background, status-blueblink);
 	$status-led-border: map-get($rfof-light-theme-background, status-led-border);
 
 	.status-led {
@@ -14,7 +21,7 @@
     	border-color: $status-led-border;
 	}
 
-	.status-led-wide {
+	.wide {
 		height: 46px;
 		width: 7px;
 	}
@@ -29,6 +36,42 @@
 
 	.led-fault {
 		background: $status-fault;
+	}
+
+	.led-off {
+		background: $status-off;
+	}
+
+	.led-green {
+		background: $status-green;
+	}
+
+	.led-red {
+		background: $status-red;
+	}
+
+	.led-cyan {
+		background: $status-cyan;
+	}
+
+	.led-blue {
+		background: $status-blue;
+	}
+
+	.led-redblink{
+		background: $status-redblink;
+		animation: blinker 1s linear infinite;
+	}
+
+	.led-blueblink{
+		background: $status-blueblink;
+		animation: blinker 1s linear infinite;
+	}
+
+	@keyframes blinker {
+		50% {
+			opacity: 0;
+		}
 	}
 }
 

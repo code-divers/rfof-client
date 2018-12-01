@@ -1,1 +1,1 @@
-<div [class]="'status-led led-'+toModuleStatusName(module.status)" [ngClass]="{'status-led-wide': wide}"></div>
+<div class="status-led" [ngClass]="toModuleStatusClass()" [matTooltip]="toModuleStatusName()"></div>

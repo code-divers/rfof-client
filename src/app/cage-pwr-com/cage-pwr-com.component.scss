@@ -12,7 +12,7 @@
 		height: 23px;
 		margin: 20px;
 		padding: 5px;
-		display: block;
+		display: flex;
 	}
 
 	.status-led{
@@ -37,7 +37,8 @@
 	    text-overflow: ellipsis;
 	    overflow: hidden;
 	    width: 98px;
-	    float: left
+	    float: left;
+	    padding-left: 4px;
 	}
 }
 

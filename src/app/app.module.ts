@@ -45,6 +45,7 @@ import { CageStatusComponent } from './cage-status/cage-status.component';
 import { CagePwrComComponent } from './cage-pwr-com/cage-pwr-com.component';
 import { ModuleConfiguratorComponent } from './module-configurator/module-configurator.component';
 import { ModuleLedComponent } from './module-led/module-led.component';
+import { PowerStatusLedComponent } from './power-status-led/power-status-led.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { ModuleLedComponent } from './module-led/module-led.component';
     CageStatusComponent,
     CagePwrComComponent,
     ModuleConfiguratorComponent,
-    ModuleLedComponent
+    ModuleLedComponent,
+    PowerStatusLedComponent
   ],
   imports: [
     BrowserModule,

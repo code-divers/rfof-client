@@ -59,7 +59,7 @@
 					</div>
 					<div class="info-form-section-cell">
 						<mat-progress-bar class="rflinktest-progress-bar" [(value)]="module.rfTestTimerLeft" mode="determinate"></mat-progress-bar>
-						<input #rfLinkTestTime class="info-form-time-input" matInput type="time" placeholder="[hh:mm:ss]" [(ngModel)]="module.rfLinkTestTime" step="2" (blur)="setRfLinkTestTime()">
+						<input #rfLinkTestTime class="info-form-time-input" matInput type="text" placeholder="[hh:mm:ss]" [(ngModel)]="module.rfLinkTestTime" step="2" (blur)="setRfLinkTestTime()">
 					</div>
 				</div>
 				<mat-divider></mat-divider>
@@ -84,7 +84,7 @@
 									<div class="label-field label-padding">Monitor Interval</div>
 									<div>
 										<mat-progress-bar class="monInterval-progress-bar" [(value)]="module.monTimerLeft" mode="determinate"></mat-progress-bar>
-										<input #monInterval matInput class="info-form-time-input" type="time" placeholder="[hh:mm:ss]" step="2" [(ngModel)]="module.monInterval" (blur)="setMonInterval(monInterval.value)">
+										<input #monInterval matInput class="info-form-time-input" type="text" placeholder="[hh:mm:ss]" step="2" [(ngModel)]="module.monInterval" (blur)="setMonInterval(monInterval.value)">
 									</div>
 								</div>
 								<div class="info-form-section-widecell">

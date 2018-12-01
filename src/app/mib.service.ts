@@ -26,16 +26,30 @@ export class MIBService {
   private dataChangedSource = new Subject<MIBService>();
   private dataLoadingSource = new Subject<boolean>();
   private sensorsLoadedSource = new Subject<any>()
+  private eventLoadedSource = new Subject<any>()
 
   dataChanged$ = this.dataChangedSource.asObservable();
   dataLoading$ = this.dataLoadingSource.asObservable();
   sensorsLoaded$ = this.sensorsLoadedSource.asObservable();
+  eventLoaded$ = this.eventLoadedSource.asObservable();
 
   constructor(private http: HttpClient, private messageService: MessageService) {
     this.socket = io(this.socketApi);
     this.socket.on('sensors', (sensors) => {
       console.log(sensors);
       this.sensorsLoadedSource.next(sensors);
+    });
+    this.socket.on('moduleupdate', (module) => {
+      let idx = this.modules.findIndex((item)=>{
+        return item.slot == module.slot && item.name == module.name;
+      })
+      this.modules[idx] = module;
+      this.dataChangedSource.next(this);
+    });
+    this.socket.on('eventlogline', (logline) => {
+      console.log(logline);
+      this.events.unshift(logline);
+      this.eventLoadedSource.next(this.events);
     });
   }
 
@@ -44,7 +58,7 @@ export class MIBService {
           clearTimeout(this.restTimer);
       }
 
-      this.restTimer = setTimeout(this.collectData.bind(this), 30000);
+      this.restTimer = setTimeout(this.collectData.bind(this), 10000);
   }
 
   collectData(){

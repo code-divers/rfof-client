@@ -1,5 +1,9 @@
 <div class="pwr-com-container">
 	<div *ngFor="let device of power; let i = index" class="box pwr-box">
-		<span [class]="'status-led status-led-' + device.status"></span>{{toSlotName(i)}}</div>
-	<div *ngFor="let trap of network" class="box com-box"><div class="com-box-label">{{trap.ipAddress}}</div><div class="status-led status-led-1"></div></div>
+		<rfof-power-status-led status="1"></rfof-power-status-led>
+		<div class="com-box-label">{{toSlotName(i)}}</div>
+	</div>
+	<!--div *ngFor="let trap of network" class="box com-box">
+		<rfof-power-status-led status="1"></rfof-power-status-led>
+		<div class="com-box-label">{{trap.ipAddress}}</div></div-->
 </div>

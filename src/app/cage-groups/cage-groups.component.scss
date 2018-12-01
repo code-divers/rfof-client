@@ -39,6 +39,7 @@
 
 	.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover{
 		background: $hover-background;
+		color: $hover-foreground;
 	}
 
 	/deep/ .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover mat-panel-title,

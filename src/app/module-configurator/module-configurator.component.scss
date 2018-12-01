@@ -300,6 +300,7 @@
 
 	.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover{
 		background: $panel-background;
+		color: $label-head;
 	}
 
 	/deep/ .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover mat-panel-title,

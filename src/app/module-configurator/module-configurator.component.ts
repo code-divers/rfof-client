@@ -23,7 +23,6 @@ export class ModuleConfiguratorComponent implements OnInit {
 	ngOnInit() {
 		this.message = null;
 		this.module = this.data.module;
-		console.log(this.module);
 		this.initiateModuleData(this.module);
 		this.mibService.sensorsLoaded$.subscribe((updatedModule: CageModule)=>{
 			if(updatedModule.slot == this.module.slot){
