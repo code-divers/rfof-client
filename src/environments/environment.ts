@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   restApi: 'http://localhost:20080/api',
-  socketApi: 'http://localhost:20080'
+  socketApi: 'http://localhost:20080',
+  pollingTimeout: 10000
 };
 
 /*

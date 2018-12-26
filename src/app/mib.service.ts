@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, from, forkJoin, Subject } from 'rxjs';
-import { filter, toArray, catchError, map, tap} from 'rxjs/operators';
+import { filter, toArray, catchError, map, tap, first} from 'rxjs/operators';
 import { Cage, CageGroup, CageModule, PowerSupply, TrapReciver, EventLogItem } from 'rfof-common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from './message.service';
@@ -22,6 +22,7 @@ export class MIBService {
   groups: CageGroup[];
   modules: CageModule[];
   events: EventLogItem[];
+  private isUpdating = false;
 
   private dataChangedSource = new Subject<MIBService>();
   private dataLoadingSource = new Subject<boolean>();
@@ -36,7 +37,6 @@ export class MIBService {
   constructor(private http: HttpClient, private messageService: MessageService) {
     this.socket = io(this.socketApi);
     this.socket.on('sensors', (sensors) => {
-      console.log(sensors);
       this.sensorsLoadedSource.next(sensors);
     });
     this.socket.on('moduleupdate', (module) => {
@@ -47,7 +47,6 @@ export class MIBService {
       this.dataChangedSource.next(this);
     });
     this.socket.on('eventlogline', (logline) => {
-      console.log(logline);
       this.events.unshift(logline);
       this.eventLoadedSource.next(this.events);
     });
@@ -58,40 +57,39 @@ export class MIBService {
           clearTimeout(this.restTimer);
       }
 
-      this.restTimer = setTimeout(this.collectData.bind(this), 10000);
+      this.restTimer = setTimeout(this.collectData.bind(this), environment.pollingTimeout);
   }
 
   collectData(){
-    this.dataLoadingSource.next(true);
-    let source = forkJoin(
-      this.requestCageInfo(), 
-      this.requestCageGroups(), 
-      this.requestCageModules(),
-      this.requestCageEventLog(),
-      this.requestCagePowerSupply(),
-      this.requestCageTrapReciver()).subscribe((results)=>{
-      this.cage = results[0];
-      this.groups = results[1];
-      this.modules = results[2];
-      this.events = results[3];
-      this.power = results[4];
-      this.network = results[5];
-      this.dataChangedSource.next(this);
+    if(!this.isUpdating){
+      let source = forkJoin(
+        this.requestCageInfo(), 
+        this.requestCageGroups(), 
+        this.requestCageModules(),
+        this.requestCageEventLog(),
+        this.requestCagePowerSupply(),
+        this.requestCageTrapReciver()).subscribe((results)=>{
+        this.cage = results[0];
+        this.groups = results[1];
+        this.modules = results[2];
+        this.events = results[3];
+        this.power = results[4];
+        this.network = results[5];
+        this.dataChangedSource.next(this);
+        this.dataLoadingSource.next(false);
+        this.initiateTimer();
+      });
+    }else{
       this.dataLoadingSource.next(false);
       this.initiateTimer();
-    });
-
-  /*var subscription = source.subscribe(
-    x => console.log(`onNext: ${x}`),
-    e => console.log(`onError: ${e}`),
-    () => console.log('onCompleted'));
-    }*/
+    }
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       this.messageService.add(`${operation} failed: ${error.message}`);
       console.error(`${operation} failed: ${error.message}`);
+      this.isUpdating = false;
       return of(result as T);
     };
   }
@@ -133,7 +131,7 @@ export class MIBService {
   }
 
   getCageGroupModules(group: CageGroup): CageModule[] {
-      return this.modules.filter((module)=>{return module.group.name == group.name});
+      return this.modules.filter((module)=>{return module.group.index == group.index});
   }
 
   getCageEventLog(): Observable<EventLogItem[]> {
@@ -195,5 +193,17 @@ export class MIBService {
       return response.data
     }))
     .pipe(catchError(this.handleError('updateCageGroup', [])));
+  }
+
+  updateCageSettings(settings){
+    this.isUpdating = true;
+    return this.http.post(this.restApi + '/cage/settings', {
+      settings: settings
+    })
+    .pipe(map((response:any)=>{
+      this.isUpdating = false;
+      return response.data
+    }))
+    .pipe(catchError(this.handleError('updateCageSettings', [])));
   }
 }

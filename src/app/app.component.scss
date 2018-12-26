@@ -1,6 +1,7 @@
 @import '~@angular/material/theming';
 @import "~src/assets/theme/rfof-light-pallete.scss";
 @mixin rfof-app-ml() {
+	$branding-background: mat-color($rfof-primary);
 	$body-background: map-get($rfof-light-theme-background, body);
 	$sidenav-background: map-get($rfof-light-theme-background, sidenav);
 	$pane-background: map-get($rfof-light-theme-background, panel);
@@ -15,12 +16,15 @@
 		background: $sidenav-background;
 	}
 
-	mat-sidenav-content {
+	.container {
 		display: flex;
+		height: 100vh;
+		background: $body-background;
+		padding-left: 4px;
 	}
 
 	.left-pane {
-		flex-basis: 300px;
+		flex-basis: 288px;
 	}
 
 	.right-pane {
@@ -28,13 +32,12 @@
 		display: flex;
 		flex-wrap: wrap;
 		margin-left: 4px;
+		background: $pane-background;
 	}
 
 	.right-pane-up {
-		padding-top: 50px;
 		flex-basis: 800px;
 		display: flex;
-		background: $pane-background;
 	}
 
 	.right-pane-down {
@@ -57,6 +60,15 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+	}
+
+	.branding-container {
+		background: $branding-background;
+		width: 288px;
+		height: 100px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	rfof-cage-visual {

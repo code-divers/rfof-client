@@ -31,6 +31,17 @@ export class ModuleManagerService {
 		this.modulesSelectedSource.next(this.selectedModules);
 	}
 
+	selectAll(modules: CageModule[]){
+		let selectedModules = modules.map(module=>{
+			return {
+				module: module,
+				isOpen: false
+			}
+		});
+		this.selectedModules = selectedModules;
+		this.modulesSelectedSource.next(this.selectedModules);
+	}
+
 
   	constructor() { }
 }

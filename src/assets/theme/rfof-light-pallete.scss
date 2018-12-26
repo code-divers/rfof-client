@@ -68,6 +68,7 @@ $md-rfof-accent: (
 $rfof-light-theme-background: (
   header: #000000,
   sidenav: #e4e3e3,
+  sidenav-container: #545657,
   body: #e4e3e3,
   panel: #ffffff,
   border: #efeeee,
@@ -85,23 +86,29 @@ $rfof-light-theme-background: (
   status-ok: #08FF00,
   status-fault: #ff0000,
   status-failure: #ff0000,
-  status-off: #08253D,
-  status-green: #00FE00,
+  status-off: #c0c0c0,
+  status-green: #01f001,
   status-red: #ff0000,
-  status-cyan: cyan,
-  status-blue: #58b1f5,
+  status-cyan: #10c4f1,
+  status-blue: #2d4cb2,
   status-redblink: #ff0000,
-  status-blueblink: #58b1f5,
+  status-blueblink: #2d4cb2,
   status-led-border: #000000,
   configurator-aside: #F5F8FB,
   module-header: #09253D,
+  input-focus: #E8E8E8,
+  input-border: #FF8E00,
 );
 
 $rfof-light-theme-foreground: (
   base:              #084d88,
+  error:             #ff0000,
   text:              rgba(#084d88, 0.87),
   td-text:           #32383d,
   header:            #FEFEFE,
+  caption:           #FF8E00,
+  icon:              #B9BBBC,
+  input-focus:       #0D0D0D,
 );
 
 $rfof-light-theme-foreground-invert: (

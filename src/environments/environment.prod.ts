@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
   restApi: 'http://31.168.173.124:20080/api',
-  socketApi: 'http://31.168.173.124:20080'
+  socketApi: 'http://31.168.173.124:20080',
+  pollingTimeout: 10000
 };

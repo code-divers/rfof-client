@@ -1,6 +1,25 @@
-<div *ngIf="cage" class="info-container">
-	<div class="info-title" matTooltip="{{cage.description}}" matTooltipPosition="right">{{cage.description}}</div>
-	<div class="info-body">
-		<p>{{cage.grCount}} groups, {{cage.slotsCount}} active slots, serial: {{cage.serial}}, version: {{cage.version}}({{cage.versionDate}}), {{cage.psCount}} power supplies</p>
+<div *ngIf="cage" class="container">
+	<div class="form">
+		<mat-form-field>
+			<div class="caption">Cage name</div>
+	    	<input matInput class="text" [(ngModel)]="cage.settings.name" (blur)="setName()" [ngModelOptions]="{updateOn: 'blur'}">
+	    	<mat-icon *ngIf="done" aria-label="Done">done</mat-icon>
+	    	<mat-icon aria-label="Edit field">create</mat-icon>
+	    	<div class="error" *ngIf="error!=null">{{error}}</div>
+	  	</mat-form-field>
+	</div>
+	<div class="form">
+		<div class="caption">Cage details</div>
+		<div class="details-container">
+			<div class="details-item">Groups: {{cage.grCount}}</div>
+			<div class="details-item">Slots: {{cage.slotsCount}}</div>
+			<div class="details-item">Power supplies: {{cage.psCount}}</div>
+			<div class="details-item">Serial number: {{cage.serial}}</div>
+			<div class="details-item">P/N: {{cage.partNumber}}</div>
+			<div class="details-item">Version: {{cage.version}}</div>
+		</div>
+	</div>
+  	<div class="spinner-container" *ngIf="updating" name="spinnerContainer" #spinnerContainer>
+		<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 	</div>
 </div>

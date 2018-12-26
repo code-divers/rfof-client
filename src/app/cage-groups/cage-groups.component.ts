@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { first} from 'rxjs/operators';
 import { MIBService } from '../mib.service';
 import { CageGroup, GroupType } from 'rfof-common';
 import { ModuleManagerService, SelectedModule } from '../module-manager.service';
@@ -19,15 +20,15 @@ export class CageGroupsComponent implements OnInit {
   		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
 			this.selectedModules = selected;
 		});
+		this.groups.map((group)=>{
+			this.selectAll(group);
+		})
 	}
 
 	getGroupModules(group: CageGroup){
 		return this.mibService.getCageGroupModules(group);
 	}
 
-	toGroupTypeName(type: GroupType){
-		return GroupType[type];
-	}
 
 	selectAll(group: CageGroup){
 		let modules = this.mibService.getCageGroupModules(group);

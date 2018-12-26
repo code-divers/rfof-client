@@ -35,6 +35,10 @@ export class ModuleVisualComponent implements OnInit {
 		return BiasTState[state];
 	}
 
+	isNotBiasTNone(){
+		return this.module.biasT != BiasTState.none;
+	}
+
 	onConfigure(module){
 		this.configuratorTool = this.dialog.open(ModuleConfiguratorComponent, {
 	    	data: {

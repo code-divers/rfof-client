@@ -22,12 +22,22 @@ export class CageVisualComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		let cageImage = `cage_${this.interpretCageVisual()}.png`
+		let cageImage = `${this.interpretCageVisual()}.png`
 		this.cageVisual = `/assets/cage/${cageImage}`;
 
 		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
 			this.selectedModules = selected;
 		});
+		this.selectedModules = this.modules.map((module)=>{
+			return {
+				module: module,
+				isOpen: false
+			};
+		})
+	}
+
+	getVisualClass() {
+		return `visual_${this.interpretCageVisual()}`;
 	}
 
 	getSlotModule(slot){
@@ -46,12 +56,12 @@ export class CageVisualComponent implements OnInit {
 	}
 
 	interpretCageVisual() {
-		let regEx = /^(.{4})(\d).+$/
-		let result = this.cage.description.match(regEx);
+		let regEx = /^RFoFc-([A-Z\d]{2})/
+		let result = this.cage.partNumber.match(regEx);
 		if(result){
-			return result[2];
+			return result[1];//cage type
 		}else{
-			return 1;
+			return 'R1';
 		}
 	}
 }

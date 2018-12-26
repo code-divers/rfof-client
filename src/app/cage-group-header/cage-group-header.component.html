@@ -1,0 +1,10 @@
+<mat-form-field>
+	<div class="container">
+		<input matInput [(ngModel)]="group.name" (blur)="setName()" [ngModelOptions]="{updateOn: 'blur'}">
+		<div class="text">{{toGroupTypeName(group.type) | titlecase}}</div>
+		<mat-icon *ngIf="done" aria-label="Done">done</mat-icon>
+		<mat-icon aria-label="Edit field">create</mat-icon>
+		<div class="error" *ngIf="error!=null">{{error}}</div>
+	</div>
+</mat-form-field>
+

@@ -3,6 +3,8 @@ import { MatSnackBar } from '@angular/material';
 import { MessageService } from './message.service';
 import { delay } from 'rxjs/internal/operators';
 import { MIBService } from './mib.service';
+import { ModuleManagerService } from './module-manager.service'
+import { ConfigOption } from 'rfof-common';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +19,7 @@ export class AppComponent implements OnInit {
 	power;
 	network;
 	events;
-	constructor(private mibService: MIBService, private messageService: MessageService, public snackBar: MatSnackBar){
+	constructor(private mibService: MIBService, private messageService: MessageService, private moduleManagerService:ModuleManagerService, public snackBar: MatSnackBar){
 
 	}
 
@@ -45,5 +47,22 @@ export class AppComponent implements OnInit {
 			this.events = this.mibService.events;
 		})
 		this.mibService.collectData();
+	}
+
+	downloadHelp(){
+		window.open('/assets/rfof-webapp-help.pdf', '_blank');
+	}
+
+	setPreference(){
+		this.cage.settings.userConfig = ConfigOption.save;
+		this.mibService.updateCageSettings(this.cage.settings).subscribe(result=>{
+			let message = 'Failed to set cage preferences';
+			if(result && result.length > 0){
+				message = 'succsessfully set cage preferences';
+			}
+			this.snackBar.open(message, 'Close',{
+				duration: 10000
+			})
+		})
 	}
 }

@@ -10,8 +10,8 @@
 	</div>
 	<div class="module-body">
 		<span class="module-body-line">{{toTypeName(module.type) | titlecase}}</span>
-		<span class="module-body-line">BiasT {{toBiasTName(module.biasT) | titlecase}}</span>
-		<span class="module-body-line">Slot {{+module.slot + 1}}</span>
+		<span class="module-body-line">Slot {{+module.slot}}</span>
+		<span class="module-body-line"><span *ngIf="isNotBiasTNone()">BiasT {{toBiasTName(module.biasT) | titlecase}}</span><span *ngIf="!isNotBiasTNone()">&nbsp;</span></span>
 	</div>
 </div>
 <!--div [class]="'module-led-button module-line-led-' + module.statusLED" cdk-overlay-origin (click)="onClick()"></div-->

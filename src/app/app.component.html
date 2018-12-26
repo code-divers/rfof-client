@@ -1,30 +1,34 @@
-<mat-sidenav-container class="app-container">
-  <mat-sidenav mode="side" opened>
-  	<rfof-navbar></rfof-navbar>
-  </mat-sidenav>
-  <mat-sidenav-content>
-  	<div class="left-pane">
-          <rfof-cage-info *ngIf="cage" [cage]="cage"></rfof-cage-info>
-          <rfof-cage-groups *ngIf="groups" [groups]="groups"></rfof-cage-groups>
-    </div>
-    <div class="right-pane" *ngIf="network && power">
-      <div class="right-pane-up">
-        <div class="power-pane">
-          <rfof-cage-pwr-com *ngIf="network && power" [network]="network" [power]="power"></rfof-cage-pwr-com>
-        </div>
-        <div class="body-pane" *ngIf="modules && events">
-          <rfof-cage-visual *ngIf="modules" [modules]="modules" [cage]="cage"></rfof-cage-visual>
-        </div>
+<div class="container">
+  <div class="left-pane">
+        <div class="branding-container"><img src="/assets/rfof-logo-transperant.png" /></div>
+        <rfof-cage-location *ngIf="cage" [cage]="cage"></rfof-cage-location>
+        <rfof-cage-info *ngIf="cage" [cage]="cage"></rfof-cage-info>
+        <rfof-cage-groups *ngIf="groups" [groups]="groups"></rfof-cage-groups>
+  </div>
+  <div class="right-pane" *ngIf="network && power">
+    <button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
+      <mat-icon aria-label="Help">help_outline</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="setPreference()">Create preference file</button>
+      <button mat-menu-item (click)="downloadHelp()">Help</button>
+    </mat-menu>
+    <div class="right-pane-up">
+      <div class="power-pane">
+        <rfof-cage-pwr-com *ngIf="network && power" [network]="network" [power]="power"></rfof-cage-pwr-com>
       </div>
-      <div class="right-pane-down">
-        <rfof-cage-toolbar *ngIf="events" [events]="events"></rfof-cage-toolbar>
+      <div class="body-pane" *ngIf="modules && events">
+        <rfof-cage-visual *ngIf="modules" [modules]="modules" [cage]="cage"></rfof-cage-visual>
       </div>
     </div>
-    <div class="spinner-container" *ngIf="!cage">
-      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <div class="right-pane-down">
+      <rfof-cage-toolbar *ngIf="events" [events]="events"></rfof-cage-toolbar>
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+  <div class="spinner-container" *ngIf="!cage">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</div>
 
 
 

@@ -1,0 +1,14 @@
+<div class="container">
+	<div class="form">
+		<mat-form-field>
+			<div class="caption">Cage location</div>
+	    	<input matInput class="text" [(ngModel)]="cage.settings.location" (blur)="setLocation()" [ngModelOptions]="{updateOn: 'blur'}">
+	    	<mat-icon *ngIf="done" aria-label="Done">done</mat-icon>
+	    	<mat-icon aria-label="Edit field">create</mat-icon>
+	    	<div class="error" *ngIf="error!=null">{{error}}</div>
+	  	</mat-form-field>
+	</div>
+  	<div class="spinner-container" *ngIf="updating" name="spinnerContainer" #spinnerContainer>
+		<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+	</div>
+</div>

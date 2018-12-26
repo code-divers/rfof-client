@@ -5,8 +5,12 @@
 	$hover-foreground: map-get($rfof-light-theme-foreground-invert, text);
 	$foreground: map-get($rfof-light-theme-foreground, text);
 
+	.container {
+		margin-top: 2px;
+	}
+
 	mat-expansion-panel {
-		width: 300px;
+		width: 288px;
 		box-shadow: none !important;
 	}
 
@@ -22,12 +26,14 @@
 		overflow: hidden;
 	}
 
+	/*
 	.mat-expansion-panel.mat-expanded .mat-expansion-panel-header {
 		&:not([aria-disabled='true']) {
 	    		background: $hover-background;
 	    		color: $hover-foreground;
 		}
 	}
+
 
 	/deep/ .mat-expansion-panel.mat-expanded .mat-expansion-indicator:after  {
 		color: $hover-foreground;
@@ -47,6 +53,7 @@
 	/deep/ .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover .mat-expansion-indicator:after {
 		color: $hover-foreground;
 	}
+	*/
 
 	rfof-group-switch{
 	    display: block;

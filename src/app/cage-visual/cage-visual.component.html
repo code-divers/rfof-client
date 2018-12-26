@@ -4,7 +4,7 @@
 			<rfof-module-visual *ngIf="getSlotModule(slot)" [module]="getSlotModule(slot)"></rfof-module-visual>
 		</div>
 	</div>
-	<div class="cage-visual">
+	<div class="cage-visual" [ngClass]="getVisualClass()">
 		<img [src]="cageVisual" />
 	</div>
 </div>

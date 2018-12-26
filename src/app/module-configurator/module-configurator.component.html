@@ -15,21 +15,21 @@
 			<div class="info-form">
 				<div class="label-head">{{toModuleTypeName(module.type) | titlecase}} module settings</div>
 				<div class="info-form-section">
-					<mat-checkbox (change)="toggleLna($event)" [disabled]="module.lnaDisabled" [(ngModel)]="module.lnaOn" class="label-field">LNA ON (Max RF input + 15dBm)</mat-checkbox>
+					<mat-checkbox (change)="toggleLna($event)" *ngIf="!module.lnaDisabled" [disabled]="module.lnaDisabled" [(ngModel)]="module.lnaOn" class="label-field">LNA ON (Max RF input + 15dBm)</mat-checkbox>
 				</div>
 				<mat-divider></mat-divider>
 				<div class="info-form-section">
 					<div class="info-form-section-cell">
 						<div class="label-field">Attrnuation [dB] <br> (2dB recommended)</div>
-						<input #atten matInput (blur)="setAtten()" class="info-form-input" type="number" [(ngModel)]="module.attenValue" step="0.5" max="31.5">
+						<input #atten matInput (blur)="setAtten()" class="info-form-input" type="number" [(ngModel)]="module.attenValue" [ngModelOptions]="{updateOn: 'blur'}" step="0.5" max="31.5">
 					</div>
 					<div class="info-form-section-cell">
 						<div class="label-field">Optical power <br> [mW]</div>
 						<input disabled="true" class="info-form-input" matInput type="number" [(ngModel)]="module.optPower" step="0.1" [(value)]="module.optPower">
 					</div>
 					<div placeholder="select type" class="info-form-section-cell">
-						<div class="label-field">BiasT</div>
-						<mat-select (selectionChange)="setBiasT()" [(ngModel)]="module.biasTValue">
+						<div class="label-field" *ngIf="!module.biasTDisabled">BiasT</div>
+						<mat-select *ngIf="!module.biasTDisabled" (selectionChange)="setBiasT()" [(ngModel)]="module.biasTValue">
 							<mat-option value="none">None</mat-option>
 							<mat-option [disabled]="module.biasTDisabled" value="off">Off</mat-option>
 							<mat-option [disabled]="module.biasTDisabled" value="on">On</mat-option>
@@ -41,7 +41,7 @@
 				<mat-divider></mat-divider>
 				<div class="info-form-section">
 					<div class="info-form-section-cell">
-						<mat-checkbox (change)="toggleLaser($event)" class="label-field" [disabled]="module.laserDisabled" [(ngModel)]="module.laserOn" >Laser on</mat-checkbox>
+						<mat-checkbox *ngIf="!module.laserDisabled" (change)="toggleLaser($event)" class="label-field" [disabled]="module.laserDisabled" [(ngModel)]="module.laserOn" >Laser on</mat-checkbox>
 					</div>
 					<div class="info-form-section-cell">
 						<mat-checkbox (change)="toggleMeasRFLevel($event)" [(ngModel)]="module.measRfLevelOn" class="label-field">Show RF level</mat-checkbox>
@@ -59,7 +59,7 @@
 					</div>
 					<div class="info-form-section-cell">
 						<mat-progress-bar class="rflinktest-progress-bar" [(value)]="module.rfTestTimerLeft" mode="determinate"></mat-progress-bar>
-						<input #rfLinkTestTime class="info-form-time-input" matInput type="text" placeholder="[hh:mm:ss]" [(ngModel)]="module.rfLinkTestTime" step="2" (blur)="setRfLinkTestTime()">
+						<input #rfLinkTestTime class="info-form-time-input" matInput type="text" placeholder="[hh:mm:ss]" [(ngModel)]="module.rfLinkTestTime" [ngModelOptions]="{updateOn: 'blur'}" step="2" (blur)="setRfLinkTestTime()">
 					</div>
 				</div>
 				<mat-divider></mat-divider>
@@ -84,7 +84,7 @@
 									<div class="label-field label-padding">Monitor Interval</div>
 									<div>
 										<mat-progress-bar class="monInterval-progress-bar" [(value)]="module.monTimerLeft" mode="determinate"></mat-progress-bar>
-										<input #monInterval matInput class="info-form-time-input" type="text" placeholder="[hh:mm:ss]" step="2" [(ngModel)]="module.monInterval" (blur)="setMonInterval(monInterval.value)">
+										<input #monInterval matInput class="info-form-time-input" type="text" placeholder="[hh:mm:ss]" step="2" [(ngModel)]="module.monInterval" [ngModelOptions]="{updateOn: 'blur'}" (blur)="setMonInterval(monInterval.value)">
 									</div>
 								</div>
 								<div class="info-form-section-widecell">
@@ -96,6 +96,10 @@
 								<div class="info-form-section-widecell">
 									<div class="label-field label-padding">Temprature Deg C</div>
 									<input disabled="true" matInput class="info-form-input" type="number" [(ngModel)]="module.temp" step="0.1">
+								</div>
+								<div class="info-form-section-widecell">
+									<div class="label-field label-padding">DFBBias</div>
+									<input disabled="true" matInput class="info-form-input" type="number" [(ngModel)]="module.dfbBias" step="0.1">
 								</div>
 							</div>
 						</div>

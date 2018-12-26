@@ -94,37 +94,37 @@ export class ModuleConfiguratorComponent implements OnInit {
 
 	toggleRflinkTest(event){
 		this.updateModule().then(result=>{
-
+			this.showMessage(`Successfully set Attrnuation to ${this.module.attenValue}`);
 		})
 	}
 
 	toggleLaser(event){
 		this.updateModule().then(result=>{
-			console.log(result);
+			this.showMessage(`Successfully set Laser to ${this.module.laser}`);
 		})
 	}
 
 	toggleLna(event){
 		this.updateModule().then(result=>{
-			console.log(result);
+			this.showMessage(`Successfully set LNA to ${this.module.lna}`);
 		})
 	}
 
 	toggleMeasRFLevel(event){
 		this.updateModule().then(result=>{
-			console.log(result);
+			this.showMessage(`Successfully set RF link test to ${this.module.lna}`);
 		})
 	}
 
 	setAtten(){
 		this.updateModule().then(result=>{
-			console.log(result);
+			this.showMessage(`Successfully set Attrnuation to ${this.module.attenValue}`);
 		})
 	}
 
 	setBiasT(){
 		this.updateModule().then(result=>{
-			console.log(result);
+			this.showMessage(`Successfully set BiasT to ${this.module.biasTValue}`);
 		})
 	}
 
@@ -136,7 +136,7 @@ export class ModuleConfiguratorComponent implements OnInit {
 
 	setRfLinkTestTime(){
 		this.updateModule().then(result=>{
-			console.log(result);
+			this.showMessage(`Successfully set RFLink Test time to ${this.module.rfLinkTestTime}`);
 		})
 	}
 
@@ -197,24 +197,14 @@ export class ModuleConfiguratorComponent implements OnInit {
 				monInterval += ':00';
 			}
 			updatedModule.monInterval = monInterval;
-			/*
-			//this.module.biasT = this.module.biasTDisabled ? BiasTState.none : BiasTState[this.module.biasTValue];
-			
-			this.module.rfLevel = this.module.rfLevelValue;
-			this.module.rfLinkTest = this.module.rfLinkTestOn ? RfLinkTest.on : RfLinkTest.off;
-
-			this.module.monPlan = MonPlan[this.module.monPlanValue];
-			*/
-			let result = await this.mibService.updateCageModule(updatedModule).toPromise();
-			if(result.length == 0){
-				this.revertToOriginalModuleState();
-				this.showMessage(`Failed to update module.`)
-			}else{
-				result.map(item=>{
-					this.showMessage(`Successfully set ${item.name} to ${item.value}`);
-				})
+			if(updatedModule!=this.module){
+				let result = await this.mibService.updateCageModule(updatedModule).toPromise();
+				if(result.length == 0){
+					this.revertToOriginalModuleState();
+					this.showMessage(`Failed to update module.`)
+				}
+				return result;
 			}
-			return result;
 		}catch(err){
 			this.revertToOriginalModuleState();
 			this.showMessage(`Error: ${err.message}`);

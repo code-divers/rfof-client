@@ -1,35 +1,93 @@
 @import '~@angular/material/theming';
 @import "~src/assets/theme/rfof-light-pallete.scss";
 @mixin rfof-cage-info-ml() {
-	$background: mat-color($rfof-primary);
-	$foreground: map-get($rfof-light-theme-foreground-invert, text);
-	.info-container {
-		display: block;
-		width: 260px;
-		min-height: 100px;
-		background: $background;
-		color: $foreground;
-		padding: 20px;
-		margin-bottom: 4px;
+	$caption-color: map-get($rfof-light-theme-foreground, caption);
+	$icon-color: map-get($rfof-light-theme-foreground, icon);
+	$text-color: map-get($rfof-light-theme-foreground-invert, text);
+	$icon-error: map-get($rfof-light-theme-foreground, error);
+	$container-background : map-get($rfof-light-theme-background, sidenav-container);
+	$input-focus-color: map-get($rfof-light-theme-foreground, input-focus);
+	$input-focus-background: map-get($rfof-light-theme-background, input-focus);
+	$input-focus-border: map-get($rfof-light-theme-background, input-border);
+	$detail-color: map-get($rfof-light-theme-foreground-invert, text);
+
+	.container {
+		width: 288px;
+		margin-top: 2px;
+		background: $container-background;
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.form {
+		margin-left: 22px;
+	}
+
+	.details-container {
+		padding-top: 6px;
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.details-item {
+		font-size: 14px;
+		color: $detail-color;
+		padding-right: 15px;
+		padding-bottom: 10px;
+	}
+
+	.caption {
+		font-size: 12px;
+		color: $caption-color;
+	}
+
+	.text {
+		font-size: 24px;
+		color: $text-color;
+	}
+
+	::ng-deep .mat-form-field-underline {
+	    display: none;
+	}
+
+	mat-icon {
+		width: 16px;
+		height: 16px;
+		color: $icon-color; 
+	}
+
+	mat-form-field {
+		width: 266px;
+	}
+
+	input{
+		color: $text-color;
+		width: 218px;
+		padding-top: 4px;
+	}
+
+	input:focus {
+		color: $input-focus-color;
+		background: $input-focus-background;
+		outline: solid;
+		outline-color: $input-focus-border;
+		padding-left: 6px;
 	}
 
 	.spinner-container {
-		display: block;
-		width: 260px;
-		min-height: 100px;
-		padding: 20px;
-		margin-bottom: 4px;
+		display: flex;
+		justify-content: center;
+		align-items: stretch;
+		position: absolute;
+		width: 288px;
+		margin-top: 2px;
+		background-color: rgba(0,0,0,0.288); /* Black background with opacity */
+		z-index: 100;
 	}
 
-	.info-title {
-		font-size: 36px;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
-	}
-
-	.info-body p {
-		font-size: 14px;
+	.error {
+		font-size: 12px;
+		color: $icon-error;
 	}
 }
 

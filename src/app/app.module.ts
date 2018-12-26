@@ -25,6 +25,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -46,6 +48,8 @@ import { CagePwrComComponent } from './cage-pwr-com/cage-pwr-com.component';
 import { ModuleConfiguratorComponent } from './module-configurator/module-configurator.component';
 import { ModuleLedComponent } from './module-led/module-led.component';
 import { PowerStatusLedComponent } from './power-status-led/power-status-led.component';
+import { CageLocationComponent } from './cage-location/cage-location.component';
+import { CageGroupHeaderComponent } from './cage-group-header/cage-group-header.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +71,9 @@ import { PowerStatusLedComponent } from './power-status-led/power-status-led.com
     CagePwrComComponent,
     ModuleConfiguratorComponent,
     ModuleLedComponent,
-    PowerStatusLedComponent
+    PowerStatusLedComponent,
+    CageLocationComponent,
+    CageGroupHeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -95,6 +101,8 @@ import { PowerStatusLedComponent } from './power-status-led/power-status-led.com
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
+    MatInputModule,
+    MatIconModule,
     HttpClientModule
   ],
   entryComponents: [ModulePopupComponent, ModuleConfiguratorComponent],
