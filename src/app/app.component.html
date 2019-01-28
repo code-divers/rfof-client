@@ -1,11 +1,11 @@
 <div class="container">
-  <div class="left-pane">
+  <div class="left-pane" *ngIf="cageState==1">
         <div class="branding-container"><img src="/assets/rfof-logo-transperant.png" /></div>
-        <rfof-cage-location *ngIf="cage" [cage]="cage"></rfof-cage-location>
-        <rfof-cage-info *ngIf="cage" [cage]="cage"></rfof-cage-info>
-        <rfof-cage-groups *ngIf="groups" [groups]="groups"></rfof-cage-groups>
+        <rfof-cage-location [cage]="cage"></rfof-cage-location>
+        <rfof-cage-info [cage]="cage"></rfof-cage-info>
+        <rfof-cage-groups [groups]="groups"></rfof-cage-groups>
   </div>
-  <div class="right-pane" *ngIf="network && power">
+  <div class="right-pane" *ngIf="cageState==1">
     <button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
       <mat-icon aria-label="Help">help_outline</mat-icon>
     </button>
@@ -15,18 +15,21 @@
     </mat-menu>
     <div class="right-pane-up">
       <div class="power-pane">
-        <rfof-cage-pwr-com *ngIf="network && power" [network]="network" [power]="power"></rfof-cage-pwr-com>
+        <rfof-cage-pwr-com [network]="network" [power]="power"></rfof-cage-pwr-com>
       </div>
-      <div class="body-pane" *ngIf="modules && events">
+      <div class="body-pane">
         <rfof-cage-visual *ngIf="modules" [modules]="modules" [cage]="cage"></rfof-cage-visual>
       </div>
     </div>
     <div class="right-pane-down">
-      <rfof-cage-toolbar *ngIf="events" [events]="events"></rfof-cage-toolbar>
+      <rfof-cage-toolbar [events]="events"></rfof-cage-toolbar>
     </div>
   </div>
-  <div class="spinner-container" *ngIf="!cage">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  <div class="spinner-container" *ngIf="cageState==0">
+    <div class="spinner-message-container">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <div class="comm-error">Triyng to communicate with cage...</div>
+    </div>
   </div>
 </div>
 

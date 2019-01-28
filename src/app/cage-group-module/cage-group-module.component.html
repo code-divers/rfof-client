@@ -1,0 +1,4 @@
+<div (click)="openConfiguratorTool()" class="module-container">
+	<rfof-module-led [module]="module"></rfof-module-led>
+	<div class="module-name">{{module.name | titlecase}} - {{toModuleTypeName(module.type) | titlecase}}</div>
+</div>

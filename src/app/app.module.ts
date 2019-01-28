@@ -27,6 +27,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTreeModule } from '@angular/material/tree';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -50,6 +51,7 @@ import { ModuleLedComponent } from './module-led/module-led.component';
 import { PowerStatusLedComponent } from './power-status-led/power-status-led.component';
 import { CageLocationComponent } from './cage-location/cage-location.component';
 import { CageGroupHeaderComponent } from './cage-group-header/cage-group-header.component';
+import { CageGroupModuleComponent } from './cage-group-module/cage-group-module.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,8 @@ import { CageGroupHeaderComponent } from './cage-group-header/cage-group-header.
     ModuleLedComponent,
     PowerStatusLedComponent,
     CageLocationComponent,
-    CageGroupHeaderComponent
+    CageGroupHeaderComponent,
+    CageGroupModuleComponent
   ],
   imports: [
     BrowserModule,
@@ -103,6 +106,7 @@ import { CageGroupHeaderComponent } from './cage-group-header/cage-group-header.
     MatProgressBarModule,
     MatInputModule,
     MatIconModule,
+    MatTreeModule,
     HttpClientModule
   ],
   entryComponents: [ModulePopupComponent, ModuleConfiguratorComponent],

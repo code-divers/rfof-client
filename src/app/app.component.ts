@@ -4,7 +4,7 @@ import { MessageService } from './message.service';
 import { delay } from 'rxjs/internal/operators';
 import { MIBService } from './mib.service';
 import { ModuleManagerService } from './module-manager.service'
-import { ConfigOption } from 'rfof-common';
+import { ConfigOption, CageState } from 'rfof-common';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +19,8 @@ export class AppComponent implements OnInit {
 	power;
 	network;
 	events;
+	cageState: CageState = CageState.off;
+
 	constructor(private mibService: MIBService, private messageService: MessageService, private moduleManagerService:ModuleManagerService, public snackBar: MatSnackBar){
 
 	}
@@ -45,6 +47,9 @@ export class AppComponent implements OnInit {
 			this.power = this.mibService.power;
 			this.network = this.mibService.network;
 			this.events = this.mibService.events;
+		})
+		this.mibService.cageStateChanged$.subscribe((state: CageState)=>{
+			this.cageState = state;
 		})
 		this.mibService.collectData();
 	}

@@ -71,6 +71,26 @@
 		align-items: center;
 	}
 
+	.spinner-container {
+		width:100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+
+	.spinner-message-container {
+		width: 300px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+
+	.comm-error {
+
+	}
+
 	rfof-cage-visual {
 		flex-basis: 546px;
 	}
@@ -78,6 +98,8 @@
 	rfof-cage-toolbar{
 		width:100%;
 	}
+
+
 
 }
 

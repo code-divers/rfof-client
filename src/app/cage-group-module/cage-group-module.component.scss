@@ -1,0 +1,47 @@
+@import '~@angular/material/theming';
+@import "~src/assets/theme/rfof-light-pallete.scss";
+@import "~src/assets/led/led-style.scss";
+
+@mixin rfof-cage-group-module-ml() {
+	$selected-background: mat-color($rfof-primary);
+	$border-color: map-get($rfof-light-theme-background, border);
+	$hover-background: mat-color($rfof-accent);
+	$hover-foreground: map-get($rfof-light-theme-foreground-invert, text);
+	$foreground: map-get($rfof-light-theme-foreground, text);
+
+	.module-name {
+		font-size: 14px;
+		color: $foreground
+	}
+
+	.module-led{
+		display: block;
+		float: left;
+		margin-right: 5px;
+	}
+
+	.opened-module {
+		background: $hover-background;
+	}
+
+	.selected-module {
+		/*background: $selected-background;*/
+	}
+
+	.module-name {
+		padding-top: 6px;
+		padding-left: 10px;
+	}
+
+	.module-container{
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		align-items: stretch;
+		cursor: pointer;
+	}
+
+}
+
+@include rfof-cage-group-module-ml();
+

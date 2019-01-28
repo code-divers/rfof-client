@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, from, forkJoin, Subject } from 'rxjs';
 import { filter, toArray, catchError, map, tap, first} from 'rxjs/operators';
-import { Cage, CageGroup, CageModule, PowerSupply, TrapReciver, EventLogItem } from 'rfof-common';
+import { Cage, CageState, CageGroup, CageModule, PowerSupply, TrapReciver, EventLogItem } from 'rfof-common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from './message.service';
 import { environment } from '../environments/environment';
@@ -13,10 +13,11 @@ import * as io from 'socket.io-client';
 })
 export class MIBService {
   restTimer;
-  restApi = environment.restApi;
-  socketApi = environment.socketApi;
+  restApi;
+  socketApi;
   private socket;
   cage: Cage;
+  cageState: CageState;
   power: PowerSupply[];
   network: TrapReciver[];
   groups: CageGroup[];
@@ -26,16 +27,19 @@ export class MIBService {
 
   private dataChangedSource = new Subject<MIBService>();
   private dataLoadingSource = new Subject<boolean>();
-  private sensorsLoadedSource = new Subject<any>()
-  private eventLoadedSource = new Subject<any>()
+  private sensorsLoadedSource = new Subject<any>();
+  private eventLoadedSource = new Subject<any>();
+  private cageStateChangedSource = new Subject<CageState>();
 
   dataChanged$ = this.dataChangedSource.asObservable();
   dataLoading$ = this.dataLoadingSource.asObservable();
   sensorsLoaded$ = this.sensorsLoadedSource.asObservable();
   eventLoaded$ = this.eventLoadedSource.asObservable();
+  cageStateChanged$ = this.cageStateChangedSource.asObservable();
 
   constructor(private http: HttpClient, private messageService: MessageService) {
-    this.socket = io(this.socketApi);
+    this.restApi = environment.production ? `http://${window.location.host}/api` : environment.restApi; 
+    this.socket = io(environment.production ? window.location.host : environment.socketApi);
     this.socket.on('sensors', (sensors) => {
       this.sensorsLoadedSource.next(sensors);
     });
@@ -49,6 +53,14 @@ export class MIBService {
     this.socket.on('eventlogline', (logline) => {
       this.events.unshift(logline);
       this.eventLoadedSource.next(this.events);
+    });
+    this.socket.on('cageStateChanged', (state: CageState) => {
+      if(state == CageState.on){
+        this.collectData();
+      }else{
+        this.cageState = state;
+        this.cageStateChangedSource.next(state);
+      }
     });
   }
 
@@ -68,13 +80,19 @@ export class MIBService {
         this.requestCageModules(),
         this.requestCageEventLog(),
         this.requestCagePowerSupply(),
-        this.requestCageTrapReciver()).subscribe((results)=>{
+        this.requestCageTrapReciver(),
+        this.requestCageState()).subscribe((results)=>{
         this.cage = results[0];
         this.groups = results[1];
         this.modules = results[2];
         this.events = results[3];
         this.power = results[4];
         this.network = results[5];
+        if(this.cageState != results[6]){
+          this.cageState = results[6];
+          this.cageStateChangedSource.next(this.cageState);
+        }
+        
         this.dataChangedSource.next(this);
         this.dataLoadingSource.next(false);
         this.initiateTimer();
@@ -168,6 +186,14 @@ export class MIBService {
         return response.data
       }))
       .pipe(catchError(this.handleError('getCageTrapReciver', [])))
+  }
+
+  requestCageState(): Observable<TrapReciver[]> {
+    return this.http.get<CageState>(this.restApi + '/cage/state')
+      .pipe(map((response:any)=>{
+        return response.data
+      }))
+      .pipe(catchError(this.handleError('getCageState', [])))
   }
 
   updateCageModule(module){

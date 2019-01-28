@@ -5,12 +5,12 @@
 		</div>
 		<div class="status-body">
 			<div class="module-header-title">{{module.name | titlecase}}</div>
-			<div class="module-header-subtitle">{{module.group.name | titlecase}}</div>
+			<div class="module-header-subtitle">{{getGroupName() | titlecase}}</div>
 		</div>
 	</div>
 	<div class="module-body">
 		<span class="module-body-line">{{toTypeName(module.type) | titlecase}}</span>
-		<span class="module-body-line">Slot {{+module.slot}}</span>
+		<span class="module-body-line">{{module.slotLabel}}</span>
 		<span class="module-body-line"><span *ngIf="isNotBiasTNone()">BiasT {{toBiasTName(module.biasT) | titlecase}}</span><span *ngIf="!isNotBiasTNone()">&nbsp;</span></span>
 	</div>
 </div>
