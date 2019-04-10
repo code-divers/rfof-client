@@ -25,8 +25,8 @@ export class ModuleLedComponent implements OnInit {
 			'led-red': this.module.statusLED == ModuleStatusLED.red,
 			'led-cyan': this.module.statusLED == ModuleStatusLED.cyan,
 			'led-blue': this.module.statusLED == ModuleStatusLED.blue,
-			'led-redblink': this.module.statusLED == ModuleStatusLED.redblink,
-			'led-blueblink': this.module.statusLED == ModuleStatusLED.blueblink
+			'led-redBlink': this.module.statusLED == ModuleStatusLED.redBlink,
+			'led-blueBlink': this.module.statusLED == ModuleStatusLED.blueBlink
 		}
 	}
 

@@ -2,7 +2,7 @@ import {
 	Component, 
 	OnInit, 
 	Input } from '@angular/core';
-import { Cage, CageModule } from 'rfof-common';
+import { Cage, CageModule, CageSlot, SlotStatus } from 'rfof-common';
 import { MIBService } from '../mib.service';
 import { ModuleManagerService, SelectedModule } from '../module-manager.service';
 
@@ -14,9 +14,10 @@ import { ModuleManagerService, SelectedModule } from '../module-manager.service'
 export class CageVisualComponent implements OnInit {
 	@Input() modules: CageModule[];
 	@Input() cage: Cage;
+	@Input() slotCount: number = 16;
 	cageVisual: string;
 	selectedModules: SelectedModule[] = [];
-	slots = [1,2,3,4,5,6,7,8];
+	slots: CageSlot[] = [];
 	constructor(private mibService: MIBService, private moduleManagerService: ModuleManagerService) { 
 		
 	}
@@ -24,6 +25,29 @@ export class CageVisualComponent implements OnInit {
 	ngOnInit() {
 		let cageImage = `${this.interpretCageVisual()}.png`
 		this.cageVisual = `/assets/cage/${cageImage}`;
+
+		for(var slotNumber=0; slotNumber < this.slotCount; slotNumber++){
+			let slot = new CageSlot();
+			slot.num = slotNumber;
+			slot.status = SlotStatus.out;
+			this.slots.push(slot);
+		}
+
+		this.modules.map((module)=>{
+			let slot = this.slots.find((slot)=>{
+				return slot.num == module.slot;
+			});
+			slot.module = module;
+			slot.label = module.slotLabel;
+			slot.status = module.slotStatus;
+		})
+
+		this.mibService.slotStateChanged$.subscribe(module=>{
+			let slot = this.slots.find((slot)=>{
+				return slot.num == module.slot;
+			});
+			slot.status = module.slotStatus;
+		})
 
 		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
 			this.selectedModules = selected;
@@ -56,18 +80,11 @@ export class CageVisualComponent implements OnInit {
 	}
 
 	interpretCageVisual() {
-		let regEx = /^RFoFc-([A-Z\d]{2})/
-		let result = this.cage.partNumber.match(regEx);
-		if(result){
-			return result[1];//cage type
-		}else{
-			return 'R1';
+		let result = 'R1';
+		if(this.cage.partNumber.length > 8){
+			result = this.cage.partNumber.slice(6, 8);
 		}
+		return result;
 	}
-}
-
-class Slot {
-	num: number;
-	module?: CageModule;
 }
 

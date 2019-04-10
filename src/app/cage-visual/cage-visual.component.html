@@ -1,10 +1,13 @@
 <div class="cage-container">
 	<div class="cage-slots">
-		<div class="cage-slot" *ngFor="let slot of slots" [ngClass]="{'selected-slot': isSelected(slot)}">
-			<rfof-module-visual *ngIf="getSlotModule(slot)" [module]="getSlotModule(slot)"></rfof-module-visual>
+		<div class="cage-slot" *ngFor="let slot of slots.slice(0,8); let i=index">
+			<rfof-module-visual *ngIf="slot.status" [module]="slot.module"></rfof-module-visual>
 		</div>
-	</div>
-	<div class="cage-visual" [ngClass]="getVisualClass()">
-		<img [src]="cageVisual" />
+		<div class="cage-visual">
+			<img [src]="cageVisual" />
+		</div>
+		<div class="cage-slot" *ngFor="let slot of slots.slice(8, 16); let i=index">
+				<rfof-module-visual *ngIf="slot.status" [module]="slot.module"></rfof-module-visual>
+		</div>
 	</div>
 </div>

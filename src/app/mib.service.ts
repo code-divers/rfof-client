@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, from, forkJoin, Subject } from 'rxjs';
 import { filter, toArray, catchError, map, tap, first} from 'rxjs/operators';
-import { Cage, CageState, CageGroup, CageModule, PowerSupply, TrapReciver, EventLogItem } from 'rfof-common';
+import { Cage, CageState, CageGroup, CageModule, CageSlot, PowerSupply, TrapReciver, EventLogItem } from 'rfof-common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from './message.service';
 import { environment } from '../environments/environment';
@@ -30,12 +30,14 @@ export class MIBService {
   private sensorsLoadedSource = new Subject<any>();
   private eventLoadedSource = new Subject<any>();
   private cageStateChangedSource = new Subject<CageState>();
+  private slotStateChangedSource = new Subject<CageSlot>();
 
   dataChanged$ = this.dataChangedSource.asObservable();
   dataLoading$ = this.dataLoadingSource.asObservable();
   sensorsLoaded$ = this.sensorsLoadedSource.asObservable();
   eventLoaded$ = this.eventLoadedSource.asObservable();
   cageStateChanged$ = this.cageStateChangedSource.asObservable();
+  slotStateChanged$ = this.slotStateChangedSource.asObservable();
 
   constructor(private http: HttpClient, private messageService: MessageService) {
     this.restApi = environment.production ? `http://${window.location.host}/api` : environment.restApi; 
@@ -45,7 +47,7 @@ export class MIBService {
     });
     this.socket.on('moduleupdate', (module) => {
       let idx = this.modules.findIndex((item)=>{
-        return item.slot == module.slot && item.name == module.name;
+        return item.slot == module.slot;
       })
       this.modules[idx] = module;
       this.dataChangedSource.next(this);
@@ -61,6 +63,9 @@ export class MIBService {
         this.cageState = state;
         this.cageStateChangedSource.next(state);
       }
+    });
+    this.socket.on('slotStatusChanged', (slot) => {
+      this.slotStateChangedSource.next(slot);
     });
   }
 
@@ -202,7 +207,7 @@ export class MIBService {
     })
     .pipe(map((response:any)=>{
       let index = this.modules.findIndex(item=>{
-        return item.name == module.name && item.slot == module.slot
+        return item.slot == module.slot
       });
       this.modules[index] = module;
       this.dataChangedSource.next(this);

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { first} from 'rxjs/operators';
 import { MIBService } from '../mib.service';
-import { CageGroup, CageModule, GroupType } from 'rfof-common';
+import { CageGroup, CageModule, GroupType,  SlotStatus} from 'rfof-common';
 import { ModuleManagerService, SelectedModule } from '../module-manager.service';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
@@ -48,10 +48,26 @@ export class CageGroupsComponent implements OnInit {
 
   	private _isExpandable = (node: GroupItemFlatNode) => node.expandable;
 
-  	private _getChildren = (node: CageGroup): Observable<CageModule[]> => of(node.modules);
+  	private _getChildren = (node: CageGroup): Observable<CageModule[]> => of(node.modules.filter((module)=>{return module.slotStatus == SlotStatus.in}));
 
 	ngOnInit() {
 		this.dataSource.data = this.groups;
+  		
+  		this.mibService.slotStateChanged$.subscribe(module=>{
+			for(let group of this.groups){
+				let idx = group.modules.findIndex((item)=>{
+					return item.slot == module.slot;
+				});
+				if(idx > -1){
+					group.modules[idx] = module;
+				}
+			}
+			this.dataSource.data = this.groups;
+			this.tree.treeControl.expandAll();
+			
+		})
+
+
   		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
 			this.selectedModules = selected;
 		});

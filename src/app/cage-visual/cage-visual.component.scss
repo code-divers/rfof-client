@@ -2,44 +2,44 @@
 @import "~src/assets/theme/rfof-light-pallete.scss";
 @mixin rfof-cage-visual-ml() {
 	.cage-container {
-		position: relative;
-		width: 546px;
-		padding-left: 10px;
-		padding-right: 10px;
+		width: 1024px;
 	}
 
 	.cage-slots {
-		position: absolute;
-		width: 546px;
+		width: 1024px;
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
-		left: 0;
-		top: 0;
+		justify-content: center;
 		z-index: 111;
 	}
 
 	.cage-slot {
 		flex-basis: 121px;
-		height: 200px;
-		opacity: 0.6;
+		opacity: 1;
 	}
 
 	.cage-visual {
-		position: absolute;
-		width: 512px;
-		margin-left: 0;
-		margin-right: 0;
-		z-index: 110;
+		width: 1024px;
+		display: flex;
+		justify-content: center;
 	}
 
-	.visual_S4, .visual_I2 {
+	/*.visual_S4, .visual_I2 {
 		margin-top: 80px;
 	}
 
 	.visual_I1, .visual_R1 {
-		margin-top: 125px;
+		margin-top: 80px;
 	}
+
+	.visual_UG  {
+		margin-top: 110px;
+	}
+
+	.visual_UT {
+		margin-top: 115px;
+		padding-right: 140px;
+	}*/
 
 	.selected-slot {
 		opacity: 1;

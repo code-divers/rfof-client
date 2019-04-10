@@ -4,8 +4,8 @@
 			<rfof-module-led [module]="module"></rfof-module-led>
 		</div>
 		<div class="status-body">
-			<div class="module-header-title">{{module.name | titlecase}}</div>
-			<div class="module-header-subtitle">{{getGroupName() | titlecase}}</div>
+			<div class="module-header-title" [matTooltip]="module.name | titlecase">{{module.name | titlecase}}</div>
+			<div class="module-header-subtitle" [matTooltip]="getGroupName() | titlecase">{{getGroupName() | titlecase}}</div>
 		</div>
 	</div>
 	<div class="module-body">

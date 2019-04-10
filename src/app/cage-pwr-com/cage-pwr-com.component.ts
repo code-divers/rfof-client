@@ -10,15 +10,20 @@ import { MIBService } from '../mib.service';
 export class CagePwrComComponent implements OnInit {
 	@Input() power: PowerSupply[];
 	@Input() network: TrapReciver[];
+  powerInfo: PowerSupply[];
 
   constructor(private mibService: MIBService) { }
 
   ngOnInit() {
-  	/*this.mibService.dataChanged$
+    this.powerInfo = this.power.filter((item)=>{
+      return item.status < 3;
+    });
+  	this.mibService.dataChanged$
   		.subscribe(() => {
-        this.powers = this.mibService.power;
-        this.traps = this.mibService.network;
-      });*/
+        this.powerInfo = this.mibService.power.filter((item)=>{
+          return item.status < 3;
+        });
+      });
   }
 
   toPowerStatusName(status: PowerStatus){
@@ -26,7 +31,7 @@ export class CagePwrComComponent implements OnInit {
   }
 
   toSlotName(index: number){
-  	return "PSU0" + index;
+  	return "PSU" + index + 1;
   }
 
 }

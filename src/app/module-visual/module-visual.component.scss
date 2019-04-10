@@ -27,12 +27,17 @@
 
 	.module-header-title{
 		font-weight: bold;
+		white-space: nowrap; 
+  		overflow: hidden;
+		text-overflow: ellipsis;
+		width: 80px;  
 	}
 
 	.module-header-subtitle{
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
+		width: 80px;
 	}
 
 	.status-body {

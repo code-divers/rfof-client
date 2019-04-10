@@ -6,19 +6,21 @@
         <rfof-cage-groups [groups]="groups"></rfof-cage-groups>
   </div>
   <div class="right-pane" *ngIf="cageState==1">
-    <button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
-      <mat-icon aria-label="Help">help_outline</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="setPreference()">Create preference file</button>
-      <button mat-menu-item (click)="downloadHelp()">Help</button>
-    </mat-menu>
+    <div class="right-pane-menu">
+      <button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
+        <mat-icon aria-label="Help">help_outline</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="setPreference()">Create preference file</button>
+        <button mat-menu-item (click)="downloadHelp()">Help</button>
+      </mat-menu>
+    </div>
     <div class="right-pane-up">
+      <div class="cage-visual">
+        <rfof-cage-visual *ngIf="modules" [modules]="modules" [cage]="cage"></rfof-cage-visual>
+      </div>
       <div class="power-pane">
         <rfof-cage-pwr-com [network]="network" [power]="power"></rfof-cage-pwr-com>
-      </div>
-      <div class="body-pane">
-        <rfof-cage-visual *ngIf="modules" [modules]="modules" [cage]="cage"></rfof-cage-visual>
       </div>
     </div>
     <div class="right-pane-down">

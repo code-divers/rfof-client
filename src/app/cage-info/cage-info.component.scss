@@ -34,6 +34,14 @@
 		color: $detail-color;
 		padding-right: 15px;
 		padding-bottom: 10px;
+		display: flex;
+	}
+
+	.details-item-content {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: 200px;
 	}
 
 	.caption {

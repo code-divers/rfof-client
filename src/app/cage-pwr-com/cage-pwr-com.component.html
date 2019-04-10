@@ -1,7 +1,7 @@
 <div class="pwr-com-container">
-	<div *ngFor="let device of power; let i = index" class="box pwr-box">
-		<rfof-power-status-led status="1"></rfof-power-status-led>
-		<div class="com-box-label">{{toSlotName(i)}}</div>
+	<div *ngFor="let device of powerInfo; let i = index" class="box pwr-box">
+		<rfof-power-status-led [status]="device.status"></rfof-power-status-led>
+		<div class="com-box-label">PSU {{device.slot}}</div>
 	</div>
 	<!--div *ngFor="let trap of network" class="box com-box">
 		<rfof-power-status-led status="1"></rfof-power-status-led>

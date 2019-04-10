@@ -15,7 +15,7 @@
 			<div class="details-item">Slots: {{cage.slotsCount}}</div>
 			<div class="details-item">Power supplies: {{cage.psCount}}</div>
 			<div class="details-item">Serial number: {{cage.serial}}</div>
-			<div class="details-item">P/N: {{cage.partNumber}}</div>
+			<div class="details-item">P/N:&nbsp;<div class="details-item-content" [matTooltip]="cage.partNumber">{{cage.partNumber}}</div></div>
 			<div class="details-item">Version: {{cage.version}}</div>
 		</div>
 	</div>

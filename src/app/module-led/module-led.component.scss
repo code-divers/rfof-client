@@ -58,12 +58,12 @@
 		background: $status-blue;
 	}
 
-	.led-redblink{
+	.led-redBlink{
 		background: $status-redblink;
 		animation: blinker 1s linear infinite;
 	}
 
-	.led-blueblink{
+	.led-blueBlink{
 		background: $status-blueblink;
 		animation: blinker 1s linear infinite;
 	}

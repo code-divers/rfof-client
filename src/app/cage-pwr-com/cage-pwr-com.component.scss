@@ -7,6 +7,13 @@
 	$box-background-hover: mat-color($rfof-accent);
 	$foreground: map-get($rfof-light-theme-foreground-invert, text);
 
+	.pwr-com-container {
+		width: 800px;
+		display: flex;
+		justify-content: center;
+		flex-wrap: nowrap;
+	}
+
 	.box{
 		width: 120px;
 		height: 23px;

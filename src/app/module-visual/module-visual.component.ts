@@ -27,11 +27,14 @@ export class ModuleVisualComponent implements OnInit {
 			}*/
 		});
 		this.mibService.sensorsLoaded$.subscribe(updatedModule=>{
+			console.log(updatedModule);
 			if(updatedModule.slot == this.module.slot){
 				this.module = updatedModule;
 			}
   		})
   		this.mibService.dataChanged$.subscribe(data=>{
+  			if(!this.mibService.modules)
+  				return;
   			let idx = this.mibService.modules.findIndex((item)=>{
 		        return item.slot == this.module.slot;
 		      });
