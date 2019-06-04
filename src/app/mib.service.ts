@@ -148,9 +148,17 @@ export class MIBService {
   requestCageModules(): Observable<CageModule[]> {
     return this.http.get<CageModule[]>(this.restApi + '/cage/modules')
       .pipe(map((response:any)=>{
-        return response.data
+        return response.data;
       }))
-      .pipe(catchError(this.handleError('getCageGroups', [])))
+      .pipe(catchError(this.handleError('getCageModules', [])))
+  }
+
+  sampleCageModule(module: CageModule): Observable<CageModule> {
+    return this.http.get<CageModule>(this.restApi + `/cage/module/${module.slot}`)
+      .pipe(map((response: any)=>{
+        return response.data;
+      }))
+      .pipe(catchError(this.handleError('getCageModule', [])));
   }
 
   getCageGroupModules(group: CageGroup): CageModule[] {

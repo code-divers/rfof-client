@@ -38,13 +38,15 @@ export class CageGroupModuleComponent implements OnInit {
 	}
 
 	openConfiguratorTool() {
-	    this.configuratorTool = this.dialog.open(ModuleConfiguratorComponent, {
+		this.mibService.sampleCageModule(this.module).subscribe((freshModule) => {
+			this.configuratorTool = this.dialog.open(ModuleConfiguratorComponent, {
 	    	data: {
-	    		module: this.module,
+	    		module: freshModule,
 	    		mibService: this.mibService
 	    	},
 	    	panelClass: 'container-panel'
 	    });
+		})
 	}
 
 }
