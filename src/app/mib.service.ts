@@ -65,6 +65,7 @@ export class MIBService {
       }
     });
     this.socket.on('slotStatusChanged', (slot) => {
+      console.log('slotstate', slot);
       this.slotStateChangedSource.next(slot);
     });
   }

@@ -1,13 +1,13 @@
 <div class="cage-container">
 	<div class="cage-slots">
 		<div class="cage-slot" *ngFor="let slot of slots.slice(0,8); let i=index">
-			<rfof-module-visual *ngIf="slot.status" [module]="slot.module"></rfof-module-visual>
+			<rfof-module-visual *ngIf="slot.status==1" [module]="slot.module"></rfof-module-visual>
 		</div>
 		<div class="cage-visual">
 			<img [src]="cageVisual" />
 		</div>
 		<div class="cage-slot" *ngFor="let slot of slots.slice(8, 16); let i=index">
-				<rfof-module-visual *ngIf="slot.status" [module]="slot.module"></rfof-module-visual>
+				<rfof-module-visual *ngIf="slot.status==1" [module]="slot.module"></rfof-module-visual>
 		</div>
 	</div>
 </div>

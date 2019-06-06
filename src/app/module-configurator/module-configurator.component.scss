@@ -320,6 +320,10 @@
 	.rflinktest-progress-bar{
 		width: 95px;
 	}
+
+	.mat-input-element:disabled {
+		color: #084d88;
+	}
 }
 
 @include rfof-module-configurator-ml();

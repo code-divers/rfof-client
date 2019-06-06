@@ -109,7 +109,7 @@
 		</div>
 	</div>
 	<div class="aside">
-		<button class="aside-button" mat-flat-button color="primary" (click)="setDefaults($event)">Set as Default</button>
+		<button class="aside-button" mat-flat-button color="primary" (click)="setDefaults($event)" [disabled]="module.setDefaults==0">Set as Default</button>
 		<button class="aside-button" mat-flat-button color="primary" (click)="restoreFactory($event)">Restore Factory setup</button>
 	</div>
 	<div class="bottom">

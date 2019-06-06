@@ -162,7 +162,7 @@ export class ModuleConfiguratorComponent implements OnInit {
 		this.module.setDefaults = SetDefaults.setDefaults;
 		this.updateModule().then(result=>{
 			console.log(result);
-			this.dialogRef.close();
+			//this.dialogRef.close();
 		})
 
 	}
@@ -171,7 +171,7 @@ export class ModuleConfiguratorComponent implements OnInit {
 		this.module.restoreFactory = RestoreFactory.restoreFactory;
 		this.updateModule().then(result=>{
 			console.log(result);
-			this.dialogRef.close();
+			//this.dialogRef.close();
 		})
 	}
 
