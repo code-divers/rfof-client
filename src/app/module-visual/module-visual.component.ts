@@ -67,14 +67,12 @@ export class ModuleVisualComponent implements OnInit {
 	}
 
 	onConfigure(module){
-		this.mibService.sampleCageModule(module).subscribe((freshModule) => {
-			this.configuratorTool = this.dialog.open(ModuleConfiguratorComponent, {
-	    	data: {
-	    		module: freshModule,
-	    		mibService: this.moduleManagerService
-	    	},
-	    	panelClass: 'container-panel'
-	    });
+		this.configuratorTool = this.dialog.open(ModuleConfiguratorComponent, {
+			data: {
+				module: module,
+				mibService: this.moduleManagerService
+			},
+			panelClass: 'container-panel'
 		});
 	}
 }

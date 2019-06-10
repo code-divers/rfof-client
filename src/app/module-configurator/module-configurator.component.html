@@ -20,8 +20,8 @@
 				<mat-divider></mat-divider>
 				<div class="info-form-section">
 					<div class="info-form-section-cell">
-						<div class="label-field">Attrnuation [dB] <br> (2dB recommended)</div>
-						<input #atten matInput (blur)="setAtten()" class="info-form-input" type="number" [(ngModel)]="module.attenValue" [ngModelOptions]="{updateOn: 'blur'}" step="0.5" max="31.5">
+						<div class="label-field">Attenuation [dB] <br> (2dB recommended)</div>
+						<input #atten matInput (blur)="setAtten()" class="info-form-input" type="number" min="0" [(ngModel)]="module.attenValue" [ngModelOptions]="{updateOn: 'blur'}" step="0.5" max="31.5" (change)="onAtten(atten.value)">
 					</div>
 					<div class="info-form-section-cell">
 						<div class="label-field">Optical power <br> [mW]</div>
@@ -75,7 +75,7 @@
 						  	<div class="panel-head">Module controller mode</div>
 							<div class="panel-radio-container">
 								<mat-radio-group [(ngModel)]="module.monPlanValue" (change)="setMonPlan($event)">
-							  		<mat-radio-button class="label-field space-between-radio" value="sleep">Quiet (On USB disconnect)</mat-radio-button>
+							  		<mat-radio-button class="label-field space-between-radio" value="sleep">Sleep (On USB disconnect)</mat-radio-button>
 							  		<mat-radio-button class="label-field" value="active">Automatic Control</mat-radio-button>
 							  	</mat-radio-group>
 							</div>

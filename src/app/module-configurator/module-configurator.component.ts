@@ -3,6 +3,7 @@ import { CageModule, LNAStatus, LaserStatus, BiasTState, RfLinkTest, MonPlan, Se
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MIBService } from '../mib.service';
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import * as moment from 'moment';
 
 @Component({
@@ -23,7 +24,12 @@ export class ModuleConfiguratorComponent implements OnInit {
 	ngOnInit() {
 		this.message = null;
 		this.module = this.data.module;
-		this.initiateModuleData(this.module);
+		this.module.updating = true;
+		this.mibService.sampleCageModule(this.module).pipe(first()). subscribe((freshModule) => {
+			this.module = freshModule;
+			this.initiateModuleData(this.module);
+			this.module.updating = false;
+		});
 		this.mibService.sensorsLoaded$.subscribe((updatedModule: CageModule)=>{
 			if(updatedModule.slot == this.module.slot){
 				this.module = updatedModule;
@@ -43,7 +49,6 @@ export class ModuleConfiguratorComponent implements OnInit {
 
 	initiateModuleData(module){
 		this.originalModule = {... module};
-		this.module.updating = false;
 		this.module.lnaOn = module.lna == LNAStatus.on;
 		this.module.lnaDisabled = module.lna == LNAStatus.none;
 		this.module.attenValue = module.atten == '-----' ? null : module.atten;
@@ -67,12 +72,15 @@ export class ModuleConfiguratorComponent implements OnInit {
 		}
 
 		let monIntervalDuration = moment.duration(module.monInterval).asSeconds();
+		console.log(monIntervalDuration);
 		let monTimerDuration = moment.duration(module.monTimer).asSeconds();
 		if(monTimerDuration > 0){
 			this.module.monTimerLeft  = (monTimerDuration / monIntervalDuration)*100;
-		}else{
+		} else {
 			this.module.monTimerLeft = 0;
 		}
+
+		this.module.updating = false;
 	}
 
 	revertToOriginalModuleState(){
@@ -94,7 +102,7 @@ export class ModuleConfiguratorComponent implements OnInit {
 
 	toggleRflinkTest(event){
 		this.updateModule().then(result=>{
-			this.showMessage(`Successfully set Attrnuation to ${this.module.attenValue}`);
+			this.showMessage(`Successfully Rflinktest to ${this.module.attenValue}`);
 		})
 	}
 
@@ -112,7 +120,7 @@ export class ModuleConfiguratorComponent implements OnInit {
 
 	toggleMeasRFLevel(event){
 		this.updateModule().then(result=>{
-			this.showMessage(`Successfully set RF link test to ${this.module.lna}`);
+			this.showMessage(`Successfully set Show RF Level to ${this.module.lna}`);
 		})
 	}
 
@@ -120,6 +128,14 @@ export class ModuleConfiguratorComponent implements OnInit {
 		this.updateModule().then(result=>{
 			this.showMessage(`Successfully set Attrnuation to ${this.module.attenValue}`);
 		})
+	}
+
+	onAtten(value){
+		if(value > 31.5){
+			console.log(value);
+			return value;
+		}
+		return value;
 	}
 
 	setBiasT(){
@@ -142,13 +158,13 @@ export class ModuleConfiguratorComponent implements OnInit {
 
 	setMonPlan($event){
 		this.updateModule().then(result=>{
-			console.log(result);
+			this.showMessage(`Successfully set monitoring to ${this.module.monPlan}`);
 		})
 	}
 
 	setMonInterval(value){
 		this.updateModule().then(result=>{
-			console.log(result);
+			this.showMessage(`Successfully set monitoring interval to ${this.module.monInterval}`);
 		})
 	}
 
@@ -161,8 +177,7 @@ export class ModuleConfiguratorComponent implements OnInit {
 	setDefaults($event){
 		this.module.setDefaults = SetDefaults.setDefaults;
 		this.updateModule().then(result=>{
-			console.log(result);
-			//this.dialogRef.close();
+			this.showMessage(`Successfully set defaults ${this.module.setDefaults}`);
 		})
 
 	}
@@ -170,8 +185,7 @@ export class ModuleConfiguratorComponent implements OnInit {
 	restoreFactory($event){
 		this.module.restoreFactory = RestoreFactory.restoreFactory;
 		this.updateModule().then(result=>{
-			console.log(result);
-			//this.dialogRef.close();
+			this.showMessage(`Successfully restored factory to ${this.module.restoreFactory}`);
 		})
 	}
 
