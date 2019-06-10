@@ -62,16 +62,13 @@ export class CageGroupComponent implements OnInit {
 	}
 
 	openConfiguratorTool(module) {
-		this.mibService.sampleCageModule(module).subscribe((freshModule) => {
-			console.log(freshModule);
 			this.configuratorTool = this.dialog.open(ModuleConfiguratorComponent, {
 	    	data: {
-	    		module: freshModule,
+	    		module: module,
 	    		mibService: this.mibService
 	    	},
 	    	panelClass: 'container-panel'
 	    });
-		});
 	  }
 
 	toStateClass(module: CageModule){

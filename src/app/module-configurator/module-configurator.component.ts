@@ -72,7 +72,6 @@ export class ModuleConfiguratorComponent implements OnInit {
 		}
 
 		let monIntervalDuration = moment.duration(module.monInterval).asSeconds();
-		console.log(monIntervalDuration);
 		let monTimerDuration = moment.duration(module.monTimer).asSeconds();
 		if(monTimerDuration > 0){
 			this.module.monTimerLeft  = (monTimerDuration / monIntervalDuration)*100;
@@ -132,7 +131,6 @@ export class ModuleConfiguratorComponent implements OnInit {
 
 	onAtten(value){
 		if(value > 31.5){
-			console.log(value);
 			return value;
 		}
 		return value;
@@ -177,7 +175,7 @@ export class ModuleConfiguratorComponent implements OnInit {
 	setDefaults($event){
 		this.module.setDefaults = SetDefaults.setDefaults;
 		this.updateModule().then(result=>{
-			this.showMessage(`Successfully set defaults ${this.module.setDefaults}`);
+			this.showMessage(`Successfully set default to ${this.module.setDefaults}`);
 		})
 
 	}

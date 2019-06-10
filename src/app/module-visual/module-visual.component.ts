@@ -20,14 +20,8 @@ export class ModuleVisualComponent implements OnInit {
 	ngOnInit() {
 		this.moduleManagerService.moduleSelected$.subscribe(selectedModules=>{
 			var idx = selectedModules.findIndex((selected)=>{ return selected.module == this.module});
-			/*if(idx > -1){
-				this.openPanel(false);
-			}else{
-				this.closePanel();
-			}*/
 		});
 		this.mibService.sensorsLoaded$.subscribe(updatedModule=>{
-			console.log(updatedModule);
 			if(updatedModule.slot == this.module.slot){
 				this.module = updatedModule;
 			}
