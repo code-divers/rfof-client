@@ -18,36 +18,49 @@ export class CageVisualComponent implements OnInit {
 	cageVisual: string;
 	selectedModules: SelectedModule[] = [];
 	slots: CageSlot[] = [];
-	constructor(private mibService: MIBService, private moduleManagerService: ModuleManagerService) { 
-		
-	}
+	constructor(private mibService: MIBService, private moduleManagerService: ModuleManagerService) {}
 
 	ngOnInit() {
-		let cageImage = `${this.interpretCageVisual()}.png`
+		const cageImage = `${this.interpretCageVisual()}.png`
 		this.cageVisual = `/assets/cage/${cageImage}`;
 
 		for(var slotNumber=0; slotNumber < this.slotCount; slotNumber++){
-			let slot = new CageSlot();
+			const slot = new CageSlot();
 			slot.num = slotNumber;
 			slot.status = SlotStatus.out;
 			this.slots.push(slot);
 		}
 
 		this.modules.map((module)=>{
-			let slot = this.slots.find((slot)=>{
+			const slot = this.slots.find((slot)=>{
 				return slot.num == module.slot;
 			});
 			slot.module = module;
 			slot.label = module.slotLabel;
 			slot.status = module.slotStatus;
-		})
+		});
 
 		this.mibService.slotStateChanged$.subscribe(module=>{
-			let slot = this.slots.find((slot)=>{
-				return slot.num == module.slot;
+			const slot = this.slots.find((item) => {
+				return item.num == module.slot;
 			});
+			if (!slot.module) {
+				slot.module = module;
+				slot.label = module.slotLabel;
+			}
 			slot.status = module.slotStatus;
-		})
+		});
+		
+		this.mibService.sensorsLoaded$.subscribe(module => {
+			const slot = this.slots.find((item) => {
+				return item.num == module.slot;
+			});
+			if (!slot.module) {
+				slot.module = module;
+				slot.label = module.slotLabel;
+			}
+			slot.status = module.slotStatus;
+		});
 
 		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
 			this.selectedModules = selected;

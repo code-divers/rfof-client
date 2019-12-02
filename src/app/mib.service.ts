@@ -43,6 +43,7 @@ export class MIBService {
     this.restApi = environment.production ? `http://${window.location.host}/api` : environment.restApi; 
     this.socket = io(environment.production ? window.location.host : environment.socketApi);
     this.socket.on('sensors', (sensors) => {
+      console.log('sensors', sensors);
       this.sensorsLoadedSource.next(sensors);
     });
     this.socket.on('moduleupdate', (module) => {
@@ -64,7 +65,7 @@ export class MIBService {
         this.cageStateChangedSource.next(state);
       }
     });
-    this.socket.on('slotStatusChanged', (slot) => {
+    this.socket.on('slotStatusChanged', (slot, group) => {
       console.log('slotstate', slot);
       this.slotStateChangedSource.next(slot);
     });
@@ -75,7 +76,7 @@ export class MIBService {
           clearTimeout(this.restTimer);
       }
 
-      this.restTimer = setTimeout(this.collectData.bind(this), environment.pollingTimeout);
+      this.restTimer = setTimeout(this.collectData.bind(this), environment.pollingTimeout * 1000);
   }
 
   collectData(){

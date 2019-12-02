@@ -36,7 +36,7 @@ export class CageGroupsComponent implements OnInit {
 	}
 
 	transformer = (node: CageGroup, level: number) => {
-		let flatItem = new GroupItemFlatNode();
+		const flatItem = new GroupItemFlatNode();
 		flatItem.expandable = node.modules ? node.modules.length > 0 : false;
 		flatItem.item = node;
 		flatItem.level = level;
@@ -52,21 +52,43 @@ export class CageGroupsComponent implements OnInit {
 
 	ngOnInit() {
 		this.dataSource.data = this.groups;
-  		
-  		this.mibService.slotStateChanged$.subscribe(module=>{
-			for(let group of this.groups){
-				let idx = group.modules.findIndex((item)=>{
-					return item.slot == module.slot;
-				});
-				if(idx > -1){
+		this.mibService.slotStateChanged$.subscribe(module => {
+			const group = this.groups[Number(module.groupIndex)-1];
+			const idx = group.modules.findIndex((item) => {
+				return item.slot == module.slot;
+			});
+			if (idx > -1) {
+				if (module.slotStatus > 0) {
 					group.modules[idx] = module;
+				} else {
+					group.modules.splice(idx, 1);
 				}
+			} else {
+				group.modules.push(module);
 			}
+
 			this.dataSource.data = this.groups;
 			this.tree.treeControl.expandAll();
-			
 		})
 
+		this.mibService.sensorsLoaded$.subscribe(module => {
+			const group = this.groups[Number(module.groupIndex)-1];
+			const idx = group.modules.findIndex((item) => {
+				return item.slot == module.slot;
+			});
+			if (idx > -1) {
+				if (module.slotStatus > 0) {
+					group.modules[idx] = module;
+				} else {
+					group.modules.splice(idx, 1);
+				}
+			} else {
+				group.modules.push(module);
+			}
+
+			this.dataSource.data = this.groups;
+			this.tree.treeControl.expandAll();
+		})
 
   		this.moduleManagerService.moduleSelected$.subscribe(selected=>{
 			this.selectedModules = selected;

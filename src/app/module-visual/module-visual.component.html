@@ -1,4 +1,4 @@
-<div class="module-container">
+<div class="module-container" *ngIf="module">
 	<div class="module-header" (click)="onConfigure(module)">
 		<div class="status-led-container">
 			<rfof-module-led [module]="module"></rfof-module-led>

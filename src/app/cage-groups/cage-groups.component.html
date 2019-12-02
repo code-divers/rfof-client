@@ -1,8 +1,15 @@
 <div class="container">
 	<mat-tree #tree [dataSource]="dataSource" [treeControl]="treeControl">
 		<mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
-		    <rfof-cage-group-module [module]="node.item"></rfof-cage-group-module>
-		  </mat-tree-node>
+			<rfof-cage-group-module *ngIf="node.item.slotStatus" [module]="node.item"></rfof-cage-group-module>
+			<button *ngIf="node.item.modules" mat-icon-button matTreeNodeToggle
+		            [attr.aria-label]="'toggle ' + node.filename">
+		      <mat-icon class="mat-icon-rtl-mirror">
+		        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+		      </mat-icon>
+		    </button>
+			<rfof-cage-group-header *ngIf="node.item.modules" [group]="node.item"></rfof-cage-group-header>
+		</mat-tree-node>
 
 		  <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
 		    <button mat-icon-button matTreeNodeToggle
@@ -13,16 +20,6 @@
 		    </button>
 		    <rfof-cage-group-header [group]="node.item"></rfof-cage-group-header>
 		  </mat-tree-node>
+		  
 	</mat-tree>
-	<!--mat-accordion multi="true">
-		<mat-expansion-panel #panel (closed)="closeAll(group, panel)" (opened)="selectAll(group)" [expanded]="isSelected(group)" *ngFor="let group of groups">
-		    <mat-expansion-panel-header collapsedHeight="40px" expandedHeight="40px">
-		        <rfof-cage-group-header [group]="group"></rfof-cage-group-header>
-		    </mat-expansion-panel-header>
-		    <rfof-cage-group [group]="group" [modules]="getGroupModules(group)"></rfof-cage-group>
-			<mat-action-row>
-				<rfof-group-switch [group]="group"></rfof-group-switch>
-		  	</mat-action-row>
-		</mat-expansion-panel>
-	</mat-accordion-->
 </div>
